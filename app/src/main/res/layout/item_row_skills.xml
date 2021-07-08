@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip android:id="@+id/chip_skill"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/Widget.MaterialComponents.Chip.Entry"
+    app:chipBackgroundColor="@color/grey_900_alpha_8"
+    android:textColor="@color/text_color"
+    android:text="@string/add_skill"
+    app:closeIconTint="@color/placeholder"
+    android:layout_marginEnd="@dimen/margin_size_super_mini"/>

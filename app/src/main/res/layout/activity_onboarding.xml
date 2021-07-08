@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutFull">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/LayoutFull"
+            tools:context=".OnboardingActivity">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vpOnboarding"
+                style="@style/LayoutWithFullHeightWrap"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <me.relex.circleindicator.CircleIndicator3
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_indicator_viewPager"
+                android:layout_marginTop="@dimen/margin_size_medium"
+                app:ci_drawable="@drawable/indicator_selected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vpOnboarding" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_login"
+                style="@style/ButtonFull.MarginHorizontalMedium.TopBig"
+                android:text="@string/log_in"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/indicator" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_sign_up_now"
+                style="@style/ButtonFull.White"
+                android:text="@string/sign_up_now"
+                app:layout_constraintEnd_toEndOf="@id/btn_login"
+                app:layout_constraintStart_toStartOf="@id/btn_login"
+                app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next_onboarding"
+                style="@style/ButtonFull.MarginBottomMedium"
+                android:text="@string/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/btn_login" />
+
+            <Button
+                android:id="@+id/btn_skip_onboarding"
+                style="@style/ButtonFull.MarginBottomMedium"
+                android:text="@string/skip"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/btn_login" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

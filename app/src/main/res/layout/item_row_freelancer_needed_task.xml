@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_input_freelancer_task"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/task"
+        app:endIconMode="clear_text"
+        android:textColorHint="@color/placeholder"
+        android:layout_marginTop="@dimen/margin_size_mini"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_delete_task"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_freelancer_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/btn_delete_task"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_delete_24"
+        android:layout_marginTop="@dimen/margin_size_super_mini"
+        app:layout_constraintBottom_toBottomOf="@id/txt_input_freelancer_task"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_input_freelancer_task" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutFull">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/LayoutFull"
+        tools:context=".ui.register.RegisterActivity">
+
+        <TextView
+            android:id="@+id/tv_complete_register"
+            style="@style/SuperBigTag.MarginHorizontalSuperBig.MarginTopMedium"
+            android:text="@string/complete_your_free_account_setup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_size_medium"
+            android:layout_marginTop="@dimen/margin_size_big"
+            app:endIconMode="clear_text"
+            android:hint="@string/name"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_complete_register">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            android:hint="@string/email"
+            app:endIconMode="clear_text"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_pass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            android:hint="@string/password"
+            android:textColorHint="@color/placeholder"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@+id/txt_input_email"
+            app:layout_constraintStart_toStartOf="@+id/txt_input_email"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_country"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            android:hint="@string/country"
+            android:textColorHint="@color/placeholder"
+            app:endIconTint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@+id/txt_input_pass"
+            app:layout_constraintStart_toStartOf="@+id/txt_input_pass"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_pass">
+
+            <AutoCompleteTextView
+                android:id="@+id/input_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/select_country"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/rg_register_as"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            app:layout_constraintStart_toStartOf="@id/txt_input_pass"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_pass"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_country">
+
+            <RadioButton
+                android:id="@+id/rb_register_as_freelancer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/register_as_freelancer"/>
+
+            <RadioButton
+                android:id="@+id/rb_register_as_business_man"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register_as_business_man"/>
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_register"
+            style="@style/ButtonFull.MarginHorizontalMedium.TopBig"
+            android:layout_marginTop="@dimen/margin_size_medium"
+            android:text="@string/register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rg_register_as" />
+
+        <TextView
+            android:id="@+id/have_an_account"
+            style="@style/LayoutBothWrap"
+            android:layout_marginTop="@dimen/margin_size_mini"
+            android:text="@string/already_have_an_account"
+            app:layout_constraintStart_toStartOf="@id/btn_register"
+            app:layout_constraintTop_toBottomOf="@id/btn_register" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login"
+            style="@style/ButtonWrap.White"
+            android:paddingLeft="@dimen/margin_size_super_mini"
+            android:text="@string/log_in"
+            app:layout_constraintBottom_toBottomOf="@id/have_an_account"
+            app:layout_constraintStart_toEndOf="@id/have_an_account"
+            app:layout_constraintTop_toTopOf="@id/have_an_account" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

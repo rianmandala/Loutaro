@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutFull">
+
+    <ImageView
+        android:id="@+id/img_onboarding"
+        style="@style/ImageInfo.MarginTopUltraBig"
+        tools:src="@tools:sample/avatars"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title_onboarding"
+        style="@style/SuperBigTag.MarginHorizontalSuperBig.MarginTopMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="@dimen/margin_size_big"
+        app:layout_constraintTop_toBottomOf="@+id/img_onboarding"
+        tools:text="@string/never_miss_an_opportunity" />
+
+    <TextView
+        android:id="@+id/tv_subtitle_onboarding"
+        style="@style/LayoutWithFullHeightWrap"
+        android:layout_marginHorizontal="@dimen/margin_size_small"
+        android:layout_marginTop="@dimen/margin_size_small"
+        android:textAlignment="center"
+        android:textColor="@color/placeholder"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_onboarding"
+        tools:text="@string/find_any_job" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutFull">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/LayoutWithFullHeightWrap"
+        android:paddingBottom="24dp"
+        tools:context=".ui.profile.updateProfile.UpdateProfileActivity">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_photo_user_update"
+            android:layout_width="@dimen/width_img_avatar"
+            android:layout_height="@dimen/height_img_avatar"
+            app:cardCornerRadius="@dimen/rounded_corner"
+            android:outlineAmbientShadowColor="@color/white"
+            android:outlineSpotShadowColor="@color/white"
+            android:backgroundTint="@color/background_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/margin_size_big"
+            >
+            <ImageView
+                android:id="@+id/img_photo_user_update"
+                android:layout_width="@dimen/width_img_avatar_placeholder"
+                android:layout_height="@dimen/height_img_avatar_placeholder"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_person_24"
+                android:scaleType="centerCrop"
+                />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_upload_photo_update"
+            style="@style/ButtonWrap"
+            android:text="@string/choose_photo"
+            app:layout_constraintStart_toStartOf="@id/cv_photo_user_update"
+            app:layout_constraintEnd_toEndOf="@id/cv_photo_user_update"
+            app:layout_constraintTop_toBottomOf="@id/cv_photo_user_update"
+            android:layout_marginTop="@dimen/margin_size_small"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_name_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_size_small"
+            android:layout_marginTop="@dimen/margin_size_big"
+            app:endIconMode="clear_text"
+            android:hint="@string/name"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_upload_photo_update">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_name_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_country_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            android:hint="@string/country"
+            android:textColorHint="@color/placeholder"
+            app:endIconTint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_name_update">
+
+            <AutoCompleteTextView
+                android:id="@+id/input_country_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/select_country"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_address_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            app:endIconMode="clear_text"
+            android:hint="@string/address"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_country_update">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_address_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_telephone_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            app:endIconMode="clear_text"
+            android:hint="@string/phone"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_address_update">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_telephone_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_telegram_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            app:endIconMode="clear_text"
+            android:hint="@string/telegram"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_telephone_update">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_telegram_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_portofolio_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            app:endIconMode="clear_text"
+            android:hint="@string/portofolio"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_telegram_update">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_portofolio_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_about_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/professional_overview"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_portofolio_update"
+            android:layout_marginTop="@dimen/margin_size_small">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_about_update"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lines="5"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_service_update"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            android:hint="@string/service"
+            android:textColorHint="@color/placeholder"
+            app:endIconTint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_about_update">
+
+            <AutoCompleteTextView
+                android:id="@+id/input_service_update"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tag_select_skills_update"
+            style="@style/BigTagMarginHorizontalMediumTopMedium"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_service_update"
+            android:text="@string/skill"
+            />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_skills_update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/tag_select_skills_update">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_skills_update"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_row_skills"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cp_add_skill_update"
+            style="@style/LayoutBothWrap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_skills_update"
+            android:text="@string/add_skill"
+            android:textColor="@color/text_color"
+            app:chipBackgroundColor="@color/grey_900_alpha_8"
+            app:chipIcon="@drawable/ic_baseline_add_circle_24"
+            app:chipIconTint="@color/primary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit_profile_update"
+            style="@style/ButtonFull.MarginHorizontalSmall"
+            android:text="@string/submit"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_update"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_update"
+            app:layout_constraintTop_toBottomOf="@id/cp_add_skill_update"
+            android:layout_marginTop="@dimen/margin_size_medium"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

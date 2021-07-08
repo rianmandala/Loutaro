@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/tv_title_preview_project"
+        style="@style/BigTag.MarginHorizontalSmallTopMedium"
+        tools:text="Software Developer for a e-commerce project"
+        android:textStyle="normal"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_time_posted_preview_project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Posted 1h ago"
+        android:textSize="@dimen/text_size_small"
+        android:layout_marginTop="@dimen/margin_size_super_mini"
+        app:layout_constraintStart_toStartOf="@id/tv_title_preview_project"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_preview_project"/>
+
+    <ImageButton
+        android:id="@+id/img_horizontal_preview_project"
+        android:layout_width="@dimen/width_horizontal_rule"
+        android:layout_height="@dimen/height_horizontal_rule"
+        android:backgroundTint="@color/white"
+        android:padding="0dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/ic_baseline_horizontal_rule_24"
+        android:layout_marginStart="@dimen/margin_size_super_mini"
+        app:layout_constraintStart_toEndOf="@id/tv_time_posted_preview_project"
+        app:layout_constraintTop_toTopOf="@id/tv_time_posted_preview_project"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time_posted_preview_project"/>
+
+    <TextView
+        android:id="@+id/tv_budget_preview_project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/budget"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintStart_toEndOf="@id/img_horizontal_preview_project"
+        app:layout_constraintTop_toTopOf="@id/tv_time_posted_preview_project"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time_posted_preview_project"
+        android:layout_marginStart="@dimen/margin_size_super_mini"
+        android:textColor="@color/primary"/>
+
+    <TextView
+        android:id="@+id/tv_description_preview_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="The ideal candidate is a self motivated, multi tasket, and demonstrated team player. You will be a lead developer responsible for the development of new software product and enchancment The ideal candidate is a self motivated, multi tasket, and demonstrated team player. You will be a lead developer responsible for the development of new software product and enchancment to"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintTop_toBottomOf="@id/tv_time_posted_preview_project"
+        app:layout_constraintStart_toStartOf="@id/tv_title_preview_project"
+        app:layout_constraintEnd_toEndOf="@id/tv_title_preview_project"
+        android:layout_marginTop="@dimen/margin_size_small"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_skill_preview_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/margin_size_mini"
+        app:layout_constraintStart_toStartOf="@id/tv_title_preview_project"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_description_preview_project">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_standard_skill_preview_project"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_row_standard_skill"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <View
+        android:id="@+id/divider_preview_project"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginTop="@dimen/margin_size_small"
+        app:layout_constraintTop_toBottomOf="@+id/cg_skill_preview_project"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

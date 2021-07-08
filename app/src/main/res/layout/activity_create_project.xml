@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutFull">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/LayoutFull"
+        android:paddingBottom="24dp"
+        tools:context=".ui.createProject.CreateProjectActivity">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_name_project"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_size_small"
+            android:layout_marginTop="@dimen/margin_size_big"
+            app:endIconMode="clear_text"
+            android:hint="@string/name"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_name_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_description_project"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/description"
+            app:endIconMode="clear_text"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_name_project"
+            android:layout_marginTop="@dimen/margin_size_small">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_description_project"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lines="5"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_category_project"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            android:hint="@string/category"
+            android:textColorHint="@color/placeholder"
+            app:endIconTint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_description_project">
+
+            <AutoCompleteTextView
+                android:id="@+id/input_category_project"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tag_select_skills_create_project"
+            style="@style/BigTagMarginHorizontalMediumTopMedium"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_category_project"
+            android:text="@string/skill"
+            android:textColor="@color/placeholder"
+            />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_skills_create_project"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/tag_select_skills_create_project">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_skills_create_project"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_row_skills"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cp_add_skill_create_project"
+            style="@style/LayoutBothWrap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_skills_create_project"
+            android:text="@string/add_skill"
+            android:textColor="@color/text_color"
+            app:chipBackgroundColor="@color/grey_900_alpha_8"
+            app:chipIcon="@drawable/ic_baseline_add_circle_24"
+            app:chipIconTint="@color/primary"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_budget_project"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_big"
+            app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
+            app:startIconTint="@color/placeholder"
+            app:endIconMode="clear_text"
+            android:hint="@string/just_budget"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/cp_add_skill_create_project">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_budget_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_freelancer_needed"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            app:endIconMode="clear_text"
+            android:hint="@string/freelancer_needed"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_budget_project">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_number_freelancer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:imeOptions="actionDone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_freelancer_needed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_row_freelancer_needed"
+            android:layout_marginTop="@dimen/margin_size_medium"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_freelancer_needed"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit_create_project"
+            style="@style/ButtonFull.MarginHorizontalSmall"
+            android:text="@string/submit"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/rv_freelancer_needed"
+            android:layout_marginTop="@dimen/margin_size_medium"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

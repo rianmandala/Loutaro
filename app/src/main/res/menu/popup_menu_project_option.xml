@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_board_kanban"
+        android:title="Board" />
+    <item android:id="@+id/menu_detail_project"
+        android:title="Detail project" />
+    <item android:id="@+id/menu_update_project"
+        android:title="Update project" />
+</menu>

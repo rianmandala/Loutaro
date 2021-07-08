@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.verifyEmail.VerifyEmailActivity">
+
+    <ImageView
+        android:id="@+id/img_email_verify"
+        style="@style/ImageInfo.MarginTopUltraBig"
+        android:layout_height="240dp"
+        android:src="@drawable/undraw_mail_verify"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tag_verify_email"
+        style="@style/SuperBigTag.MarginHorizontalMedium.MarginTopBig"
+        android:textAlignment="textStart"
+        android:text="@string/verify_email"
+        app:layout_constraintTop_toBottomOf="@id/img_email_verify"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_info_to_verify_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="@string/info_to_verify_email"
+        app:layout_constraintStart_toStartOf="@id/tv_tag_verify_email"
+        app:layout_constraintEnd_toEndOf="@id/tv_tag_verify_email"
+        app:layout_constraintTop_toBottomOf="@id/tv_tag_verify_email"
+        android:layout_marginTop="@dimen/margin_size_small"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_login_now"
+        style="@style/ButtonFull.MarginHorizontalSmall"
+        android:text="@string/login_now"
+        app:layout_constraintTop_toBottomOf="@id/tv_info_to_verify_email"
+        app:layout_constraintStart_toStartOf="@id/tv_tag_verify_email"
+        app:layout_constraintEnd_toEndOf="@id/tv_tag_verify_email"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="@dimen/margin_size_ultra_big"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

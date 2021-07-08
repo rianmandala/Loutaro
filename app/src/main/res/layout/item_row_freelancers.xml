@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout_list_freelancer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_avatar_freelancer"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/avatars"
+        android:layout_marginTop="@dimen/margin_size_medium"
+        android:layout_marginStart="@dimen/margin_size_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/parent_layout_short_detail_freelancer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_size_small"
+        app:layout_constraintStart_toEndOf="@id/img_avatar_freelancer"
+        app:layout_constraintTop_toTopOf="@id/img_avatar_freelancer"
+        app:layout_constraintBottom_toBottomOf="@id/img_avatar_freelancer"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_name_freelancer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Rian Mandala" />
+
+        <TextView
+            android:id="@+id/tv_work_freelancer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            tools:text="Web Development" />
+
+        <TextView
+            android:id="@+id/tv_country_freelancer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/placeholder"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Indonesia" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_bio_freelancer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="I have 1+ year experience in software development, particulary around web and mobile development. Strength include ionic, angular, javascript, css, html5."
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginVertical="@dimen/margin_size_small"
+        app:layout_constraintStart_toStartOf="@id/img_avatar_freelancer"
+        app:layout_constraintTop_toBottomOf="@id/img_avatar_freelancer"
+        app:layout_constraintEnd_toEndOf="@id/parent_layout_short_detail_freelancer"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_skill_preview_project"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/margin_size_mini"
+        app:layout_constraintStart_toStartOf="@id/tv_bio_freelancer"
+        app:layout_constraintEnd_toEndOf="@id/tv_bio_freelancer"
+        app:layout_constraintTop_toBottomOf="@id/tv_bio_freelancer">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_standard_skill_preview_project"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_row_standard_skill"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <View
+        android:id="@+id/divider_preview_project"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginTop="@dimen/margin_size_small"
+        app:layout_constraintTop_toBottomOf="@+id/cg_skill_preview_project"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

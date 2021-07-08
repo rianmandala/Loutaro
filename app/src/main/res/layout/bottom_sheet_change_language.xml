@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_change_language"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_size_small">
+
+    <RadioGroup
+        android:id="@+id/rg_change_language"
+        android:checkedButton="@+id/radio_button_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <RadioButton
+            android:id="@+id/rb_indonesia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/indonesia_language"/>
+        <RadioButton
+            android:id="@+id/rb_english"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/english_language"/>
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save_change_language"
+        style="@style/ButtonWrap"
+        android:text="@string/save"
+        android:layout_marginTop="@dimen/margin_size_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rg_change_language"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

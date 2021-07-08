@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="viewpager_next_item_visible">16dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">24dp</dimen>
+
+
+    <dimen name="margin_size_super_mini">4dp</dimen>
+    <dimen name="margin_size_mini">8dp</dimen>
+    <dimen name="margin_size_small">16dp</dimen>
+    <dimen name="margin_size_medium">24dp</dimen>
+    <dimen name="margin_size_big">32dp</dimen>
+    <dimen name="margin_size_super_big">42dp</dimen>
+    <dimen name="margin_size_ultra_big">84dp</dimen>
+    <dimen name="height_button">52dp</dimen>
+    <dimen name="height_indicator_viewPager">48dp</dimen>
+    <dimen name="height_img_info">220dp</dimen>
+    <dimen name="width_img_info">280dp</dimen>
+    <dimen name="width_img_avatar">160dp</dimen>
+    <dimen name="height_img_avatar">160dp</dimen>
+    <dimen name="width_img_avatar_placeholder">110dp</dimen>
+    <dimen name="height_img_avatar_placeholder">110dp</dimen>
+    <dimen name="rounded_corner">200dp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_big">18sp</dimen>
+    <dimen name="text_size_super_big">22sp</dimen>
+    <dimen name="width_horizontal_rule">10dp</dimen>
+    <dimen name="height_horizontal_rule">10dp</dimen>
+</resources>

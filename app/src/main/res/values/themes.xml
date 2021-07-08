@@ -1,0 +1,259 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Loutaro" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <item name="android:textColor">@color/text_color</item>
+        <item name="colorOnSurface">@color/grey_400_alpha_80</item>
+        <item name="colorError">@color/error</item>
+
+        <item name="materialAlertDialogTheme">@style/Theme.MyApp.Dialog.Alert</item>
+    </style>
+    <style name="Theme.MyApp.Dialog.Alert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialogStyle</item>
+    </style>
+
+    <style name="MaterialAlertDialogStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+
+    /**
+    *************************************
+    ******** Start General Style ********
+    *************************************
+    **/
+
+    <style name="LayoutFull" parent="Theme.Loutaro">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="LayoutWithFullHeightWrap" parent="LayoutFull">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="LayoutBothWrap" parent="Theme.Loutaro">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MarginStartMedium" parent="Theme.Loutaro">
+        <item name="android:layout_marginStart">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="MarginEndMedium" parent="Theme.Loutaro">
+        <item name="android:layout_marginEnd">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="MarginTopMedium" parent="Theme.Loutaro">
+        <item name="android:layout_marginTop">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="MarginBottom" parent="Theme.Loutaro">
+        <item name="android:layout_marginBottom">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="MarginHorizontalMedium" parent="MarginStartMedium">
+        <item name="android:layout_marginEnd">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="MarginVerticalMedium" parent="MarginTopMedium">
+        <item name="android:layout_marginBottom">@dimen/margin_size_medium</item>
+    </style>
+
+    /**
+    *************************************
+    ******** End General Style ********
+    *************************************
+    **/
+
+
+    /**
+    *************************************
+    ******** Start Button Style *********
+    *************************************
+    **/
+    <style name="ButtonFull" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/height_button</item>
+    </style>
+    <style name="ButtonWrap" parent="ButtonFull">
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="ButtonFull.White" parent="ButtonFull">
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:outlineAmbientShadowColor" tools:targetApi="p">@color/transparent</item>
+        <item name="android:outlineSpotShadowColor" tools:targetApi="p">@color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="ButtonWrap.White" parent="ButtonWrap">
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:outlineAmbientShadowColor" tools:targetApi="p">@color/transparent</item>
+        <item name="android:outlineSpotShadowColor" tools:targetApi="p">@color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="ButtonFull.MarginHorizontalMedium" parent="ButtonFull">
+        <item name="android:layout_marginStart">@dimen/margin_size_medium</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="ButtonFull.MarginHorizontalSmall" parent="ButtonFull">
+        <item name="android:layout_marginStart">@dimen/margin_size_small</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_small</item>
+    </style>
+
+    <style name="ButtonFull.MarginTopMedium" parent="ButtonFull">
+        <item name="android:layout_marginTop">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="ButtonFull.MarginTopBig" parent="ButtonFull">
+        <item name="android:layout_marginTop">@dimen/margin_size_big</item>
+    </style>
+
+    <style name="ButtonFull.MarginTopSuperBig" parent="ButtonFull">
+        <item name="android:layout_marginTop">@dimen/margin_size_super_big</item>
+    </style>
+
+    <style name="ButtonFull.MarginBottomMedium" parent="ButtonFull">
+        <item name="android:layout_marginBottom">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="ButtonFull.MarginVerticalMedium" parent="ButtonFull.MarginTopMedium">
+        <item name="android:layout_marginBottom">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="ButtonFull.MarginHorizontalMedium.TopBig" parent="ButtonFull.MarginHorizontalMedium">
+        <item name="android:layout_marginTop">@dimen/margin_size_big</item>
+    </style>
+
+    <style name="ButtonFull.Transparent.MarginHorizontal" parent="ButtonFull.Transparent">
+        <item name="android:layout_marginStart">@dimen/margin_size_medium</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_medium</item>
+    </style>
+
+    /**
+    *************************************
+    ********** End Button Style *********
+    *************************************
+    **/
+
+
+
+    /**
+    *************************************
+    ****** Start Image Info Style *******
+    *************************************
+    **/
+
+    <style name="ImageInfo" parent="Theme.Loutaro">
+        <item name="android:layout_width">@dimen/width_img_info</item>
+        <item name="android:layout_height">@dimen/height_img_info</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="ImageInfo.MarginTopUltraBig" parent="ImageInfo">
+        <item name="android:layout_marginTop">@dimen/margin_size_ultra_big</item>
+    </style>
+
+    /**
+    *************************************
+    ****** End Image Info Style *******
+    *************************************
+    **/
+
+
+    /**
+    *************************************
+    ******** Start SuperBigTag Style *********
+    *************************************
+    **/
+    
+    <style name="SuperBigTag" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_super_big</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="SuperBigTag.MarginHorizontalSuperBig" parent="SuperBigTag">
+        <item name="android:layout_marginStart">@dimen/margin_size_super_big</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_super_big</item>
+    </style>
+
+    <style name="SuperBigTag.MarginHorizontalBig" parent="SuperBigTag">
+        <item name="android:layout_marginStart">@dimen/margin_size_big</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_big</item>
+    </style>
+
+    <style name="SuperBigTag.MarginHorizontalMedium" parent="SuperBigTag">
+        <item name="android:layout_marginStart">@dimen/margin_size_medium</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="SuperBigTag.MarginHorizontalSuperBig.MarginTopMedium" parent="SuperBigTag.MarginHorizontalSuperBig">
+        <item name="android:layout_marginTop">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="SuperBigTag.MarginHorizontalBig.MarginTopMedium" parent="SuperBigTag.MarginHorizontalBig">
+        <item name="android:layout_marginTop">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="SuperBigTag.MarginHorizontalMedium.MarginTopBig" parent="SuperBigTag.MarginHorizontalMedium">
+        <item name="android:layout_marginTop">@dimen/margin_size_big</item>
+    </style>
+
+    /**
+    *************************************
+    ********** End SuperBigTag Style *********
+    *************************************
+    **/
+
+
+    /**
+    *************************************
+    ******** Start BigTag Style ******
+    *************************************
+    **/
+
+    <style name="BigTagMarginHorizontalMediumTopMedium" parent="LayoutWithFullHeightWrap">
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">@dimen/margin_size_medium</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_medium</item>
+        <item name="android:layout_marginTop">@dimen/margin_size_medium</item>
+    </style>
+
+    <style name="BigTag.MarginHorizontalSmallTopMedium" parent="BigTagMarginHorizontalMediumTopMedium">
+        <item name="android:layout_marginStart">@dimen/margin_size_small</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_small</item>
+        <item name="android:layout_marginTop">@dimen/margin_size_medium</item>
+    </style>
+
+
+    /**
+    *************************************
+    ******** End BigTag Style ******
+    *************************************
+    **/
+
+
+</resources>

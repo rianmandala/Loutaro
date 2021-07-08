@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "41315625617",
+    "project_id": "loutaro-e6a36",
+    "storage_bucket": "loutaro-e6a36.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41315625617:android:a1c4a3182580fb2e0d2d30",
+        "android_client_info": {
+          "package_name": "com.example.loutaro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41315625617-bk4tj5fcv575r4lmo6dom1bs56e0mhbo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcCRxwyk4GaeTFuW9wUEvs6d57V4p8xrU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "41315625617-bk4tj5fcv575r4lmo6dom1bs56e0mhbo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/LayoutFull"
+        tools:context=".ui.profile.ProfileFragment">
+
+        <androidx.core.widget.NestedScrollView
+            style="@style/LayoutFull"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/parent_layout_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/margin_size_big">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/parent_layout_core_info_user_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_img_avatar_user"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:backgroundTint="@color/background_image"
+                    android:outlineAmbientShadowColor="@color/white"
+                    android:outlineSpotShadowColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="@dimen/margin_size_medium"
+                    app:cardCornerRadius="@dimen/rounded_corner">
+
+                    <ImageView
+                        android:id="@+id/img_avatar_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        tools:src="@tools:sample/avatars" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tv_name_and_job_user"
+                    style="@style/BigTag.MarginHorizontalSmallTopMedium"
+                    android:layout_width="0dp"
+                    tools:text="Rian Mandala - Front End Developer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_img_avatar_user"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <TextView
+                    android:id="@+id/tv_country_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size_super_mini"
+                    android:drawablePadding="4dp"
+                    android:drawableStart="@drawable/ic_baseline_location_on_20_for_profile"
+                    android:drawableTint="@color/placeholder"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/placeholder"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name_and_job_user"
+                    tools:text="Indonesia" />
+
+                <TextView
+                    android:id="@+id/tv_bio_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="I have 1+ year experience in software development, particulary around web and mobile development. Strength include ionic, angular, javascript, css, html5."
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                    app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                    android:layout_marginTop="@dimen/margin_size_small"
+                    app:layout_constraintTop_toBottomOf="@id/tv_country_user"/>
+
+                <View
+                    android:id="@+id/divider_tv_bio_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_bio_user"
+                    android:layout_marginTop="@dimen/margin_size_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_tag_portofolio_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/portofolio"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/margin_size_small"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                    app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                    app:layout_constraintTop_toBottomOf="@id/divider_tv_bio_user"/>
+
+                <TextView
+                    android:id="@+id/tv_portofolio_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="linkedin.com/in/rianmandala/"
+                    android:textSize="@dimen/text_size_medium"
+                    android:layout_marginTop="@dimen/margin_size_mini"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                    app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_tag_portofolio_user"/>
+
+                <View
+                    android:id="@+id/divider_tv_portofolio_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_portofolio_user"
+                    android:layout_marginTop="@dimen/margin_size_small"/>
+
+                <TextView
+                    android:id="@+id/tv_tag_skill_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/skill"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/margin_size_small"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                    app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                    app:layout_constraintTop_toBottomOf="@id/divider_tv_portofolio_user"/>
+
+                <LinearLayout
+                    android:id="@+id/parent_rv_skill_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size_mini"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                    app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_tag_skill_user"
+                    android:orientation="vertical">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_tag_skill_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/item_row_standard_skill" />
+
+                    <TextView
+                        android:id="@+id/tv_replace_skill_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/please_update_your_profile"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/placeholder"
+                        android:backgroundTint="@color/primary"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider_rv_skill_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/parent_rv_skill_profile"
+                    android:layout_marginTop="@dimen/margin_size_small"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tv_tag_contact_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/margin_size_small"
+                    android:layout_marginHorizontal="@dimen/margin_size_small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/parent_layout_core_info_user_profile"/>
+
+                <TextView
+                    android:id="@+id/tv_contact_call_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size_small"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_baseline_call_20_for_profile"
+                    android:drawableTint="@color/placeholder"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="true"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintEnd_toEndOf="@id/tv_tag_contact_user"
+                    app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_tag_contact_user"
+                    tools:text="+6283198924523" />
+
+                <TextView
+                    android:id="@+id/tv_contact_email_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size_mini"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_baseline_mail_20_for_profile"
+                    android:drawableTint="@color/placeholder"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintEnd_toEndOf="@id/tv_tag_contact_user"
+                    app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_contact_call_user"
+                    tools:text="rianmandala959@gmail.com" />
+
+                <TextView
+                    android:id="@+id/tv_contact_telegram_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size_mini"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_baseline_send_20_for_profile"
+                    android:drawableTint="@color/placeholder"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintEnd_toEndOf="@id/tv_tag_contact_user"
+                    app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_contact_email_user"
+                    tools:text="t.me/rian135" />
+
+                <TextView
+                    android:id="@+id/tv_replace_contact_info_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/please_update_your_profile"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textColor="@color/placeholder"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
+                    app:layout_constraintEnd_toEndOf="@id/tv_tag_contact_user"
+                    android:layout_marginTop="@dimen/margin_size_small"
+                    app:layout_constraintTop_toBottomOf="@id/tv_tag_contact_user"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_edit_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/margin_size_small"
+            android:layout_marginBottom="@dimen/margin_size_small"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

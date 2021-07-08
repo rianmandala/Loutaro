@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Loutaro</string>
+    <string name="sign_up_now">Belum punya akun? Daftar sekarang</string>
+    <string name="log_in">Masuk</string>
+    <string name="next">Lanjut</string>
+    <string name="skip">Lewati</string>
+    <string name="register">Daftar</string>
+    <string name="have_an_account">Tidak punya akun?</string>
+    <string name="complete_your_free_account_setup">Selesaikan penyiapan akun gratis Anda</string>
+    <string name="already_have_an_account">Sudah memiliki akun ?</string>
+    <string name="register_as_freelancer">Daftar sebagai pekerja lepas</string>
+    <string name="register_as_business_man">Daftar sebagai pelaku usaha</string>
+    <string name="login_as_freelancer">Masuk sebagai pekerja lepas</string>
+    <string name="login_as_business_man">Masuk sebagai pelaku usaha</string>
+    <string name="country">Negara</string>
+    <string name="select_country">Pilih negara</string>
+    <string name="verify_email">verifikasi email</string>
+    <string name="info_to_verify_email">Sebuah email telah dikirim ke email %s. Silakan klik tautan itu untuk memverifikasi alamat email Anda</string>
+    <string name="choose_photo">Pilih foto</string>
+    <string name="tell_us_about_the_work_you_do">Beritahu kami tentang pekerjaan yang Anda lakukan</string>
+    <string name="what_is_the_main_service_you_offer">Apa jasa yang Anda tawarkan?</string>
+    <string name="service">Jasa</string>
+    <string name="select_your_skills">Pilih keterampilan Anda</string>
+    <string name="about">Tentang</string>
+    <string name="professional_overview">Biodata profesional</string>
+    <string name="submit">Kirim</string>
+    <string name="add_skill">Tambah keterampilan</string>
+    <string name="alert_add_your_skill">Tambahkan keterampilan anda</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Batal</string>
+    <string name="create_profile">Buat profil</string>
+    <string name="required">%s wajib diisi</string>
+    <string name="search_country">Cari negara</string>
+    <string name="still_have_data_not_fill">Masih ada data yang belum kamu isi</string>
+    <string name="name">Nama</string>
+    <string name="email">Email</string>
+    <string name="password">Kata sandi</string>
+    <string name="login_now">Masuk sekarang</string>
+    <string name="message_email_not_verified_yet">Maaf, sepertinya Anda belum memverifikasi email Anda</string>
+    <string name="project_tab">Proyek</string>
+    <string name="home_tab">Beranda</string>
+    <string name="search_tab">Cari</string>
+    <string name="Saved_tab">Favorite</string>
+    <string name="profile_tab">Profil</string>
+    <string name="welcome">Selamat datang</string>
+    <string name="please_wait">Mohon tunggu…</string>
+    <string name="click_back_again_to_exit">Silakan klik kembali lagi untuk keluar</string>
+    <string name="uploading">Mengunggah…</string>
+    <string name="uploaded">Diunggah %d%%</string>
+    <string name="budget">Anggaran $%d</string>
+    <string name="posted_time">Diposting %s</string>
+    <string name="detail_project">Detail proyek</string>
+    <string name="task_price"><![CDATA[Tugas & Harga]]></string>
+    <string name="task_price_freelancer">Pekerja lepas %d - \$%d</string>
+    <string name="apply_as_freelancer">Lamar sebagai freelancer %d</string>
+    <string name="skills_expertise">keterampilan dan keahlian</string>
+    <string name="active_tab_title">Aktif</string>
+    <string name="finish_tab_title">Selesai</string>
+    <string name="let_s_discover_your_next_projects">Ayo temukan proyek Anda berikutnya</string>
+    <string name="let_s_discover_your_next_freelancer">Ayo temukan pekerja lepas Anda berikutnya</string>
+    <string name="search_result_not_found_project">Maaf, sepertinya proyek yang Anda cari tidak ditemukan</string>
+    <string name="search_result_not_found_freelancer">Maaf, sepertinya freelancer yang Anda cari tidak ditemukan</string>
+    <string name="search_project">Cari proyek</string>
+    <string name="search_freelancer">Cari pekerja lepas</string>
+    <string name="portofolio">Portofolio</string>
+    <string name="skill">Ketrampilan</string>
+    <string name="name_and_job">%s - %s</string>
+    <string name="dont_have_active_project">Maaf, sepertinya Anda tidak memiliki proyek aktif saat ini</string>
+    <string name="dont_have_finished_project">Maaf, sepertinya Anda belum menyelesaikan proyek apa pun</string>
+    <string name="contact">Contact</string>
+    <string name="please_update_your_profile">%s anda akan ditampilkan di sini, mohon perbarui profil Anda.</string>
+    <string name="update_profile">Perbaharui profil</string>
+    <string name="address">Alamat</string>
+    <string name="phone">Telepon</string>
+    <string name="telegram">Telegram</string>
+    <string name="dont_have_saved_project_yet">Maaf, sepertinya anda belum ada menyimpan proyek</string>
+    <string name="dont_have_saved_freelancer_yet">Maaf, sepertinya anda belum ada menyimpan data pekerja lepas</string>
+    <string name="setting">Pengaturan</string>
+    <string name="logout">Keluar</string>
+    <string name="change_language">Ganti bahasa</string>
+    <string name="save">Simpan</string>
+    <string name="favorite_tab">Favorit</string>
+
+    <string name="never_miss_an_opportunity">Jangan pernah melewatkan kesempatan</string>
+    <string name="find_any_job">Temukan pekerjaan apa pun yang sesuai dengan keahlian Anda, mengobrol, dan berkolaborasi dengan mudah di mana saja</string>
+    <string name="find_interesting_project">Temukan proyek menarik Anda</string>
+    <string name="stand_out_by_replying">Tampil menonjol dengan membalas klien dengan cepat dan langsung bekerja saat itu juga</string>
+    <string name="global_talent_for_hire">Jaringan bakat global untuk direkrut</string>
+    <string name="find_professional_freelancer">Temukan freelancer dan agensi profesional untuk proyek apa pun yang ingin Anda buat</string>
+    <string name="post_project_and_get_proposal">Posting Proyek dan dapatkan proposal</string>
+    <string name="interview_your_favorite_freelancer">Wawancarai freelancer favorit Anda dan pilih yang paling sesuai dengan proyek Anda</string>
+    <string name="email_not_registered_as">Maaf, sepertinya email anda tidak terdaftar sebagai %s</string>
+    <string name="freelancer">pekerja lepas</string>
+    <string name="business_man">pelaku usaha</string>
+    <string name="freelancer_details">Detail pleaku usaha</string>
+    <string name="number_of_freelancer">Pekerja lepas %d</string>
+    <string name="create_project">Buat proyek</string>
+
+    <string name="description">Deskripsi</string>
+    <string name="category">Kategori</string>
+    <string name="just_budget">Anggaran</string>
+    <string name="freelancer_needed">Dibutuhkan pekerja lepas</string>
+    <string name="number_freelancer_at">pekerja lepas %d</string>
+    <string name="fee">Bayaran</string>
+    <string name="add_new_task">Tambahkan Tugas Baru</string>
+    <string name="task">Tugas</string>
+    <string-array name="list_service">
+        <item>Desain</item>
+        <item>Ilmu data</item>
+        <item>Pengembangan desktop</item>
+        <item>Pengembangan web</item>
+        <item>Pengembangan mobile</item>
+    </string-array>
+    <string-array name="external_error">
+        <item name="email_address_is_badly_formatted">Maaf alamat email Anda diformat dengan buruk</item>
+        <item name="network_error">Maaf, sepertinya ada kesalahan jaringan di perangkat Anda</item>
+        <item name="wrong_password">Maaf sepertinya kata sandi Anda salah</item>
+        <item name="email_has_not_been_registered">Maaf, sepertinya email Anda belum terdaftar</item>
+    </string-array>
+</resources>

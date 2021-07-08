@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutFull">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/LayoutWithFullHeightWrap"
+        android:paddingBottom="24dp"
+        tools:context=".ui.createProfile.CreateProfileActivity">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_photo_user"
+            android:layout_width="@dimen/width_img_avatar"
+            android:layout_height="@dimen/height_img_avatar"
+            app:cardCornerRadius="@dimen/rounded_corner"
+            android:outlineAmbientShadowColor="@color/white"
+            android:outlineSpotShadowColor="@color/white"
+            android:backgroundTint="@color/background_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/margin_size_big"
+            >
+            <ImageView
+                android:id="@+id/img_photo_user"
+                android:layout_width="@dimen/width_img_avatar_placeholder"
+                android:layout_height="@dimen/height_img_avatar_placeholder"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_person_24"
+                android:scaleType="centerCrop"
+                />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_upload_photo"
+            style="@style/ButtonWrap"
+            android:text="@string/choose_photo"
+            app:layout_constraintStart_toStartOf="@id/cv_photo_user"
+            app:layout_constraintEnd_toEndOf="@id/cv_photo_user"
+            app:layout_constraintTop_toBottomOf="@id/cv_photo_user"
+            android:layout_marginTop="@dimen/margin_size_small"/>
+
+        <TextView
+            style="@style/BigTagMarginHorizontalMediumTopMedium"
+            android:id="@+id/tv_tag_work"
+            android:text="@string/tell_us_about_the_work_you_do"
+            app:layout_constraintTop_toBottomOf="@id/btn_upload_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_main_service"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/what_is_the_main_service_you_offer"
+            android:textColor="@color/placeholder"
+            app:layout_constraintStart_toStartOf="@id/tv_tag_work"
+            app:layout_constraintEnd_toEndOf="@id/tv_tag_work"
+            app:layout_constraintTop_toBottomOf="@id/tv_tag_work"
+            android:layout_marginTop="@dimen/margin_size_mini"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_service"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_small"
+            android:hint="@string/service"
+            android:textColorHint="@color/placeholder"
+            app:endIconTint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/tv_tag_work"
+            app:layout_constraintStart_toStartOf="@id/tv_tag_work"
+            app:layout_constraintTop_toBottomOf="@id/tv_main_service">
+
+            <AutoCompleteTextView
+                android:id="@+id/input_service"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tag_select_skills"
+            style="@style/BigTagMarginHorizontalMediumTopMedium"
+            app:layout_constraintStart_toStartOf="@id/tv_tag_work"
+            app:layout_constraintEnd_toEndOf="@id/tv_tag_work"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_service"
+            android:text="@string/select_your_skills"
+            />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_skills"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/tv_tag_work"
+            app:layout_constraintEnd_toEndOf="@id/tv_tag_work"
+            app:layout_constraintTop_toBottomOf="@id/tag_select_skills">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_skills"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_row_skills"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cp_add_skill"
+            style="@style/LayoutBothWrap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cg_skills"
+            android:text="@string/add_skill"
+            android:textColor="@color/text_color"
+            app:chipBackgroundColor="@color/grey_900_alpha_8"
+            app:chipIcon="@drawable/ic_baseline_add_circle_24"
+            app:chipIconTint="@color/primary"/>
+
+        <TextView
+            android:id="@+id/tv_tag_about"
+            style="@style/BigTagMarginHorizontalMediumTopMedium"
+            android:text="@string/about"
+            app:layout_constraintStart_toStartOf="@id/tv_tag_work"
+            app:layout_constraintEnd_toEndOf="@id/tv_tag_work"
+            app:layout_constraintTop_toBottomOf="@id/cp_add_skill"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_about"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/professional_overview"
+            app:layout_constraintStart_toStartOf="@id/tv_tag_work"
+            app:layout_constraintEnd_toEndOf="@id/tv_tag_work"
+            app:layout_constraintTop_toBottomOf="@id/tv_tag_about"
+            android:layout_marginTop="@dimen/margin_size_mini">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_about"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lines="5"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit_profile"
+            style="@style/ButtonFull.MarginHorizontalSmall"
+            android:text="@string/submit"
+            app:layout_constraintStart_toStartOf="@id/tv_tag_work"
+            app:layout_constraintEnd_toEndOf="@id/tv_tag_work"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_about"
+            android:layout_marginTop="@dimen/margin_size_medium"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
