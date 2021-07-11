@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/parent_layout_search_member_suggestion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_marginBottom="@dimen/margin_size_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_search_member_suggestion"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        tools:src="@tools:sample/avatars"
+        android:layout_marginStart="@dimen/margin_size_mini"
+        android:layout_marginTop="@dimen/margin_size_mini"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/img_search_member_suggestion"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="@dimen/margin_size_mini"
+        app:layout_constraintStart_toEndOf="@id/img_search_member_suggestion"
+        app:layout_constraintTop_toTopOf="@id/img_search_member_suggestion">
+        <TextView
+            android:id="@+id/tv_search_name_member_suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            tools:text="Rian Mandala" />
+
+        <TextView
+            android:id="@+id/tv_search_email_member_suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/placeholder"
+            tools:text="rianmandala959@gmail.com"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

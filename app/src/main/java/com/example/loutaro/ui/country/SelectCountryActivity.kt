@@ -47,15 +47,28 @@ class SelectCountryActivity : AppCompatActivity() {
         binding.svCountry.setOnQueryTextListener(object :
             OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                val dataFilter = dataCountry.filter {
-                    it.contains(query.toString(),true)
+                if(query.toString().trim().isNotEmpty()){
+                    val dataFilter = dataCountry.filter {
+                        it.contains(query.toString(),true)
+                    }
+                    generateRadioButtonCountry(dataFilter)
+                }else{
+                    generateRadioButtonCountry(dataCountry)
                 }
-                generateRadioButtonCountry(dataFilter)
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+                if(newText.toString().trim().isNotEmpty()){
+                    val dataFilter = dataCountry.filter {
+                        it.contains(newText.toString(),true)
+                    }
+                    generateRadioButtonCountry(dataFilter)
+                }else{
+                    generateRadioButtonCountry(dataCountry)
+                }
+
+                return true
             }
 
         })

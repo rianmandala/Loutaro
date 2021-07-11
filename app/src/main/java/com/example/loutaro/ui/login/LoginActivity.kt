@@ -44,7 +44,12 @@ class LoginActivity : BaseActivity() {
                     showWarningSnackbar(getString(R.string.message_email_not_verified_yet))
                 }
             }else{
-                showErrorSnackbar(readableExternalError(it.response.toString()))
+                val errorMessage = readableExternalError(it.response.toString())
+                if(errorMessage.trim().isEmpty() || errorMessage.isBlank()){
+                    showErrorSnackbar(message = it.response.toString())
+                }else{
+                    showErrorSnackbar(message = errorMessage)
+                }
             }
         }
 

@@ -89,7 +89,16 @@ class SearchFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    if(newText.toString().trim().isEmpty() && newText.toString().trim().isBlank()) {
+                    if(newText.toString().trim().isNotEmpty() && newText.toString().trim().isNotBlank()){
+                        if(newText.toString().trim().length>2){
+                            showProgressSearching()
+                            if(baseActivity.isUserFreelancer(requireActivity())){
+                                searchProjectViewModel.getSearchProject(newText.toString())
+                            }else if(baseActivity.isUserBusinessMan(requireActivity())){
+                                searchProjectViewModel.getSearchFreelance(newText.toString())
+                            }
+                        }
+                    }else{
                         showImageInfoIntro()
                     }
                     return true

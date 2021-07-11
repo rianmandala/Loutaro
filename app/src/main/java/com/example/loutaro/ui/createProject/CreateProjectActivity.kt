@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.loutaro.R
 import com.example.loutaro.adapter.ListFreelancerNeededAdapter
 import com.example.loutaro.adapter.ListSkillsAdapter
+import com.example.loutaro.data.dummy.Categori
 import com.example.loutaro.data.entity.Boards
 import com.example.loutaro.data.entity.ItemId
 import com.example.loutaro.data.entity.Project
@@ -28,6 +29,8 @@ import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -59,11 +62,17 @@ class CreateProjectActivity : BaseActivity() {
 
         listFreelancerNeededAdapter= ListFreelancerNeededAdapter(taskFreelancer)
         initTinyDB()
-        setToolbarTitle(getString(R.string.create_project))
         activatedToolbarBackButton()
 
         val idProject = intent.getStringExtra(EXTRA_ID_PROJECT)
-
+        Log.d("idProject","$idProject")
+        if(idProject==null){
+            setToolbarTitle(getString(R.string.create_project))
+            binding.btnSubmitCreateProject.text= getString(R.string.submit)
+        }else{
+            binding.btnSubmitCreateProject.text= getString(R.string.update_project)
+            setToolbarTitle(getString(R.string.update_project))
+        }
         binding.run {
             val layoutManager = FlexboxLayoutManager(this@CreateProjectActivity)
             layoutManager.flexDirection = FlexDirection.ROW
@@ -90,13 +99,25 @@ class CreateProjectActivity : BaseActivity() {
                 validateRequire(it.toString(),txtInputFreelancerNeeded, getString(R.string.freelancer_needed))
             }
 
+            listFreelancerNeededAdapter.onInputFeeChange={ position: Int, value: String ->
+                taskFreelancer[position].price=value.toInt()
+            }
+            listFreelancerNeededAdapter.onInputTodoChange={ position: Int, todo: MutableList<String> ->
+                taskFreelancer[position].todo=todo
+            }
+            listFreelancerNeededAdapter.onDeleteTodoCallback={ index: Int, todo: MutableList<String> ->
+                taskFreelancer[index].todo=todo
+                Log.d("hasil_get_need","ini kepanggil delete, hasilnya: ${taskFreelancer.toList()}")
+            }
+
             inputNumberFreelancer.setOnEditorActionListener { v, actionId, event ->
                 if(actionId==EditorInfo.IME_ACTION_DONE){
                     val numberFreelancer = inputNumberFreelancer.text.toString()
                     if(numberFreelancer.trim().isNotEmpty()){
                         if(listFreelancerNeed.isEmpty()){
                             for(i in 0.until(numberFreelancer.toInt())){
-                                listFreelancerNeed.add(ItemId(id = UUID.randomUUID().toString()))
+                                listFreelancerNeed.add(ItemId(
+                                    id = UUID.randomUUID().toString()))
                                 taskFreelancer.add(Task())
                             }
                             Log.d("hasil_get_create","hasil: ${taskFreelancer.toList()}")
@@ -153,38 +174,62 @@ class CreateProjectActivity : BaseActivity() {
                 resources.getStringArray(R.array.list_service))
             inputCategoryProject.setAdapter(adapterCategoryProject)
 
-            cpAddSkillCreateProject.setOnClickListener {
-                val itemInputSkilView = ItemInputSkillBinding.inflate(layoutInflater)
-                itemInputSkilView.addSkill.requestFocus()
-                val dialogInputSkill = MaterialAlertDialogBuilder(this@CreateProjectActivity)
-                    .setTitle(getString(R.string.alert_add_your_skill))
-                    .setView(itemInputSkilView.root)
-                    .setPositiveButton(getString(R.string.ok)){ dialog, which ->
-                        val skill = itemInputSkilView.addSkill.text.toString()
-                        if(skill.isNotEmpty() && skill.isNotBlank()){
-                            updateDataSkills()
-                            dataSkills.add(skill)
-                        }
-                    }
-                    .setNegativeButton(getString(R.string.cancel)){ dialog, which ->
+            inputCategoryProject.setText(resources.getStringArray(R.array.list_service)[0],false)
 
+            binding.cpAddSkillCreateProject.setOnClickListener {
+                var originalSkill= when(binding.inputCategoryProject.text.toString()){
+                    resources.getStringArray(R.array.list_service)[0]->{
+                        Categori.skill.design.toTypedArray()
                     }
-                    .setCancelable(false)
-                    .create()
-
-                dialogInputSkill.show()
-                itemInputSkilView.addSkill.setOnEditorActionListener { v, actionId, event ->
-                    if(actionId== EditorInfo.IME_ACTION_DONE){
-                        val skill = itemInputSkilView.addSkill.text.toString()
-                        if(skill.isNotEmpty() && skill.isNotBlank()){
-                            updateDataSkills()
-                            dataSkills.add(itemInputSkilView.addSkill.text.toString())
-                            dialogInputSkill.dismiss()
-                            return@setOnEditorActionListener true
-                        }
+                    resources.getStringArray(R.array.list_service)[1]->{
+                        Categori.skill.dataScience.toTypedArray()
                     }
-                    return@setOnEditorActionListener false
+                    resources.getStringArray(R.array.list_service)[2]->{
+                        Categori.skill.desktopDevelopment.toTypedArray()
+                    }
+                    resources.getStringArray(R.array.list_service)[3]->{
+                        Categori.skill.webDevelopment.toTypedArray()
+                    }
+                    resources.getStringArray(R.array.list_service)[4]->{
+                        Categori.skill.mobileDevelopment.toTypedArray()
+                    }else->{
+                        arrayOf()
+                    }
                 }
+
+                val listSkill= originalSkill.filter {
+                    !dataSkills.contains(it)
+                }.toTypedArray()
+
+                val selectedList = ArrayList<Int>()
+                val dialogInputSkill = MaterialAlertDialogBuilder(this@CreateProjectActivity)
+                        .setTitle(getString(R.string.alert_add_your_skill))
+                        .setMultiChoiceItems(listSkill, null
+                        ) { dialog, which, isChecked ->
+                            if (isChecked) {
+                                selectedList.add(which)
+                            } else if (selectedList.contains(which)) {
+                                selectedList.remove(Integer.valueOf(which))
+                            }
+                        }
+                        .setPositiveButton(getString(R.string.ok)){ dialog, which ->
+
+                            for (j in selectedList.indices) {
+                                if(!dataSkills.contains(listSkill[selectedList[j]])){
+                                    dataSkills.add(listSkill[selectedList[j]])
+                                }
+                            }
+                            updateDataSkills()
+                        }
+                        .setNegativeButton(getString(R.string.cancel)){ dialog, which ->
+
+                        }
+                        .setCancelable(false)
+                if(listSkill.isEmpty()){
+                    dialogInputSkill.setMessage(getString(R.string.you_have_selected_all_skill))
+                }
+                dialogInputSkill.create()
+                dialogInputSkill.show()
             }
 
             createProjectViewModel.responseUpdateIdBoardProject.observe(this@CreateProjectActivity){
@@ -212,6 +257,8 @@ class CreateProjectActivity : BaseActivity() {
                 else showErrorSnackbar(it.response.toString())
             }
 
+
+
             btnSubmitCreateProject.setOnClickListener {
 //                listFreelancerNeededAdapter.onSubmitClick?.invoke(true)
                 if(completeValidate()){
@@ -233,7 +280,21 @@ class CreateProjectActivity : BaseActivity() {
                     }
                     Log.d("hasil_get_create", "$dataProject")
                     showProgressDialog(message = getString(R.string.please_wait))
-                    createProjectViewModel.addDataProject(dataProject)
+                    if(idProject!=null){
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                createProjectViewModel.updateProject(idProject, dataProject).await()
+                                withContext(Dispatchers.Main){
+                                    closeProgressDialog()
+                                    finish()
+                                }
+                            }catch (e: Exception){
+                                Log.e("error","Error when try to update project")
+                            }
+                        }
+                    }else{
+                        createProjectViewModel.addDataProject(dataProject)
+                    }
                 }
             }
         }
@@ -245,12 +306,28 @@ class CreateProjectActivity : BaseActivity() {
                         binding.run {
                             inputNameProject.setText(project.title.toString())
                             inputDescriptionProject.setText(project.description.toString())
-                            inputCategoryProject.setText(project.category.toString())
-                            listSkillsAdapter?.submitList(project.skills)
-                            listSkillsAdapter?.notifyDataSetChanged()
+                            inputCategoryProject.setText(project.category.toString(), false)
+                            dataSkills= project.skills as MutableList<String>
+                            updateDataSkills()
                             inputBudgetProject.setText(project.budget.toString())
                             inputNumberFreelancer.setText(project.num_freelancer.toString())
-//                            listFreelancerNeededAdapter.submitList(project.tasks)
+
+                            if(project.tasks!=null){
+                                for(task in project.tasks!!){
+                                    listFreelancerNeed.add(ItemId(
+                                        id = UUID.randomUUID().toString(),
+                                        applyers = task.applyers,
+                                        price = task.price,
+                                        todo = task.todo
+                                    ))
+                                    taskFreelancer.add(Task(
+                                        applyers = task.applyers,
+                                        price = task.price,
+                                        todo = task.todo
+                                    ))
+                                }
+                                listFreelancerNeededAdapter.submitList(listFreelancerNeed)
+                            }
                         }
                         closeProgressDialog()
 

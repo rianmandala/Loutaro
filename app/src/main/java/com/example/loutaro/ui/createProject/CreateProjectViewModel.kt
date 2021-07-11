@@ -6,6 +6,7 @@ import com.example.loutaro.data.entity.Boards
 import com.example.loutaro.data.entity.MessageResponse
 import com.example.loutaro.data.entity.Project
 import com.example.loutaro.data.source.LoutaroRepository
+import com.google.android.gms.tasks.Task
 
 class CreateProjectViewModel(private val loutaroRepository: LoutaroRepository): ViewModel() {
 
@@ -45,6 +46,10 @@ class CreateProjectViewModel(private val loutaroRepository: LoutaroRepository): 
         }.addOnFailureListener {
             responseUpdateIdBoardProject.postValue(MessageResponse(false, it.message))
         }
+    }
+
+    fun updateProject(idProject: String, dataProject: Project): Task<Void> {
+        return loutaroRepository.updateDataProject(idProject, dataProject)
     }
 
 }

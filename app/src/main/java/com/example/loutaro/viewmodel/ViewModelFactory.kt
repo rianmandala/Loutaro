@@ -10,6 +10,10 @@ import com.example.loutaro.ui.createProject.CreateProjectViewModel
 import com.example.loutaro.ui.freelancerDetail.FreelancerDetailViewModel
 import com.example.loutaro.ui.home.HomeViewModel
 import com.example.loutaro.ui.login.LoginViewModel
+import com.example.loutaro.ui.members.addMember.AddMemberFragment
+import com.example.loutaro.ui.members.addMember.AddMemberViewModel
+import com.example.loutaro.ui.members.listMember.ListMemberViewModel
+import com.example.loutaro.ui.notification.NotificationViewModel
 import com.example.loutaro.ui.onboarding.OnBoardingViewModel
 import com.example.loutaro.ui.profile.ProfileViewModel
 import com.example.loutaro.ui.profile.updateProfile.UpdateProfileViewModel
@@ -81,6 +85,15 @@ class ViewModelFactory private constructor(private val loutaroRepository: Loutar
             }
             modelClass.isAssignableFrom(BoardKanbanViewModel::class.java)->{
                 BoardKanbanViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(ListMemberViewModel::class.java)->{
+                ListMemberViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(AddMemberViewModel::class.java)->{
+                AddMemberViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(NotificationViewModel::class.java)->{
+                NotificationViewModel(loutaroRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel Class ${modelClass.name}")
         }

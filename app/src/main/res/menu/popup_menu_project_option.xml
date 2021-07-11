@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_board_kanban"
-        android:title="Board" />
+        android:title="@string/board" />
     <item android:id="@+id/menu_detail_project"
-        android:title="Detail project" />
+        android:title="@string/detail_project" />
     <item android:id="@+id/menu_update_project"
-        android:title="Update project" />
+        android:title="@string/update_project" />
+    <item android:id="@+id/menu_delete_project"
+        android:title="@string/delete_project" />
 </menu>

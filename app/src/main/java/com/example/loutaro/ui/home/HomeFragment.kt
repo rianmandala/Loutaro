@@ -1,11 +1,10 @@
 package com.example.loutaro.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
@@ -15,6 +14,8 @@ import com.example.loutaro.adapter.ListFreelancerAdapter
 import com.example.loutaro.adapter.ListProjectAdapter
 import com.example.loutaro.databinding.FragmentHomeBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
+import com.example.loutaro.ui.notification.NotificationActivity
+import com.example.loutaro.ui.settings.SettingsActivity
 import com.example.loutaro.viewmodel.ViewModelFactory
 
 class HomeFragment : Fragment() {
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -70,6 +72,25 @@ class HomeFragment : Fragment() {
             }
             homeViewModel.getAllFreelancer()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        if(baseActivity.isUserBusinessMan(requireActivity())){
+            menu.clear()
+            inflater.inflate(R.menu.notification_menu, menu)
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.notification_tab->{
+                val notificationIntent = Intent(requireActivity(), NotificationActivity::class.java)
+                startActivity(notificationIntent)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

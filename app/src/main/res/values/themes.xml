@@ -19,12 +19,26 @@
 
         <item name="materialAlertDialogTheme">@style/Theme.MyApp.Dialog.Alert</item>
     </style>
+
+    <style name="CustomSplashscreen" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/image_splashscreen</item>
+        <item name="android:statusBarColor">@color/white</item>
+    </style>
+
     <style name="Theme.MyApp.Dialog.Alert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialogStyle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialogStyle2</item>
+        <item name="colorOnSurface">@color/text_color</item>
     </style>
 
     <style name="MaterialAlertDialogStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
         <item name="android:textColor">@color/text_color</item>
+        <item name="colorOnSurface">@color/text_color</item>
+    </style>
+
+    <style name="MaterialAlertDialogStyle2">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="colorOnSurface">@color/text_color</item>
     </style>
 
 

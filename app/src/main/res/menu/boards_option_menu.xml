@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_member_tab_menu"
+        android:title="@string/members"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:iconTint="@color/placeholder"
+        app:showAsAction="always"/>
+</menu>

@@ -84,7 +84,12 @@ class RegisterActivity : BaseActivity() {
                     closeProgressDialog()
                 }else{
                     closeProgressDialog()
-                    showErrorSnackbar(readableExternalError(it.message.toString()))
+                    val errorMessage = readableExternalError(it.message.toString())
+                    if(errorMessage.trim().isEmpty() || errorMessage.isBlank()){
+                        showErrorSnackbar(message = it.message.toString())
+                    }else{
+                        showErrorSnackbar(message = errorMessage)
+                    }
                 }
             }
             btnRegister.setOnClickListener {

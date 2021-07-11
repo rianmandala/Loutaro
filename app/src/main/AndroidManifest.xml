@@ -2,14 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.loutaro">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Loutaro">
-        <activity android:name=".ui.boardKanban.BoardKanbanActivity"></activity>
+        android:theme="@style/CustomSplashscreen">
+        <activity android:name=".ui.notification.NotificationActivity"></activity>
+        <activity android:name=".ui.members.MembersActivity" />
+        <activity android:name=".ui.boardKanban.BoardKanbanActivity" />
         <activity android:name=".ui.createProject.CreateProjectActivity" />
         <activity android:name=".ui.freelancerDetail.FreelancerDetailActivity" />
         <activity android:name=".ui.settings.SettingsActivity" />
@@ -32,8 +38,6 @@
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

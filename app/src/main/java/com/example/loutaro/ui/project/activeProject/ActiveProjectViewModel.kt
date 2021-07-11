@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.loutaro.data.entity.Project
 import com.example.loutaro.data.source.LoutaroRepository
+import com.google.android.gms.tasks.Task
 
 class ActiveProjectViewModel(private val loutaroRepository: LoutaroRepository): ViewModel() {
 
@@ -41,6 +42,10 @@ class ActiveProjectViewModel(private val loutaroRepository: LoutaroRepository): 
             }
             statusGetActiveProject.postValue(dataProject)
         }
+    }
+
+    fun deleteProject(idProject: String): Task<Void> {
+        return loutaroRepository.deleteProject(idProject)
     }
 
 }

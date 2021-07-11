@@ -1,10 +1,7 @@
 package com.example.loutaro.data.source
 
 import android.net.Uri
-import com.example.loutaro.data.entity.Boards
-import com.example.loutaro.data.entity.BusinessMan
-import com.example.loutaro.data.entity.Freelancer
-import com.example.loutaro.data.entity.Project
+import com.example.loutaro.data.entity.*
 import com.example.loutaro.data.source.firebase.FireAuthService
 import com.example.loutaro.data.source.firebase.FireStorageService
 import com.example.loutaro.data.source.firebase.FirestoreService
@@ -48,9 +45,29 @@ class LoutaroRepository {
 
     fun addDataProject(data: Project) = FirestoreService.addDataProject(data)
 
+    fun deleteProject(idProject: String)= FirestoreService.deleteProject(idProject)
+
+    fun applyAsFreelancerToProject(idProject: String, dataProject: Project)= FirestoreService.applyAsFreelancerToProject(idProject, dataProject)
+
+    fun addMember(idBoards: String, idMember: String)= FirestoreService.addMember(idBoards, idMember)
+
+    fun addMemberToProject(idProject: String, idMember: String)= FirestoreService.addMemberToProject(idProject, idMember)
+
+    fun removeMemberFromProject(idProject: String, idMember: String)= FirestoreService.removeMemberFromProject(idProject, idMember)
+
+    fun deleteMemberFromBoards(idBoards: String, idMember: String)= FirestoreService.deleteMemberFromBoards(idBoards, idMember)
+
+    fun getListMember(idBoards: String, listIdMember: List<String>)= FirestoreService.getListMember(idBoards, listIdMember)
+
     fun addDataBoards(data: Boards) = FirestoreService.addDataBoards(data)
 
+    fun addBoardsColumn(idBoards: String, boardsColumn: BoardsColumn) = FirestoreService.addBoardsColumn(idBoards, boardsColumn)
+
+    fun updateBoardsColumn(idBoards: String, boardsColumn: List<BoardsColumn?>?) = FirestoreService.updateBoardsColumn(idBoards, boardsColumn)
+
     fun getDetailDataBoards(idBoards: String) = FirestoreService.getDetailDataBoards(idBoards)
+
+    fun getDataProjectsOngoingForBusinessMan(idBusinessMan: String)= FirestoreService.getDataProjectsOngoingForBusinessMan(idBusinessMan)
 
     fun updateDataProject(idProject: String, data: Project) = FirestoreService.updateDataProject(idProject, data)
 
@@ -83,4 +100,6 @@ class LoutaroRepository {
     fun getAllFreelancer() = FirestoreService.getAllFreelancer()
 
     fun getDataBusinessManRealtime(id: String) = FirestoreService.getDataBusinessManRealtime(id)
+
+    fun getApplyerFromFreelancer(listIdFreelancer: List<String>) = FirestoreService.getApplyerFromFreelancer(listIdFreelancer)
 }

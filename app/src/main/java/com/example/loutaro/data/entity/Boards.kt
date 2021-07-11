@@ -7,23 +7,25 @@ data class Boards(
         var name: String?=null,
         var createdBy: String?=null,
         var members: List<String>?=null,
-        var listCard: List<String>?=null
+        var columns: MutableList<BoardsColumn?>?=null
 )
 
-data class ListCard(
-        var idListCard: String?=null,
+data class BoardsColumn(
+        var idBoard: String?=null,
+        var idBoardsColumn: String?=null,
         var name: String?=null,
-        var card: List<String>?=null
+        var cards: MutableList<BoardsCard?>?=null,
 )
 
-data class Card(
-        var idCard: String?=null,
+data class BoardsCard(
+        var idBoardsCard: String?=null,
+        var idBoardsColumn: String?=null,
         var member: String?=null,
         var name: String?=null,
         var deskripsi: String?=null,
         var attachLink: String?=null,
         var dueDate: Date?=null,
-        var checkList: List<CheckList>?=null
+        var checkList: MutableList<CheckList?>?=null
 )
 
 data class CheckList(

@@ -1,9 +1,12 @@
 package com.example.loutaro.ui.baseActivity
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -28,6 +31,11 @@ open class BaseActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
 
     private lateinit var tinyDb: TinyDB
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Loutaro)
+    }
 
     fun getCurrentUser() = FireAuthService.getCurrentUser()
 
@@ -109,33 +117,33 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showSnackbar(message: String){
+    fun showSnackbar(message: String, activity: Activity=this){
         val snackbar = Snackbar.make(
-            findViewById(android.R.id.content),
+            activity.findViewById(android.R.id.content),
             message,
             Snackbar.LENGTH_SHORT
         )
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.black))
         snackbar.show()
     }
 
-    fun showErrorSnackbar(message: String){
+    fun showErrorSnackbar(message: String, activity: Activity=this){
         val snackbar = Snackbar.make(
-            findViewById(android.R.id.content),
+            activity.findViewById(android.R.id.content),
             message,
             Snackbar.LENGTH_LONG
         )
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.error))
         snackbar.show()
     }
 
-    fun showWarningSnackbar(message: String){
+    fun showWarningSnackbar(message: String, activity: Activity=this){
         val snackbar = Snackbar.make(
-            findViewById(android.R.id.content),
+            activity.findViewById(android.R.id.content),
             message,
             Snackbar.LENGTH_LONG
         )
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.secondary))
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.secondary))
         snackbar.show()
     }
 

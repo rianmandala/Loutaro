@@ -12,6 +12,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.bumptech.glide.Glide
 import com.example.loutaro.R
 import com.example.loutaro.adapter.ListSkillsAdapter
+import com.example.loutaro.data.dummy.Categori
 import com.example.loutaro.data.entity.BusinessMan
 import com.example.loutaro.data.entity.Contact
 import com.example.loutaro.data.entity.Freelancer
@@ -27,6 +28,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 class UpdateProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityUpdateProfileBinding
@@ -189,39 +192,62 @@ class UpdateProfileActivity : BaseActivity() {
                     this@UpdateProfileActivity, R.layout.list_item,
                     resources.getStringArray(R.array.list_service))
             inputServiceUpdate.setAdapter(adapter)
+            inputServiceUpdate.setText(resources.getStringArray(R.array.list_service)[0],false)
 
             cpAddSkillUpdate.setOnClickListener {
-                val itemInputSkilView = ItemInputSkillBinding.inflate(layoutInflater)
-                itemInputSkilView.addSkill.requestFocus()
+                var originalSkill= when(binding.inputServiceUpdate.text.toString()){
+                    resources.getStringArray(R.array.list_service)[0]->{
+                        Categori.skill.design.toTypedArray()
+                    }
+                    resources.getStringArray(R.array.list_service)[1]->{
+                        Categori.skill.dataScience.toTypedArray()
+                    }
+                    resources.getStringArray(R.array.list_service)[2]->{
+                        Categori.skill.desktopDevelopment.toTypedArray()
+                    }
+                    resources.getStringArray(R.array.list_service)[3]->{
+                        Categori.skill.webDevelopment.toTypedArray()
+                    }
+                    resources.getStringArray(R.array.list_service)[4]->{
+                        Categori.skill.mobileDevelopment.toTypedArray()
+                    }else->{
+                        arrayOf()
+                    }
+                }
+
+                val listSkill= originalSkill.filter {
+                    !dataSkills.contains(it)
+                }.toTypedArray()
+
+                val selectedList = ArrayList<Int>()
                 val dialogInputSkill = MaterialAlertDialogBuilder(this@UpdateProfileActivity)
                         .setTitle(getString(R.string.alert_add_your_skill))
-                        .setView(itemInputSkilView.root)
-                        .setPositiveButton(getString(R.string.ok)){ dialog, which ->
-                            val skill = itemInputSkilView.addSkill.text.toString()
-                            if(skill.isNotEmpty() && skill.isNotBlank()){
-                                updateDataSkills()
-                                dataSkills.add(skill)
+                        .setMultiChoiceItems(listSkill, null
+                        ) { dialog, which, isChecked ->
+                            if (isChecked) {
+                                selectedList.add(which)
+                            } else if (selectedList.contains(which)) {
+                                selectedList.remove(Integer.valueOf(which))
                             }
+                        }
+                        .setPositiveButton(getString(R.string.ok)){ dialog, which ->
+
+                            for (j in selectedList.indices) {
+                                if(!dataSkills.contains(listSkill[selectedList[j]])){
+                                    dataSkills.add(listSkill[selectedList[j]])
+                                }
+                            }
+                            updateDataSkills()
                         }
                         .setNegativeButton(getString(R.string.cancel)){ dialog, which ->
 
                         }
                         .setCancelable(false)
-                        .create()
-
-                dialogInputSkill.show()
-                itemInputSkilView.addSkill.setOnEditorActionListener { v, actionId, event ->
-                    if(actionId== EditorInfo.IME_ACTION_DONE){
-                        val skill = itemInputSkilView.addSkill.text.toString()
-                        if(skill.isNotEmpty() && skill.isNotBlank()){
-                            updateDataSkills()
-                            dataSkills.add(itemInputSkilView.addSkill.text.toString())
-                            dialogInputSkill.dismiss()
-                            return@setOnEditorActionListener true
-                        }
-                    }
-                    return@setOnEditorActionListener false
+                if(listSkill.isEmpty()){
+                    dialogInputSkill.setMessage(getString(R.string.you_have_selected_all_skill))
                 }
+                dialogInputSkill.create()
+                dialogInputSkill.show()
             }
         }
 
@@ -305,6 +331,7 @@ class UpdateProfileActivity : BaseActivity() {
 
     private fun updateDataSkills(){
         listSkillsAdapter?.submitList(dataSkills)
+        listSkillsAdapter?.notifyDataSetChanged()
     }
 
     private fun uploadData() {

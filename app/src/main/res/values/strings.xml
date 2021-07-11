@@ -112,7 +112,28 @@
     <string name="fee">Fee</string>
     <string name="add_new_task">Add New Task</string>
     <string name="task">Task</string>
-    <string-array name="list_service">
+    <string name="are_you_sure_want_to_detele">Are you sure you want to delete this list card ?</string>
+    <string name="are_you_sure_want_to_delete_project">Are you sure you want to delete this list project ?</string>
+    <string name="members">Members</string>
+    <string name="add_members">Add members</string>
+    <string name="list_members">List members</string>
+    <string name="have_not_add_member_yet">Sorry, it looks like you haven\'t added any members yet</string>
+    <string name="member_add_succes">Member added successfully</string>
+    <string name="are_you_sure_want_to_remove_this_member">Are you sure you want to remove this member</string>
+    <string name="success_apples_as_freelancer">You are applying as a freelancer %d</string>
+    <string name="cancel_apply_as_freelancer">You cancel apply as a freelancer %d</string>
+    <string name="notification">Notification</string>
+    <string name="whatsapp" translatable="false">whatsapp</string>
+    <string name="board" translatable="false">Board</string>
+    <string name="update_project" translatable="false">Update project</string>
+    <string name="dont_have_any_message_yet">Sorry, it looks like you don\'t have any new messages yet</string>
+    <string name="add_list">Add list</string>
+    <string name="add_card">Add card</string>
+    <string name="only_admin_can_add_member">Sorry, only admins can add members</string>
+    <string name="only_freelancer_can_apply_project">Sorry, only freelancers can apply for projects</string>
+    <string name="delete_project">Delete project</string>
+    <string name="you_have_selected_all_skill">You have selected all the existing skills</string>
+    <string-array name="list_service" translatable="false">
         <item>design</item>
         <item>data science</item>
         <item>desktop development</item>

@@ -11,7 +11,11 @@ import com.example.loutaro.R
 import com.example.loutaro.data.entity.Task
 import com.example.loutaro.databinding.ItemRowTaskPriceBinding
 
-class ListTaskPriceAdapter: ListAdapter<Task, ListTaskPriceAdapter.ListViewHolder>(DiffCalback()) {
+class ListTaskPriceAdapter(val idFreelancer: String): ListAdapter<Task, ListTaskPriceAdapter.ListViewHolder>(DiffCalback()) {
+
+    var onClickCallback:((Int)-> Unit)?=null
+
+    var onApplyCallback:((Boolean, Int)-> Unit)?=null
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemRowTaskPriceBinding.bind(itemView)
@@ -42,6 +46,25 @@ class ListTaskPriceAdapter: ListAdapter<Task, ListTaskPriceAdapter.ListViewHolde
             rvTodoTask.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
             rvTodoTask.adapter = adapter
             adapter.submitList(task.todo)
+
+            if(task.applyers!=null){
+                if(task.applyers!!.contains(idFreelancer)){
+                    btnApplyAsFreelancer.text="You "+ holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1).toLowerCase()
+                }else{
+                    btnApplyAsFreelancer.text =holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1)
+                }
+            }
+
+            btnApplyAsFreelancer.setOnClickListener {
+                onClickCallback?.invoke(holder.adapterPosition)
+                onApplyCallback={ status: Boolean, freelancer_number: Int ->
+                    if(status){
+                        btnApplyAsFreelancer.text="You "+ holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1).toLowerCase()
+                    }else{
+                        btnApplyAsFreelancer.text= holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1)
+                    }
+                }
+            }
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.example.loutaro.data.source.firebase
 
-import com.example.loutaro.data.entity.Boards
-import com.example.loutaro.data.entity.BusinessMan
-import com.example.loutaro.data.entity.Freelancer
-import com.example.loutaro.data.entity.Project
+import com.example.loutaro.data.entity.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 
@@ -44,6 +41,12 @@ object FirestoreService {
 
     fun getAllFreelancer(): CollectionReference {
         return dbFreelancer
+    }
+
+    fun getApplyerFromFreelancer(listIdFreelancer: List<String>): Query {
+        return dbFreelancer
+            .whereIn(FieldPath.documentId(), listIdFreelancer)
+
     }
 
 
@@ -101,8 +104,37 @@ object FirestoreService {
         return dbProject.add(data)
     }
 
+    fun deleteProject(idProject: String): Task<Void> {
+        return dbProject.document(idProject).delete()
+    }
+
+    fun addMember(idBoards: String, idMember: String): Task<Void> {
+        return dbBoards.document(idBoards)
+            .update("members", FieldValue.arrayUnion(idMember))
+    }
+
+    fun deleteMemberFromBoards(idBoards: String, idMember: String): Task<Void> {
+        return dbBoards.document(idBoards)
+                .update("members", FieldValue.arrayRemove(idMember))
+    }
+
+    fun getListMember(idBoards: String, listIdMember: List<String>): Query {
+        return dbFreelancer
+            .whereIn(FieldPath.documentId(), listIdMember)
+    }
+
     fun addDataBoards(data: Boards): Task<DocumentReference> {
         return dbBoards.add(data)
+    }
+
+    fun addBoardsColumn(idBoards: String, boardsColumn: BoardsColumn): Task<Void> {
+        return dbBoards.document(idBoards)
+                .update("columns",FieldValue.arrayUnion(boardsColumn))
+    }
+
+    fun updateBoardsColumn(idBoards: String, boardsColumn: List<BoardsColumn?>?): Task<Void> {
+        return dbBoards.document(idBoards)
+                .update("columns",boardsColumn)
     }
 
     fun getDetailDataBoards(idBoards: String): DocumentReference {
@@ -123,8 +155,19 @@ object FirestoreService {
         return dbProject.document(idProject).update(newDataProject)
     }
 
+    fun applyAsFreelancerToProject(idProject: String, dataProject: Project): Task<Void> {
+        return dbProject.document(idProject)
+            .update("tasks", dataProject.tasks)
+    }
+
     fun getDataProjects(): CollectionReference {
         return dbProject
+    }
+
+    fun getDataProjectsOngoingForBusinessMan(idBusinessMan: String): Query {
+        return dbProject
+            .whereEqualTo("statusCompleted", false)
+            .whereEqualTo("idBusinessMan", idBusinessMan)
     }
 
     fun getDataSavedProject(): Query {
@@ -141,14 +184,26 @@ object FirestoreService {
         return dbProject.document(idProject).get()
     }
 
+    fun addMemberToProject(idProject: String, idMember: String): Task<Void> {
+        return dbProject.document(idProject)
+            .update("idFreelancer", FieldValue.arrayUnion(idMember))
+    }
+
+    fun removeMemberFromProject(idProject: String, idMember: String): Task<Void> {
+        return dbProject.document(idProject)
+            .update("idFreelancer", FieldValue.arrayRemove(idMember))
+    }
+
     fun getActiveProjectForFreelancer(idFreelancer: String): Query {
         return dbProject
             .whereArrayContains("idFreelancer", idFreelancer)
+            .whereEqualTo("statusCompleted",false)
     }
 
     fun getActiveProjectForBusinessMan(idBusinessMan: String): Query {
         return dbProject
             .whereEqualTo("idBusinessMan", idBusinessMan)
+            .whereEqualTo("statusCompleted",false)
     }
 
     fun getFinishProjectForFreelancer(idFreelancer: String): Query {

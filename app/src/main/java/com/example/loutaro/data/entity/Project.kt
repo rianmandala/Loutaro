@@ -24,6 +24,7 @@ data class Project(
 )
 
 data class Task(
+        var applyers:MutableList<String>?=null,
         var price: Int?=null,
         var todo: MutableList<String>?=null
 )

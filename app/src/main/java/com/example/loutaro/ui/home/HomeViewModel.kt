@@ -39,7 +39,7 @@ class HomeViewModel(private val loutaroRepository: LoutaroRepository): ViewModel
                 for(document in query.documents){
                     val response = document.toObject(Freelancer::class.java)
                     response?.idFreelancer = document.id
-                    if (response != null) {
+                    if (response != null ) {
                         dataProject.add(response)
                     }
                 }

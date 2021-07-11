@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/LayoutWithFullHeightWrap"
     android:orientation="vertical">
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_input_add_skill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_marginHorizontal="@dimen/margin_size_medium"
+        android:textColorHint="@color/placeholder"
+        app:endIconTint="@color/placeholder"
         android:layout_marginTop="@dimen/margin_size_small"
-        android:hint="skill">
-        <com.google.android.material.textfield.TextInputEditText
+        android:hint="@string/skill">
+        <AutoCompleteTextView
             android:id="@+id/add_skill"
-            style="@style/LayoutWithFullHeightWrap"
-            android:inputType="text"
-            android:imeOptions="actionDone"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

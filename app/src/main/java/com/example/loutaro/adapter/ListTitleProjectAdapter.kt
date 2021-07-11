@@ -20,6 +20,8 @@ import com.example.loutaro.ui.projectDetail.ProjectDetailActivity
 
 class ListTitleProjectAdapter(private val isBusinessMan: Boolean=false): ListAdapter<Project, ListTitleProjectAdapter.ListViewHolder>(DiffCallback()) {
 
+    var onClickDeleteProjectCallback:((String)-> Unit)?=null
+
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemRowTitleProjectBinding.bind(itemView)
     }
@@ -56,12 +58,14 @@ class ListTitleProjectAdapter(private val isBusinessMan: Boolean=false): ListAda
         popup.menuInflater.inflate(menuRes, popup.menu)
 
         popup.menu.findItem(R.id.menu_update_project).isVisible = isBusinessMan
+        popup.menu.findItem(R.id.menu_delete_project).isVisible = isBusinessMan
 
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when(menuItem.itemId){
                 R.id.menu_board_kanban->{
                     val boardKanbanIntent = Intent(context, BoardKanbanActivity::class.java)
                     boardKanbanIntent.putExtra(BoardKanbanActivity.EXTRA_ID_BOARDS, idBoards)
+                    boardKanbanIntent.putExtra(BoardKanbanActivity.EXTRA_ID_PROJECT, idProject)
                     context.startActivity(boardKanbanIntent)
                     true
                 }
@@ -75,6 +79,10 @@ class ListTitleProjectAdapter(private val isBusinessMan: Boolean=false): ListAda
                     val createProjectIntent = Intent(context, CreateProjectActivity::class.java)
                     createProjectIntent.putExtra(CreateProjectActivity.EXTRA_ID_PROJECT, idProject)
                     context.startActivity(createProjectIntent)
+                    true
+                }
+                R.id.menu_delete_project->{
+                    onClickDeleteProjectCallback?.invoke(idProject.toString())
                     true
                 }
                 else->{

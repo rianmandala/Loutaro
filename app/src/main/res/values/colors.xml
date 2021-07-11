@@ -2,6 +2,7 @@
 <resources>
     <color name="primary_light">#ff5df2d6</color>
     <color name="primary">#ff00bfa5</color>
+    <color name="background_board">#ff1de9b6</color>
     <color name="primary_dark">#ff008e76</color>
     <color name="secondary">#ffffd600</color>
     <color name="secondary_dark">#ffc7a500</color>
@@ -16,4 +17,7 @@
     <color name="placeholder">#757575</color>
     <color name="error">#B00020</color>
     <color name="background_image">#80C4C4C4</color>
+
+    <color name="list_item_background">#AACCCCCC</color>
+    <color name="app_color">#ff5df2d6</color>
 </resources>

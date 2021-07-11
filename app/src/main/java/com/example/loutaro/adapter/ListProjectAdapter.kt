@@ -50,11 +50,7 @@ class ListProjectAdapter : ListAdapter<Project, ListProjectAdapter.ListViewHolde
             rvStandardSkillPreviewProject.adapter = adapter
             adapter.submitList(project.skills)
 
-            tvTitlePreviewProject.setOnClickListener {
-                goToDetailProject(holder.itemView.context, project.idProject.toString())
-            }
-
-            tvDescriptionPreviewProject.setOnClickListener {
+            parentLayoutProject.setOnClickListener {
                 goToDetailProject(holder.itemView.context, project.idProject.toString())
             }
         }

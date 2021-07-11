@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.loutaro.data.entity.Project
 import com.example.loutaro.data.source.LoutaroRepository
+import com.google.android.gms.tasks.Task
 
 class ProjectDetailViewModel(private val loutaroRepository: LoutaroRepository): ViewModel() {
 
@@ -19,6 +20,10 @@ class ProjectDetailViewModel(private val loutaroRepository: LoutaroRepository): 
 
     fun updateSaveProject(idProject: String, isSaved: Boolean){
         loutaroRepository.updateSavedProject(idProject, isSaved)
+    }
+
+    fun applyAsFreelancerToProject(idProject: String, dataProject: Project): Task<Void> {
+        return loutaroRepository.applyAsFreelancerToProject(idProject, dataProject)
     }
 
 }

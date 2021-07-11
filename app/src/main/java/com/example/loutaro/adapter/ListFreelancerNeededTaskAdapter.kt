@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.loutaro.R
 import com.example.loutaro.data.entity.ItemId
 import com.example.loutaro.data.entity.Task
+import com.example.loutaro.data.entity.TodoId
 import com.example.loutaro.databinding.ItemRowFreelancerNeededTaskBinding
 import com.google.android.material.textfield.TextInputLayout
 
-class ListFreelancerNeededTaskAdapter(private var taskFreelancer: MutableList<Task>): ListAdapter<ItemId, ListFreelancerNeededTaskAdapter.ListViewHolder>(DiffCallback()) {
+class ListFreelancerNeededTaskAdapter(private var taskFreelancer: MutableList<Task>): ListAdapter<TodoId, ListFreelancerNeededTaskAdapter.ListViewHolder>(DiffCallback()) {
 
     var onBtnDeleteClick: ((String)-> Unit)?=null
 
@@ -27,15 +28,14 @@ class ListFreelancerNeededTaskAdapter(private var taskFreelancer: MutableList<Ta
         val binding = ItemRowFreelancerNeededTaskBinding.bind(itemView)
     }
 
-    class DiffCallback: DiffUtil.ItemCallback<ItemId>() {
-        override fun areItemsTheSame(oldItem: ItemId, newItem: ItemId): Boolean {
+    class DiffCallback: DiffUtil.ItemCallback<TodoId>() {
+        override fun areItemsTheSame(oldItem: TodoId, newItem: TodoId): Boolean {
             return oldItem.id==newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ItemId, newItem: ItemId): Boolean {
+        override fun areContentsTheSame(oldItem: TodoId, newItem: TodoId): Boolean {
             return oldItem==newItem
         }
-
 
     }
 
@@ -47,7 +47,7 @@ class ListFreelancerNeededTaskAdapter(private var taskFreelancer: MutableList<Ta
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val task = getItem(holder.adapterPosition)
         holder.binding.run{
-            inputFreelancerTask.setText("")
+            inputFreelancerTask.setText(task.todo)
 
             onSubmitNeedClick={
                 validateRequire(inputFreelancerTask.text.toString(),txtInputFreelancerTask, holder.itemView.context.getString(R.string.task), holder.itemView.context)

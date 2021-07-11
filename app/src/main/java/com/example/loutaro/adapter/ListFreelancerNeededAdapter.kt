@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.loutaro.R
 import com.example.loutaro.data.entity.ItemId
 import com.example.loutaro.data.entity.Task
+import com.example.loutaro.data.entity.TodoId
 import com.example.loutaro.databinding.ItemRowFreelancerNeededBinding
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
@@ -21,6 +22,7 @@ class ListFreelancerNeededAdapter(private var taskFreelancer: MutableList<Task>)
 
     var onInputFeeChange: ((Int, String)-> Unit)?=null
     var onInputTodoChange: ((Int, MutableList<String>) -> Unit)?=null
+    var onDeleteTodoCallback:((Int, MutableList<String>)-> Unit)?=null
     var onSubmitClick: ((Boolean) -> Unit)?=null
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,23 +47,33 @@ class ListFreelancerNeededAdapter(private var taskFreelancer: MutableList<Task>)
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val adapter = ListFreelancerNeededTaskAdapter(taskFreelancer)
-        val listTask = mutableListOf(ItemId(id = UUID.randomUUID().toString()))
+        val item= getItem(holder.adapterPosition)
+        var listTodo= mutableListOf<TodoId>()
+        if(item.todo!=null && item.todo!!.size>0){
+            for (todo in item.todo!!){
+                listTodo.add(TodoId(id = UUID.randomUUID().toString(), todo = todo))
+            }
+        }else{
+            listTodo= mutableListOf(TodoId(id = UUID.randomUUID().toString(), todo = ""))
+        }
         holder.binding.run{
             tvNumberFreelancer.text = holder.itemView.context.getString(R.string.number_of_freelancer, holder.adapterPosition+1)
-            inputFreelancerFee.setText("")
+
+            inputFreelancerFee.setText(item.price.toString())
+
             inputFreelancerFee.doAfterTextChanged {
                 validateRequire(it.toString(),txtInputFreelancerFee, holder.itemView.context.getString(R.string.fee), holder.itemView.context)
             }
 
             rvFreelancerNeededTask.layoutManager = LinearLayoutManager(holder.itemView.context)
             rvFreelancerNeededTask.adapter = adapter
-            adapter.submitList(listTask)
+            adapter.submitList(listTodo)
             adapter.notifyDataSetChanged()
 
-            val todoFreelancer = mutableListOf<String>()
-            for (i in 0.until(listTask.size)){
-                todoFreelancer.add("")
-            }
+//            val todoFreelancer = mutableListOf<String>()
+//            for (i in 0.until(listTask.size)){
+//                todoFreelancer.add("")
+//            }
 
             onSubmitClick= {
                 if(it){
@@ -78,28 +90,36 @@ class ListFreelancerNeededAdapter(private var taskFreelancer: MutableList<Task>)
             }
 
             adapter.onTodoChange={ position: Int, value: String ->
-                todoFreelancer[position]=value
-                Log.d("hasil_get_create","todoFreelancer: ${todoFreelancer.toList()}")
-                onInputTodoChange?.invoke(holder.adapterPosition, todoFreelancer)
+                listTodo[position].todo=value
+                Log.d("hasil_get_create","todoFreelancer: ${listTodo.toList()}")
+                val justListTodo = mutableListOf<String>()
+                for (todos in listTodo){
+                    justListTodo.add(todos.todo)
+                }
+                onInputTodoChange?.invoke(holder.adapterPosition, justListTodo)
             }
 
             btnAddNewTask.setOnClickListener {
-                listTask.add(ItemId(id=UUID.randomUUID().toString()))
-                todoFreelancer.add("")
-                adapter.submitList(listTask)
-                adapter.notifyItemInserted(listTask.size-1)
+                listTodo.add(TodoId(id=UUID.randomUUID().toString(),todo = ""))
+//                todoFreelancer.add("")
+                adapter.submitList(listTodo)
+                adapter.notifyItemInserted(listTodo.size-1)
             }
 
             adapter.onBtnDeleteClick={ idTask->
                 Log.d("hasil_get_need","id task: $idTask")
-                Log.d("hasil_get_need","list task sebelum filter: ${listTask.toList()}")
-                val idPosition = listTask.indexOfFirst {
+                Log.d("hasil_get_need","list task sebelum filter: ${listTodo.toList()}")
+                val idPosition = listTodo.indexOfFirst {
                     it.id==idTask
                 }
-                listTask.removeAt(idPosition)
-                todoFreelancer.removeAt(idPosition)
-                Log.d("hasil_get_need","list task setelah filter: ${listTask.toList()}")
-                adapter.submitList(listTask)
+                listTodo.removeAt(idPosition)
+                Log.d("hasil_get_need","list task setelah filter: ${listTodo.toList()}")
+                val justListTodo = mutableListOf<String>()
+                for (todos in listTodo){
+                    justListTodo.add(todos.todo)
+                }
+                onDeleteTodoCallback?.invoke(holder.adapterPosition, justListTodo)
+                adapter.submitList(listTodo)
                 adapter.notifyItemRemoved(idPosition)
             }
 

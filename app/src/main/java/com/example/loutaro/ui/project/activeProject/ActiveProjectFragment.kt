@@ -14,9 +14,12 @@ import com.example.loutaro.databinding.FragmentActiveProjectBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
 import com.example.loutaro.ui.createProject.CreateProjectActivity
 import com.example.loutaro.viewmodel.ViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class ActiveProjectFragment : Fragment() {
     private lateinit var binding: FragmentActiveProjectBinding
@@ -65,6 +68,25 @@ class ActiveProjectFragment : Fragment() {
             }
             activeProjectViewModel.getActiveProjectForBusinessMan()
         }
+
+        listTitleProjectAdapter.onClickDeleteProjectCallback={ idProject->
+            MaterialAlertDialogBuilder(requireActivity())
+                .setMessage(getString(R.string.are_you_sure_want_to_detele))
+                .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+                    // Respond to negative button press
+                }
+                .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                    baseActivity.showProgressDialog(message = getString(R.string.please_wait), context = requireActivity())
+                    CoroutineScope(Dispatchers.IO).launch {
+                        activeProjectViewModel.deleteProject(idProject).await()
+                        withContext(Dispatchers.Main){
+                            baseActivity.closeProgressDialog()
+                        }
+                    }
+                }
+                .show()
+        }
+
     }
 
     private fun showProgressActiveProject(){
