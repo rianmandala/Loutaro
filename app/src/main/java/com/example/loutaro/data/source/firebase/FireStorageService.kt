@@ -12,7 +12,7 @@ object FireStorageService {
 
     fun putFile(filePath: Uri): UploadTask {
         val ref: StorageReference = storageReference.child(
-                "images/"
+                "images2/"
                         + UUID.randomUUID().toString()
         )
 

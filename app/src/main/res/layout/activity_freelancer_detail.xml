@@ -86,8 +86,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="?android:attr/listDivider"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                    app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
                     app:layout_constraintTop_toBottomOf="@id/tv_bio_user"
                     android:layout_marginTop="@dimen/margin_size_medium"/>
 
@@ -151,15 +151,6 @@
                         android:layout_height="wrap_content"
                         tools:listitem="@layout/item_row_standard_skill" />
 
-                    <TextView
-                        android:id="@+id/tv_replace_skill_user"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="@string/please_update_your_profile"
-                        android:textSize="@dimen/text_size_medium"
-                        android:textColor="@color/placeholder"
-                        android:backgroundTint="@color/primary"
-                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <View
@@ -237,20 +228,20 @@
                 app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
                 app:layout_constraintTop_toBottomOf="@id/tv_contact_email_user"
                 tools:text="t.me/rian135" />
-
-            <TextView
-                android:id="@+id/tv_replace_contact_info_user"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="@string/please_update_your_profile"
-                android:textSize="@dimen/text_size_medium"
-                android:textColor="@color/placeholder"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
-                app:layout_constraintEnd_toEndOf="@id/tv_tag_contact_user"
-                android:layout_marginTop="@dimen/margin_size_small"
-                app:layout_constraintTop_toBottomOf="@id/tv_tag_contact_user"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add_to_favorite_freelancer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_favorite_24"
+        app:tint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/margin_size_small"
+        android:layout_marginBottom="@dimen/margin_size_small"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

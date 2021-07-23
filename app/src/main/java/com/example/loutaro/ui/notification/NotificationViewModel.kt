@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.loutaro.data.entity.Freelancer
 import com.example.loutaro.data.entity.Project
+import com.example.loutaro.data.entity.Task
 import com.example.loutaro.data.source.LoutaroRepository
 
 class NotificationViewModel(private val loutaroRepository: LoutaroRepository): ViewModel() {
@@ -29,7 +30,7 @@ class NotificationViewModel(private val loutaroRepository: LoutaroRepository): V
     }
 
     fun getApplyerFromFreelancer(listIdFreelancer: List<String>){
-        loutaroRepository.getApplyerFromFreelancer(listIdFreelancer).get().addOnSuccessListener { listFreelancer->
+        loutaroRepository.getListFreelancerWithListIdFreelancer(listIdFreelancer).get().addOnSuccessListener { listFreelancer->
             var data = mutableListOf<Freelancer>()
             for(document in listFreelancer){
                 val response = document.toObject(Freelancer::class.java)

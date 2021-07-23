@@ -91,6 +91,39 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_bio_user"
                     android:layout_marginTop="@dimen/margin_size_medium"/>
 
+                    <TextView
+                        android:id="@+id/tv_tag_balance_user"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/balance"
+                        android:textSize="@dimen/text_size_big"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/margin_size_small"
+                        app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                        app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                        app:layout_constraintTop_toBottomOf="@id/divider_tv_bio_user"/>
+
+                    <TextView
+                        android:id="@+id/tv_balance_user"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        tools:text="$0"
+                        android:textSize="@dimen/text_size_medium"
+                        android:layout_marginTop="@dimen/margin_size_mini"
+                        app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
+                        app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
+                        app:layout_constraintTop_toBottomOf="@id/tv_tag_balance_user"/>
+
+                    <View
+                        android:id="@+id/divider_tv_balance_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_balance_user"
+                        android:layout_marginTop="@dimen/margin_size_small"/>
+
                 <TextView
                     android:id="@+id/tv_tag_portofolio_user"
                     android:layout_width="0dp"
@@ -101,7 +134,7 @@
                     android:layout_marginTop="@dimen/margin_size_small"
                     app:layout_constraintStart_toStartOf="@id/tv_name_and_job_user"
                     app:layout_constraintEnd_toEndOf="@id/tv_name_and_job_user"
-                    app:layout_constraintTop_toBottomOf="@id/divider_tv_bio_user"/>
+                    app:layout_constraintTop_toBottomOf="@id/divider_tv_balance_user"/>
 
                 <TextView
                     android:id="@+id/tv_portofolio_user"
@@ -237,19 +270,6 @@
                     app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
                     app:layout_constraintTop_toBottomOf="@id/tv_contact_email_user"
                     tools:text="t.me/rian135" />
-
-                <TextView
-                    android:id="@+id/tv_replace_contact_info_user"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/please_update_your_profile"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/placeholder"
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="@id/tv_tag_contact_user"
-                    app:layout_constraintEnd_toEndOf="@id/tv_tag_contact_user"
-                    android:layout_marginTop="@dimen/margin_size_small"
-                    app:layout_constraintTop_toBottomOf="@id/tv_tag_contact_user"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

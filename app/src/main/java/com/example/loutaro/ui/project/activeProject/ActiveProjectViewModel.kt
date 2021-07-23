@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.loutaro.data.entity.Project
 import com.example.loutaro.data.source.LoutaroRepository
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 
 class ActiveProjectViewModel(private val loutaroRepository: LoutaroRepository): ViewModel() {
 
@@ -46,6 +47,18 @@ class ActiveProjectViewModel(private val loutaroRepository: LoutaroRepository): 
 
     fun deleteProject(idProject: String): Task<Void> {
         return loutaroRepository.deleteProject(idProject)
+    }
+
+    fun projectHasCompleted(idProject: String): Task<Void> {
+        return loutaroRepository.projectHasCompleted(idProject)
+    }
+
+    fun updateBalanceFreelancer(idFreelancer: String, balance: Long): Task<Void> {
+        return loutaroRepository.updateBalanceFreelancer(idFreelancer, balance)
+    }
+
+    fun startProject(idProject: String, projectStartDate: Timestamp): Task<Void> {
+        return loutaroRepository.startProject(idProject, projectStartDate)
     }
 
 }

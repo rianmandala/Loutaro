@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.freelancerRecommendation.FreelancerRecommendationActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="180dp"
+                android:layout_height="10dp"
+                android:background="@color/primary_half_transparent"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/tv_tag_recommendation_for_you"
+                app:layout_constraintTop_toTopOf="@id/tv_tag_recommendation_for_you" />
+
+            <TextView
+                android:id="@+id/tv_tag_recommendation_for_you"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_big"
+                android:layout_marginTop="@dimen/margin_size_medium"
+                android:layout_marginHorizontal="@dimen/margin_size_small"
+                android:text="@string/recommendation_for_you"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_freelancer_recommendation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_row_applier_notification"
+                android:layout_marginTop="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_tag_recommendation_for_you"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

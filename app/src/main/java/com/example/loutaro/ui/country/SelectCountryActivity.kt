@@ -14,10 +14,11 @@ import com.example.loutaro.ui.register.RegisterActivity
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.loutaro.adapter.ListCountryAdapter
+import com.example.loutaro.ui.baseActivity.BaseActivity
 import java.util.*
 
 
-class SelectCountryActivity : AppCompatActivity() {
+class SelectCountryActivity : BaseActivity() {
     private lateinit var binding: ActivitySelectCountryBinding
     private var dataCountry = Country.listName
     private lateinit var adapter: ListCountryAdapter

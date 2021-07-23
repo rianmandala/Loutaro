@@ -8,25 +8,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_avatar_freelancer"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_img_avatar_user"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        tools:src="@tools:sample/avatars"
+        app:cardCornerRadius="200dp"
         android:layout_marginTop="@dimen/margin_size_medium"
         android:layout_marginStart="@dimen/margin_size_small"
+        android:outlineAmbientShadowColor="@color/white_transparent"
+        android:outlineSpotShadowColor="@color/white_transparent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/img_avatar_freelancer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
 
     <LinearLayout
         android:id="@+id/parent_layout_short_detail_freelancer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_size_small"
-        app:layout_constraintStart_toEndOf="@id/img_avatar_freelancer"
-        app:layout_constraintTop_toTopOf="@id/img_avatar_freelancer"
-        app:layout_constraintBottom_toBottomOf="@id/img_avatar_freelancer"
+        app:layout_constraintStart_toEndOf="@id/cv_img_avatar_user"
+        app:layout_constraintTop_toTopOf="@id/cv_img_avatar_user"
+        app:layout_constraintBottom_toBottomOf="@id/cv_img_avatar_user"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical">
         <TextView
@@ -67,8 +76,8 @@
         android:maxLines="3"
         android:ellipsize="end"
         android:layout_marginVertical="@dimen/margin_size_small"
-        app:layout_constraintStart_toStartOf="@id/img_avatar_freelancer"
-        app:layout_constraintTop_toBottomOf="@id/img_avatar_freelancer"
+        app:layout_constraintStart_toStartOf="@id/cv_img_avatar_user"
+        app:layout_constraintTop_toBottomOf="@id/cv_img_avatar_user"
         app:layout_constraintEnd_toEndOf="@id/parent_layout_short_detail_freelancer"/>
 
     <com.google.android.material.chip.ChipGroup
@@ -77,8 +86,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/margin_size_mini"
-        app:layout_constraintStart_toStartOf="@id/tv_bio_freelancer"
-        app:layout_constraintEnd_toEndOf="@id/tv_bio_freelancer"
+        app:layout_constraintStart_toStartOf="@id/cv_img_avatar_user"
+        app:layout_constraintEnd_toEndOf="@id/parent_layout_short_detail_freelancer"
         app:layout_constraintTop_toBottomOf="@id/tv_bio_freelancer">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_standard_skill_preview_project"

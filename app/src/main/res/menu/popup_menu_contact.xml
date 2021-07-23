@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_confirm_applyers"
+        android:icon="@drawable/ic_baseline_send_20_for_profile"
+        android:iconTint="@color/placeholder"
+        android:title="@string/confirm_applyers" />
     <item android:id="@+id/menu_contact_phone"
         android:icon="@drawable/ic_baseline_call_20_for_profile"
         android:iconTint="@color/placeholder"

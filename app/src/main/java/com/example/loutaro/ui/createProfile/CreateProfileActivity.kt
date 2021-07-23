@@ -4,10 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
+import androidx.core.widget.doAfterTextChanged
 import com.bumptech.glide.Glide
 import com.example.loutaro.R
 import com.example.loutaro.adapter.ListSkillsAdapter
@@ -29,6 +33,7 @@ class CreateProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityCreateProfileBinding
     private var adapter: ListSkillsAdapter?=null
     private var dataSkills= mutableListOf<String>()
+    private var statusCompleteValidate= false
 
     private var filePath: Uri? = null
 
@@ -84,14 +89,38 @@ class CreateProfileActivity : BaseActivity() {
             adapter= ListSkillsAdapter()
             rvSkills.adapter = adapter
 
+            inputAbout.doAfterTextChanged {
+                validateRequire(it.toString(),txtInputAbout, getString(R.string.about))
+            }
+
             val adapter = ArrayAdapter(
                 this@CreateProfileActivity, R.layout.list_item,
                 resources.getStringArray(R.array.list_service))
             inputService.setAdapter(adapter)
             inputService.setText(resources.getStringArray(R.array.list_service)[0],false)
 
+            inputService.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    dataSkills.clear()
+                    updateDataSkills()
+                }
+
+            })
+
             btnSubmitProfile.setOnClickListener {
-                uploadData()
+                if(completeValidate()){
+                    uploadData()
+                }else{
+                    showWarningSnackbar(message = getString(R.string.still_have_data_not_fill))
+                }
             }
         }
         adapter?.onItemClick = {
@@ -191,6 +220,14 @@ class CreateProfileActivity : BaseActivity() {
     }
 
     fun updateDataSkills(){
+        binding.run {
+            if(dataSkills.isEmpty()){
+                setViewToVisible(tvErrorSkillCreateProfile)
+                tvErrorSkillCreateProfile.text = getString(R.string.required,"Skill")
+            }else{
+                setViewToGone(tvErrorSkillCreateProfile)
+            }
+        }
         adapter?.submitList(dataSkills)
         adapter?.notifyDataSetChanged()
     }
@@ -206,5 +243,23 @@ class CreateProfileActivity : BaseActivity() {
                 bio = binding.inputAbout.text.toString()
             ))
         }
+    }
+
+    private fun completeValidate(): Boolean{
+        statusCompleteValidate=true
+        var tempStatusComplete: Boolean
+        binding.run {
+            tempStatusComplete= validateRequire(inputAbout.text.toString(), txtInputAbout, getString(R.string.about))
+            if(!tempStatusComplete) statusCompleteValidate=false
+            if(dataSkills.isEmpty()){
+                setViewToVisible(tvErrorSkillCreateProfile)
+                tvErrorSkillCreateProfile.text = getString(R.string.required,"Skill")
+                statusCompleteValidate=false
+            }else{
+                setViewToGone(tvErrorSkillCreateProfile)
+            }
+        }
+        Log.d("hasil_get_create","statusCompleteValidate: $statusCompleteValidate")
+        return statusCompleteValidate
     }
 }

@@ -16,11 +16,15 @@ import com.example.loutaro.data.entity.Project
 import com.example.loutaro.databinding.ItemRowTitleProjectBinding
 import com.example.loutaro.ui.boardKanban.BoardKanbanActivity
 import com.example.loutaro.ui.createProject.CreateProjectActivity
+import com.example.loutaro.ui.paymentProject.PaymentProjectActivity
+import com.example.loutaro.ui.project.activeProject.applyers.ApplyersActivity
 import com.example.loutaro.ui.projectDetail.ProjectDetailActivity
 
-class ListTitleProjectAdapter(private val isBusinessMan: Boolean=false): ListAdapter<Project, ListTitleProjectAdapter.ListViewHolder>(DiffCallback()) {
+class ListTitleProjectAdapter(private val isBusinessMan: Boolean=false, private val paymentProject:Boolean=false, private val isProjectCompleted:Boolean=false): ListAdapter<Project, ListTitleProjectAdapter.ListViewHolder>(DiffCallback()) {
 
     var onClickDeleteProjectCallback:((String)-> Unit)?=null
+    var onClickProjectCompletedCallback:((String)-> Unit)?=null
+    var onClickStartProjectCallback:((String, Int)-> Unit)?=null
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemRowTitleProjectBinding.bind(itemView)
@@ -48,41 +52,93 @@ class ListTitleProjectAdapter(private val isBusinessMan: Boolean=false): ListAda
         holder.binding.run {
             tvRowTitleProject.text = project.title
             imgBtnMoreOption.setOnClickListener {v: View ->
-                showMenu(v, R.menu.popup_menu_project_option, holder.itemView.context, project.idProject, project.idBoards)
+                showMenu(v, R.menu.popup_menu_project_option, holder.itemView.context, project)
+            }
+            parentLayoutTitleProject.setOnClickListener {
+                val detailProjectIntent = Intent(holder.itemView.context, ProjectDetailActivity::class.java)
+                detailProjectIntent.putExtra(ProjectDetailActivity.EXTRA_ID_PROJECT,project?.idProject)
+                holder.itemView.context.startActivity(detailProjectIntent)
             }
         }
     }
 
-    private fun showMenu(v: View, @MenuRes menuRes: Int, context: Context, idProject: String?, idBoards: String?) {
+    private fun showMenu(v: View, @MenuRes menuRes: Int, context: Context, project: Project?) {
         val popup = PopupMenu(context, v)
         popup.menuInflater.inflate(menuRes, popup.menu)
 
+        popup.menu.findItem(R.id.menu_detail_project).isVisible = false
         popup.menu.findItem(R.id.menu_update_project).isVisible = isBusinessMan
         popup.menu.findItem(R.id.menu_delete_project).isVisible = isBusinessMan
+        popup.menu.findItem(R.id.menu_applyers).isVisible = isBusinessMan
+        if (project != null) {
+            popup.menu.findItem(R.id.menu_start_project).isVisible = isBusinessMan && project.projectDueDate==null
+            popup.menu.findItem(R.id.menu_project_completed).isVisible = isBusinessMan && project.projectDueDate!=null
+        }
+
+        popup.menu.findItem(R.id.menu_payment_project).isVisible = paymentProject
+
+        if(paymentProject){
+            popup.menu.findItem(R.id.menu_delete_project).isVisible = true
+            popup.menu.findItem(R.id.menu_update_project).isVisible = false
+            popup.menu.findItem(R.id.menu_board_kanban).isVisible = false
+        }
+
+        if(isProjectCompleted){
+            popup.menu.findItem(R.id.menu_delete_project).isVisible = true
+        }
 
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when(menuItem.itemId){
                 R.id.menu_board_kanban->{
                     val boardKanbanIntent = Intent(context, BoardKanbanActivity::class.java)
-                    boardKanbanIntent.putExtra(BoardKanbanActivity.EXTRA_ID_BOARDS, idBoards)
-                    boardKanbanIntent.putExtra(BoardKanbanActivity.EXTRA_ID_PROJECT, idProject)
+                    boardKanbanIntent.putExtra(BoardKanbanActivity.EXTRA_ID_BOARDS,project?.idBoards)
+                    boardKanbanIntent.putExtra(BoardKanbanActivity.EXTRA_ID_PROJECT,project?.idProject)
                     context.startActivity(boardKanbanIntent)
                     true
                 }
                 R.id.menu_detail_project->{
                    val detailProjectIntent = Intent(context, ProjectDetailActivity::class.java)
-                    detailProjectIntent.putExtra(ProjectDetailActivity.EXTRA_ID_PROJECT, idProject)
+                    detailProjectIntent.putExtra(ProjectDetailActivity.EXTRA_ID_PROJECT,project?.idProject)
                     context.startActivity(detailProjectIntent)
+                    true
+                }
+                R.id.menu_applyers->{
+                    val applyersIntent = Intent(context, ApplyersActivity::class.java)
+                    applyersIntent.putExtra(ApplyersActivity.EXTRA_ID_PROJECT,project?.idProject)
+                    context.startActivity(applyersIntent)
                     true
                 }
                 R.id.menu_update_project->{
                     val createProjectIntent = Intent(context, CreateProjectActivity::class.java)
-                    createProjectIntent.putExtra(CreateProjectActivity.EXTRA_ID_PROJECT, idProject)
+                    createProjectIntent.putExtra(CreateProjectActivity.EXTRA_ID_PROJECT,project?.idProject)
                     context.startActivity(createProjectIntent)
                     true
                 }
                 R.id.menu_delete_project->{
-                    onClickDeleteProjectCallback?.invoke(idProject.toString())
+                    onClickDeleteProjectCallback?.invoke(project?.idProject.toString())
+                    true
+                }
+                R.id.menu_payment_project->{
+                    var pricePayment = 0
+                    if(project?.tasks!=null){
+                        for(item in project.tasks!!){
+                            pricePayment+= item.price!!
+                        }
+                    }
+
+                    val paymentProjectIntent = Intent(context, PaymentProjectActivity::class.java)
+                    paymentProjectIntent.putExtra(PaymentProjectActivity.EXTRA_STATUS_PAYMENT, project?.paymentStatus)
+                    paymentProjectIntent.putExtra(PaymentProjectActivity.EXTRA_PRICE_PAYMENT, pricePayment)
+                    paymentProjectIntent.putExtra(PaymentProjectActivity.EXTRA_ID_PROJECT, project?.idProject)
+                    context.startActivity(paymentProjectIntent)
+                    true
+                }
+                R.id.menu_project_completed->{
+                    onClickProjectCompletedCallback?.invoke(project?.idProject.toString())
+                    true
+                }
+                R.id.menu_start_project -> {
+                    onClickStartProjectCallback?.invoke(project?.idProject.toString(), project?.durationInDays!!)
                     true
                 }
                 else->{

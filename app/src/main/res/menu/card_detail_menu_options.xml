@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/delete_card_menu"
+        android:title="@string/delete_card"
+        app:showAsAction="never"/>
+<!--    <item-->
+<!--        android:id="@+id/withdraw_payment_menu"-->
+<!--        android:title="@string/withdraw_payment"-->
+<!--        app:showAsAction="never"/>-->
+</menu>

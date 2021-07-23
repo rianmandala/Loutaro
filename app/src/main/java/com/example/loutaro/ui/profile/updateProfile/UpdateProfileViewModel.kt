@@ -41,21 +41,17 @@ class UpdateProfileViewModel(private val loutaroRepository: LoutaroRepository): 
 
     fun getMyProfileFreelancer(){
         val id = loutaroRepository.getCurrentUser()?.uid.toString()
-        loutaroRepository.getDataFreelancerRealtime(id)
-            .addSnapshotListener { querySnapshot, error ->
-                querySnapshot?.let { query->
-                    responseGetMyProfileFreelancer.postValue(query.toObject(Freelancer::class.java))
-                }
+        loutaroRepository.getDataFreelancer(id)
+            .addOnSuccessListener {query->
+                responseGetMyProfileFreelancer.postValue(query.toObject(Freelancer::class.java))
             }
     }
 
     fun getMyProfileBusinessMan(){
         val id = loutaroRepository.getCurrentUser()?.uid.toString()
-        loutaroRepository.getDataBusinessManRealtime(id)
-                .addSnapshotListener { querySnapshot, error ->
-                    querySnapshot?.let { query->
-                        responseGetMyProfileBusinessMan.postValue(query.toObject(BusinessMan::class.java))
-                    }
+        loutaroRepository.getDataBusinessManRealtime(id).get()
+                .addOnSuccessListener {query->
+                    responseGetMyProfileBusinessMan.postValue(query.toObject(BusinessMan::class.java))
                 }
     }
 

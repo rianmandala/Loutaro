@@ -33,6 +33,15 @@ class SavedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         savedProjectViewModel = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance()).get(SavedProjectViewModel::class.java)
         baseActivity.initTinyDB(requireActivity())
+        baseActivity.setViewToInvisible(binding.rvSaveUser)
+        baseActivity.setViewToInvisible(binding.parentLayoutInfoSavedProject)
+        baseActivity.setViewToVisible(binding.includeLayoutSavedProject.layoutProgress)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("saved_fragment","ini di resume")
         if(baseActivity.getUserTypeLogin(requireActivity())==getString(R.string.value_freelancer)){
             binding.run{
                 rvSaveUser.layoutManager = LinearLayoutManager(requireActivity())
@@ -58,7 +67,20 @@ class SavedFragment : Fragment() {
                     }
 
                 }
-                savedProjectViewModel.getDataSaveProjects()
+                val listProjectIdSaved = baseActivity.getListIdProjectSaved(baseActivity.getCurrentUser()?.uid.toString())
+                if(listProjectIdSaved!=null){
+                    if(listProjectIdSaved.isNotEmpty()){
+                        savedProjectViewModel.getDataSaveProjects(listProjectIdSaved)
+                    }else{
+                        tvSearchInfoSavedProject.text = getString(R.string.dont_have_saved_project_yet)
+                        baseActivity.setViewToVisible(parentLayoutInfoSavedProject)
+                        baseActivity.setViewToInvisible(includeLayoutSavedProject.layoutProgress, rvSaveUser)
+                    }
+                }else{
+                    tvSearchInfoSavedProject.text = getString(R.string.dont_have_saved_project_yet)
+                    baseActivity.setViewToVisible(parentLayoutInfoSavedProject)
+                    baseActivity.setViewToInvisible(includeLayoutSavedProject.layoutProgress, rvSaveUser)
+                }
             }
 
         } else if(baseActivity.getUserTypeLogin(requireActivity())==getString(R.string.value_business_man)){
@@ -86,14 +108,22 @@ class SavedFragment : Fragment() {
                     }
 
                 }
-                savedProjectViewModel.getDataSaveFreelancer()
+                val listFreelancerIdSaved = baseActivity.getListIdFreelancerSaved(baseActivity.getCurrentUser()?.uid.toString())
+                Log.d("saved","ini dia ${listFreelancerIdSaved}")
+                if(listFreelancerIdSaved!=null){
+                    if(listFreelancerIdSaved.isNotEmpty()){
+                        savedProjectViewModel.getDataSaveFreelancer(listFreelancerIdSaved)
+                    }else{
+                        tvSearchInfoSavedProject.text = getString(R.string.dont_have_saved_freelancer_yet)
+                        baseActivity.setViewToVisible(parentLayoutInfoSavedProject)
+                        baseActivity.setViewToInvisible(includeLayoutSavedProject.layoutProgress, rvSaveUser)
+                    }
+                }else{
+                    tvSearchInfoSavedProject.text = getString(R.string.dont_have_saved_freelancer_yet)
+                    baseActivity.setViewToVisible(parentLayoutInfoSavedProject)
+                    baseActivity.setViewToInvisible(includeLayoutSavedProject.layoutProgress, rvSaveUser)
+                }
             }
         }
-
-        baseActivity.setViewToInvisible(binding.rvSaveUser)
-        baseActivity.setViewToInvisible(binding.parentLayoutInfoSavedProject)
-        baseActivity.setViewToVisible(binding.includeLayoutSavedProject.layoutProgress)
-
     }
-
 }

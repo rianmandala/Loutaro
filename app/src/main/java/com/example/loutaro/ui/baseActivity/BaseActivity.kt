@@ -16,6 +16,7 @@ import com.example.loutaro.data.source.tinyDb.TinyDB
 import com.example.loutaro.ui.login.LoginActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import kotlin.collections.ArrayList
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -55,6 +56,22 @@ open class BaseActivity : AppCompatActivity() {
 
     fun setStatusLoginToDB(status: Boolean){
         tinyDb.putBoolean(getString(R.string.key_status_login), status)
+    }
+
+    fun savedIdFreelancer(idUser: String, listIdFreelancer: ArrayList<String>){
+        tinyDb.putListString(idUser,listIdFreelancer)
+    }
+
+    fun getListIdFreelancerSaved(idUser: String): ArrayList<String>? {
+        return tinyDb.getListString(idUser)
+    }
+
+    fun savedIdProject(idUser: String, listIdProject: ArrayList<String>){
+        tinyDb.putListString(idUser, listIdProject)
+    }
+
+    fun getListIdProjectSaved(idUser: String): ArrayList<String>? {
+        return tinyDb.getListString(idUser)
     }
 
     fun getStatusLoginFromDB(context: Context = this): Boolean {

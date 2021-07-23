@@ -1,6 +1,7 @@
 package com.example.loutaro.ui.project.finishProject
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,12 @@ import com.example.loutaro.adapter.ListTitleProjectAdapter
 import com.example.loutaro.databinding.FragmentFinishProjectBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
 import com.example.loutaro.viewmodel.ViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class FinishProjectFragment : Fragment() {
     private lateinit var binding: FragmentFinishProjectBinding
@@ -31,7 +35,13 @@ class FinishProjectFragment : Fragment() {
         baseActivity.initTinyDB(requireActivity())
         val finishProjectViewModel = ViewModelProvider(requireActivity(), ViewModelFactory.getInstance()).get(
             FinishProjectViewModel::class.java)
-        listTitleProjectAdapter = ListTitleProjectAdapter()
+        if(baseActivity.isUserFreelancer(requireActivity())){
+            listTitleProjectAdapter = ListTitleProjectAdapter()
+            finishProjectViewModel.getFinishProjectForFreelancer()
+        }else if(baseActivity.isUserBusinessMan(requireActivity())){
+            listTitleProjectAdapter = ListTitleProjectAdapter(isProjectCompleted = true)
+            finishProjectViewModel.getFinishProjectForBusinessMan()
+        }
         showProgressFinishProject()
         binding.run {
             rvFinishProject.layoutManager = LinearLayoutManager(requireActivity())
@@ -42,18 +52,31 @@ class FinishProjectFragment : Fragment() {
         finishProjectViewModel.statusGetFinishProject.observe(requireActivity()){ projects->
             listTitleProjectAdapter.submitList(projects)
             listTitleProjectAdapter.notifyDataSetChanged()
-            CoroutineScope(Dispatchers.Main).launch {
-                if(projects.size>0){
-                    showFinishProject()
-                }else{
-                    showImageNoData()
-                }
+            if(projects.isNotEmpty()){
+                showFinishProject()
+            }else{
+                showImageNoData()
             }
         }
-        if(baseActivity.isUserFreelancer(requireActivity())){
-            finishProjectViewModel.getFinishProjectForFreelancer()
-        }else if(baseActivity.isUserBusinessMan(requireActivity())){
-            finishProjectViewModel.getFinishProjectForBusinessMan()
+
+        listTitleProjectAdapter.onClickDeleteProjectCallback={ idProject->
+            MaterialAlertDialogBuilder(requireActivity())
+                .setMessage(getString(R.string.are_you_sure_want_to_detele))
+                .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+                    // Respond to negative button press
+                }
+                .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                    baseActivity.showProgressDialog(message = getString(R.string.please_wait), context = requireActivity())
+                    CoroutineScope(Dispatchers.IO).launch {
+                        finishProjectViewModel.deleteProject(idProject).await()
+                        withContext(Dispatchers.Main){
+                            baseActivity.closeProgressDialog()
+                            baseActivity.showSnackbar(message = getString(R.string.project_succes_to_delete), activity = requireActivity())
+
+                        }
+                    }
+                }
+                .show()
         }
     }
 

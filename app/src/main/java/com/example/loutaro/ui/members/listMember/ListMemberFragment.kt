@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.loutaro.R
 import com.example.loutaro.adapter.ListMemberAdapter
+import com.example.loutaro.data.entity.Boards
+import com.example.loutaro.data.entity.Project
 import com.example.loutaro.databinding.FragmentListMemberBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
 import com.example.loutaro.viewmodel.ViewModelFactory
@@ -24,6 +26,7 @@ class ListMemberFragment : Fragment() {
     private lateinit var binding: FragmentListMemberBinding
     private lateinit var listMemberViewModel: ListMemberViewModel
     private lateinit var listMemberAdapter: ListMemberAdapter
+    private lateinit var detailBoards: Boards
     private val baseActivity= BaseActivity()
     // newInstance constructor for creating fragment with arguments
     companion object{
@@ -41,20 +44,24 @@ class ListMemberFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        listMemberAdapter = ListMemberAdapter()
         binding= FragmentListMemberBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        baseActivity.initTinyDB(requireActivity())
+        listMemberAdapter = ListMemberAdapter(baseActivity.isUserFreelancer(requireActivity()))
         val idBoards = arguments?.getString("idBoards");
         val idProject = arguments?.getString("idProject")
 
         binding.run {
             rvListMember.layoutManager = LinearLayoutManager(requireActivity())
             rvListMember.adapter = listMemberAdapter
+
+            if(baseActivity.isUserFreelancer(requireActivity())){
+
+            }
         }
 
         listMemberAdapter.onClickCallbak={idMember->
@@ -66,9 +73,31 @@ class ListMemberFragment : Fragment() {
                     .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
-                                listMemberViewModel.deleteMemberFromBoard(idBoards.toString(), idMember).await()
+                                detailBoards.members?.remove(idMember)
+                                detailBoards.columns?.forEach { column->
+                                    column?.cards?.forEach { card->
+                                        if(card?.member == idMember){
+                                            card.member =null
+                                        }
+                                    }
+                                }
+                                Log.d("hasil_board","ini dia $detailBoards")
+                                listMemberViewModel.updateBoards(idBoards.toString(), detailBoards).await()
                                 if (idProject != null) {
-                                    listMemberViewModel.deleteMemberFromProject(idProject, idMember).await()
+                                    val response = listMemberViewModel.getDetailProject(idProject).await()
+                                    val detailProject = response.toObject(Project::class.java)
+                                    if(detailProject!=null){
+                                        detailProject.tasks?.forEach { task->
+                                            if(task.selectedApplyers == idMember){
+                                                task.selectedApplyers=null
+                                            }
+                                        }
+                                        if(detailProject.idFreelancer!=null){
+                                            detailProject.idFreelancer!!.remove(idMember)
+                                        }
+                                        listMemberViewModel.deleteMemberFromProject(idProject, detailProject).await()
+                                    }
+
                                 }
                             }catch (e: Exception){
                                 Log.e("error","Error when try to delete list card")
@@ -97,6 +126,7 @@ class ListMemberFragment : Fragment() {
             }
 
             listMemberViewModel.responseGetDetailBoards.observe(requireActivity()){
+                detailBoards = it
                 if(it.members!=null && it.members!!.isNotEmpty()){
                     showListMember()
                     listMemberViewModel.getListMember(idBoards, it.members!!)

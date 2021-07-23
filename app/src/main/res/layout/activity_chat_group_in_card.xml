@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/margin_size_small"
+    android:paddingStart="@dimen/margin_size_small"
+    android:paddingEnd="@dimen/margin_size_mini"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_img_avatar_user_in_chat"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:outlineAmbientShadowColor="@color/white_transparent"
+        android:outlineSpotShadowColor="@color/white_transparent"
+        app:cardCornerRadius="@dimen/rounded_corner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/img_avatar_user_in_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/avatars"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_name_user_in_chat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Rian Mandala"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/margin_size_mini"
+        app:layout_constraintStart_toEndOf="@id/cv_img_avatar_user_in_chat"
+        app:layout_constraintEnd_toEndOf="@id/img_btn_option_in_chat"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/img_btn_option_in_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white_transparent"
+        android:src="@drawable/ic_baseline_more_vert_24"
+        android:tint="@color/placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseAppTint" />
+
+    <TextView
+        android:id="@+id/tv_message_in_chat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_size_super_mini"
+        tools:text="Maaf hasil pekerjaan kamu kurang sesuai dengan deskripsi task"
+        app:layout_constraintStart_toStartOf="@id/tv_name_user_in_chat"
+        app:layout_constraintEnd_toStartOf="@id/img_btn_option_in_chat"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_user_in_chat"/>
+
+    <View
+        android:id="@+id/divider_tag_activity"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_size_small"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintStart_toStartOf="@id/tv_message_in_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_message_in_chat"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

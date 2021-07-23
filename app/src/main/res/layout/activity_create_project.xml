@@ -111,12 +111,46 @@
             app:chipIcon="@drawable/ic_baseline_add_circle_24"
             app:chipIconTint="@color/primary"/>
 
+        <TextView
+            android:id="@+id/tv_error_skill"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:text="Skill is required"
+            android:textColor="@color/error"
+            android:layout_marginStart="@dimen/margin_size_mini"
+            app:layout_constraintStart_toStartOf="@id/tag_select_skills_create_project"
+            app:layout_constraintEnd_toEndOf="@id/tag_select_skills_create_project"
+            app:layout_constraintTop_toBottomOf="@id/cp_add_skill_create_project"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_duration_in_days_project"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size_big"
+            app:startIconDrawable="@drawable/ic_baseline_date_range_24"
+            app:startIconTint="@color/placeholder"
+            app:endIconMode="clear_text"
+            android:hint="@string/duration_in_days"
+            android:textColorHint="@color/placeholder"
+            app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
+            app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
+            app:layout_constraintTop_toBottomOf="@id/cp_add_skill_create_project">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_duration_in_days_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_input_budget_project"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_size_big"
+            android:layout_marginTop="@dimen/margin_size_medium"
             app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
             app:startIconTint="@color/placeholder"
             app:endIconMode="clear_text"
@@ -124,7 +158,7 @@
             android:textColorHint="@color/placeholder"
             app:layout_constraintEnd_toEndOf="@id/txt_input_name_project"
             app:layout_constraintStart_toStartOf="@id/txt_input_name_project"
-            app:layout_constraintTop_toBottomOf="@id/cp_add_skill_create_project">
+            app:layout_constraintTop_toBottomOf="@id/txt_input_duration_in_days_project">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_budget_project"
@@ -150,6 +184,7 @@
                 android:id="@+id/input_number_freelancer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="50"
                 android:inputType="number"
                 android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>

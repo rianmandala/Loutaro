@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="52dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.project.activeProject.ActiveProjectFragment">
 
@@ -63,8 +64,8 @@
        android:layout_height="wrap_content"
        android:visibility="gone"
       android:src="@drawable/ic_baseline_add_24"
-      android:layout_marginEnd="@dimen/margin_size_small"
-      android:layout_marginBottom="64dp"
+      android:layout_marginEnd="@dimen/margin_size_super_big"
+      android:layout_marginBottom="42dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintBottom_toBottomOf="parent"/>
 

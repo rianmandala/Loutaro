@@ -2,6 +2,7 @@
 <resources>
     <color name="primary_light">#ff5df2d6</color>
     <color name="primary">#ff00bfa5</color>
+    <color name="primary_half_transparent">#8000BFA5</color>
     <color name="background_board">#ff1de9b6</color>
     <color name="primary_dark">#ff008e76</color>
     <color name="secondary">#ffffd600</color>

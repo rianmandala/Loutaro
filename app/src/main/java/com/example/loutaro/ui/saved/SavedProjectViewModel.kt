@@ -10,45 +10,35 @@ class SavedProjectViewModel(private val loutaroRepository: LoutaroRepository): V
     var statusGetSaveDataProjects: MutableLiveData<List<Project>?> = MutableLiveData()
     var statusGetSaveDataFreelancer: MutableLiveData<List<Freelancer>?> = MutableLiveData()
 
-    fun getDataSaveProjects(){
-        loutaroRepository.getDataSavedProject().addSnapshotListener { querySnapshot, error ->
+    fun getDataSaveProjects(listIdProject: List<String>){
+        loutaroRepository.getListProjectWithListIdProject(listIdProject).get().addOnSuccessListener { query->
             var dataProject = mutableListOf<Project>()
-            querySnapshot?.let { query ->
-                for (document in query.documents) {
-                    val response = document.toObject(Project::class.java)
-                    response?.idProject = document.id
-                    if (response != null) {
-                        dataProject.add(response)
-                    }
+            for (document in query.documents) {
+                val response = document.toObject(Project::class.java)
+                response?.idProject = document.id
+                if (response != null) {
+                    dataProject.add(response)
                 }
-                statusGetSaveDataProjects.postValue(dataProject)
             }
-            error?.let {
-                statusGetSaveDataProjects.postValue(null)
-
-            }
-
+            statusGetSaveDataProjects.postValue(dataProject)
+        }.addOnFailureListener {
+            statusGetSaveDataProjects.postValue(null)
         }
     }
 
-    fun getDataSaveFreelancer(){
-        loutaroRepository.getDataSavedFreelancer().addSnapshotListener { querySnapshot, error ->
+    fun getDataSaveFreelancer(listIdFreelancer: List<String>){
+        loutaroRepository.getListFreelancerWithListIdFreelancer(listIdFreelancer).get().addOnSuccessListener {query->
             var dataFreelancer = mutableListOf<Freelancer>()
-            querySnapshot?.let { query ->
-                for (document in query.documents) {
-                    val response = document.toObject(Freelancer::class.java)
-                    response?.idFreelancer = document.id
-                    if (response != null) {
-                        dataFreelancer.add(response)
-                    }
+            for (document in query.documents) {
+                val response = document.toObject(Freelancer::class.java)
+                response?.idFreelancer = document.id
+                if (response != null) {
+                    dataFreelancer.add(response)
                 }
-                statusGetSaveDataFreelancer.postValue(dataFreelancer)
             }
-            error?.let {
-                statusGetSaveDataFreelancer.postValue(null)
-
-            }
-
+            statusGetSaveDataFreelancer.postValue(dataFreelancer)
+        }.addOnFailureListener {
+            statusGetSaveDataFreelancer.postValue(null)
         }
     }
 }

@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.loutaro.data.source.LoutaroRepository
 import com.example.loutaro.di.Injection
 import com.example.loutaro.ui.boardKanban.BoardKanbanViewModel
+import com.example.loutaro.ui.boardKanban.detailCard.DetailCardViewModel
 import com.example.loutaro.ui.createProfile.CreateProfileViewModel
 import com.example.loutaro.ui.createProject.CreateProjectViewModel
 import com.example.loutaro.ui.freelancerDetail.FreelancerDetailViewModel
+import com.example.loutaro.ui.freelancerRecommendation.FreelancerRecommendationViewModel
 import com.example.loutaro.ui.home.HomeViewModel
 import com.example.loutaro.ui.login.LoginViewModel
 import com.example.loutaro.ui.members.addMember.AddMemberFragment
@@ -15,14 +17,18 @@ import com.example.loutaro.ui.members.addMember.AddMemberViewModel
 import com.example.loutaro.ui.members.listMember.ListMemberViewModel
 import com.example.loutaro.ui.notification.NotificationViewModel
 import com.example.loutaro.ui.onboarding.OnBoardingViewModel
+import com.example.loutaro.ui.paymentProject.PaymentProjectViewModel
 import com.example.loutaro.ui.profile.ProfileViewModel
 import com.example.loutaro.ui.profile.updateProfile.UpdateProfileViewModel
 import com.example.loutaro.ui.project.activeProject.ActiveProjectViewModel
+import com.example.loutaro.ui.project.activeProject.applyers.ApplyersViewModel
 import com.example.loutaro.ui.project.finishProject.FinishProjectViewModel
+import com.example.loutaro.ui.project.pendingProject.PendingProjectViewModel
 import com.example.loutaro.ui.projectDetail.ProjectDetailViewModel
 import com.example.loutaro.ui.register.RegisterViewModel
 import com.example.loutaro.ui.saved.SavedProjectViewModel
 import com.example.loutaro.ui.search.SearchProjectViewModel
+import com.example.loutaro.ui.withdrawFreelancer.WithdrawFreelancerViewModel
 
 class ViewModelFactory private constructor(private val loutaroRepository: LoutaroRepository): ViewModelProvider.NewInstanceFactory(){
 
@@ -94,6 +100,24 @@ class ViewModelFactory private constructor(private val loutaroRepository: Loutar
             }
             modelClass.isAssignableFrom(NotificationViewModel::class.java)->{
                 NotificationViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(FreelancerRecommendationViewModel::class.java)->{
+                FreelancerRecommendationViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(DetailCardViewModel::class.java)->{
+                DetailCardViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(PendingProjectViewModel::class.java)->{
+                PendingProjectViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(PaymentProjectViewModel::class.java)->{
+                PaymentProjectViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(ApplyersViewModel::class.java)->{
+                ApplyersViewModel(loutaroRepository) as T
+            }
+            modelClass.isAssignableFrom(WithdrawFreelancerViewModel::class.java)->{
+                WithdrawFreelancerViewModel(loutaroRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel Class ${modelClass.name}")
         }

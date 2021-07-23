@@ -1,13 +1,10 @@
 package com.example.loutaro.ui.members
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.loutaro.R
 import com.example.loutaro.adapter.MembersPagerAdapter
-import com.example.loutaro.adapter.SectionPagerAdapter
 import com.example.loutaro.databinding.ActivityMembersBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
-import com.example.loutaro.ui.boardKanban.BoardKanbanActivity
 
 class MembersActivity : BaseActivity() {
     private lateinit var binding: ActivityMembersBinding

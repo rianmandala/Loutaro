@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.loutaro">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,16 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomSplashscreen">
-        <activity android:name=".ui.notification.NotificationActivity"></activity>
+        <activity android:name=".ui.project.activeProject.applyers.ApplyersActivity" />
+        <activity android:name=".ui.paymentProject.PaymentProjectActivity" />
+        <activity android:name=".ui.withdrawFreelancer.WithdrawFreelancerActivity" />
+        <activity android:name=".ui.freelancerRecommendation.FreelancerRecommendationActivity" />
+        <activity android:name=".ui.boardKanban.detailCard.DetailCardActivity" />
+        <activity android:name=".ui.notification.NotificationActivity" />
         <activity android:name=".ui.members.MembersActivity" />
         <activity android:name=".ui.boardKanban.BoardKanbanActivity" />
         <activity android:name=".ui.createProject.CreateProjectActivity" />
         <activity android:name=".ui.freelancerDetail.FreelancerDetailActivity" />
         <activity android:name=".ui.settings.SettingsActivity" />
-        <activity android:name=".ui.profile.updateProfile.UpdateProfileActivity" />
+        <activity android:name=".ui.profile.updateProfile.UpdateProfileActivity"/>
         <activity android:name=".ui.projectDetail.ProjectDetailActivity" />
         <activity android:name=".ui.baseActivity.BaseActivity" />
-        <activity android:name=".ui.createProfile.CreateProfileActivity" />
+        <activity android:name=".ui.createProfile.CreateProfileActivity"/>
         <activity android:name=".ui.verifyEmail.VerifyEmailActivity" />
         <activity android:name=".ui.country.SelectCountryActivity" />
         <activity android:name=".ui.register.RegisterActivity" />
@@ -38,6 +39,9 @@
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

@@ -8,16 +8,33 @@
     android:layout_height="match_parent"
     tools:context=".ui.boardKanban.BoardKanbanActivity">
 
+    <TextView
+        android:id="@+id/tv_title_project_kanban"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_size_small"
+        android:textSize="@dimen/text_size_big"
+        android:layout_marginHorizontal="@dimen/margin_size_big"
+        tools:text="develope e-commerce shop website"
+        android:textColor="@color/primary"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <com.woxthebox.draglistview.BoardView
         android:id="@+id/board_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:backgroundTint="@color/primary_light"
         app:boardEdges="@dimen/boardEdges"
         app:columnSpacing="@dimen/columnSpacing"
         android:paddingVertical="@dimen/margin_size_small"
+        android:layout_marginTop="@dimen/margin_size_mini"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_title_project_kanban"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

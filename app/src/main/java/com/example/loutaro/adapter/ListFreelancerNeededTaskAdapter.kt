@@ -60,6 +60,10 @@ class ListFreelancerNeededTaskAdapter(private var taskFreelancer: MutableList<Ta
                 }
             }
 
+            if(holder.adapterPosition==0){
+                btnDeleteTask.visibility=View.GONE
+            }
+
             btnDeleteTask.setOnClickListener {
                 onBtnDeleteClick?.invoke(task.id)
             }

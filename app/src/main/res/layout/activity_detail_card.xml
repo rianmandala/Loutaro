@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_size_small"
+    tools:context=".ui.boardKanban.detailCard.DetailCardActivity">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:id="@+id/bg_card_detail_name"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/primary"
+                app:layout_constraintTop_toTopOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintBottom_toBottomOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/parent_layout_tv_detail_card_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_size_small"
+                android:paddingBottom="@dimen/margin_size_medium"
+                android:layout_marginHorizontal="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_detail_card_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_size_big"
+                    android:textColor="@color/white"
+                    tools:text="Hostind website" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edt_detail_card_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    app:endIconDrawable="@drawable/ic_baseline_check_circle_24"
+                    app:endIconMode="custom"
+                    app:hintTextColor="@color/white"
+                    app:endIconTint="@color/white"
+                    app:boxStrokeColor="@color/white"
+                    app:startIconDrawable="@drawable/ic_baseline_cancel_24"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/primary"
+                        android:backgroundTint="@color/primary"
+                        android:textColor="@color/white"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences"
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/parent_layout_tv_detail_card_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintEnd_toEndOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintTop_toBottomOf="@id/parent_layout_tv_detail_card_name"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_detail_card_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:textColor="@color/text_color"
+                    android:layout_marginTop="@dimen/margin_size_medium"
+                    android:text="@string/card_description"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edt_detail_card_description"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:endIconDrawable="@drawable/ic_baseline_check_circle_24"
+                    app:endIconMode="custom"
+                    app:hintTextColor="@color/placeholder"
+                    app:endIconTint="@color/primary"
+                    app:startIconDrawable="@drawable/ic_baseline_cancel_24"
+                    app:startIconTint="@color/placeholder">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/text_color"
+                        android:inputType="textMultiLine"
+                         />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_card_description"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parent_layout_tv_detail_card_description"/>
+
+            <LinearLayout
+                android:id="@+id/parent_img_member_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/divider_card_description"
+                android:layout_marginTop="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintEnd_toEndOf="@id/parent_layout_tv_detail_card_name"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/margin_size_mini"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/img_tag_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_transparent"
+                    android:tint="@color/primary_dark"
+                    android:src="@drawable/ic_baseline_person_24"
+                    tools:ignore="UseAppTint" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_img_avatar_member"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:cardCornerRadius="@dimen/rounded_corner"
+                    android:layout_marginStart="@dimen/margin_size_small">
+                    <ImageView
+                        android:id="@+id/img_avatar_member"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:src="@tools:sample/avatars"/>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_card_member"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parent_img_member_card"/>
+
+            <LinearLayout
+                android:id="@+id/parent_layout_due_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_size_small"
+                android:paddingBottom="@dimen/margin_size_medium"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintStart_toStartOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintEnd_toEndOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintTop_toBottomOf="@id/divider_card_member"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/img_btn_due_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_baseline_date_range_24"
+                    android:background="@color/white_transparent"
+                    android:tint="@color/primary_dark"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/tv_due_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_small"
+                    android:text="@string/due_date" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_due_date"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parent_layout_due_date"/>
+
+            <LinearLayout
+                android:id="@+id/parent_layout_attact_a_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_size_small"
+                android:paddingBottom="@dimen/margin_size_medium"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingHorizontal="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_due_date"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/img_btn_attach_a_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_baseline_add_link_24"
+                    android:background="@color/white_transparent"
+                    android:tint="@color/primary_dark"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/tv_attact_a_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_small"
+                    android:text="@string/attach_a_link" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_attact_a_link"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parent_layout_attact_a_link"/>
+
+
+            <LinearLayout
+                android:id="@+id/parent_layout_tag_attact_a_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_size_small"
+                android:paddingBottom="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintEnd_toEndOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintTop_toBottomOf="@id/divider_attact_a_link"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/img_btn_tag_attach_a_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_baseline_link_24"
+                    android:background="@color/white_transparent"
+                    android:tint="@color/text_color"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/tv_attach_tag_a_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_small"
+                    android:text="@string/attachments" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_attact_tag_a_link"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parent_layout_tag_attact_a_link"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_attachments"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size_small"
+                app:layout_constraintTop_toBottomOf="@id/divider_attact_tag_a_link"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <View
+                android:id="@+id/divider_attachments"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_attachments"/>
+
+
+
+            <LinearLayout
+                android:id="@+id/parent_layout_tag_activity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_size_small"
+                android:paddingBottom="@dimen/margin_size_small"
+                app:layout_constraintStart_toStartOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintEnd_toEndOf="@id/parent_layout_tv_detail_card_name"
+                app:layout_constraintTop_toBottomOf="@id/divider_attachments"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/img_btn_tag_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_baseline_group_24"
+                    android:background="@color/white_transparent"
+                    android:tint="@color/placeholder"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/tv_attach_tag_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_small"
+                    android:text="@string/activity" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_tag_activity"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parent_layout_tag_activity"/>
+
+            <ImageButton
+                android:id="@+id/img_btn_tag_chat_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_size_small"
+                android:src="@drawable/ic_baseline_chat_24"
+                android:background="@color/white_transparent"
+                android:tint="@color/placeholder"
+                app:layout_constraintStart_toStartOf="@id/parent_layout_tag_activity"
+                app:layout_constraintTop_toBottomOf="@id/divider_tag_activity"
+                tools:ignore="UseAppTint" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edt_chat_message"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:endIconDrawable="@drawable/ic_baseline_check_circle_24"
+                app:endIconMode="custom"
+                app:hintTextColor="@color/placeholder"
+                app:endIconTint="@color/primary"
+                android:hint="@string/add_comment"
+                app:startIconTint="@color/placeholder"
+                android:layout_marginTop="@dimen/margin_size_super_mini"
+                app:layout_constraintStart_toEndOf="@id/img_btn_tag_chat_message"
+                android:layout_marginStart="@dimen/margin_size_mini"
+                app:layout_constraintEnd_toEndOf="@id/parent_layout_tag_activity"
+                app:layout_constraintTop_toBottomOf="@id/divider_tag_activity">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/text_color"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:minLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_activity_chat_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size_small"
+                app:layout_constraintTop_toBottomOf="@id/edt_chat_message"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <View
+                android:id="@+id/divider_activity_chat_group"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_activity_chat_group"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

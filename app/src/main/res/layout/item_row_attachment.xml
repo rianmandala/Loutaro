@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/parent_layout_list_attachment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/margin_size_small"
+    android:paddingEnd="@dimen/margin_size_mini"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingVertical="@dimen/margin_size_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/img_btn_out_to_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_outline_outbound_24"
+        android:background="@color/white_transparent"
+        android:tint="@color/primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/parent_layout_attachment_detail"
+        app:layout_constraintBottom_toBottomOf="@id/parent_layout_attachment_detail"
+        tools:ignore="UseAppTint" />
+
+    <LinearLayout
+        android:id="@+id/parent_layout_attachment_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_size_small"
+        app:layout_constraintStart_toEndOf="@id/img_btn_out_to_link"
+        app:layout_constraintEnd_toStartOf="@id/option_attachments"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_attachment_link_name"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/margin_size_super_mini"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="hasil desain home page"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/tv_attachment_link_URL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/placeholder"
+            tools:text="figma.com"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/option_attachments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_more_vert_24"
+        android:tint="@color/text_color"
+        android:backgroundTint="@color/white_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/parent_layout_attachment_detail"
+        app:layout_constraintBottom_toBottomOf="@id/parent_layout_attachment_detail"
+        tools:ignore="UseAppTint" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,11 @@
 package com.example.loutaro.ui.projectDetail
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.loutaro.R
@@ -10,6 +14,7 @@ import com.example.loutaro.adapter.ListTaskPriceAdapter
 import com.example.loutaro.data.entity.Project
 import com.example.loutaro.databinding.ActivityProjectDetailBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
+import com.example.loutaro.ui.freelancerRecommendation.FreelancerRecommendationActivity
 import com.example.loutaro.viewmodel.ViewModelFactory
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -49,9 +54,21 @@ class ProjectDetailActivity : BaseActivity() {
             setViewToVisible(includeLayoutProjectDetail.layoutProgress)
             setViewToInvisible(btnAddToFavoriteProject)
             btnAddToFavoriteProject.setOnClickListener {
-                isSaved = !isSaved
-                projectDetailViewModel.updateSaveProject(idProject.toString(),isSaved)
-                checkSaveProject(isSaved)
+                val listIdProjectSaved = getListIdProjectSaved(getCurrentUser()?.uid.toString())
+                if(listIdProjectSaved!=null){
+                    if(listIdProjectSaved.contains(idProject.toString())){
+                        listIdProjectSaved.remove(idProject.toString())
+                        savedIdProject(getCurrentUser()?.uid.toString(), listIdProjectSaved)
+                        checkSaveProject(false)
+                    }else{
+                        listIdProjectSaved.add(idProject.toString())
+                        savedIdProject(getCurrentUser()?.uid.toString(), listIdProjectSaved)
+                        checkSaveProject(true)
+                    }
+                }else{
+                    savedIdProject(getCurrentUser()?.uid.toString(), arrayListOf(idProject.toString()))
+                    checkSaveProject(true)
+                }
             }
         }
 
@@ -96,7 +113,7 @@ class ProjectDetailActivity : BaseActivity() {
                             setViewToVisible(binding.parentLayoutDetailProject)
                             setViewToInvisible(binding.includeLayoutProjectDetail.layoutProgress)
                             tvTitleDetailProject.text = project.title
-                            tvTimePostedDetailProject.text = getString(R.string.posted_time, getRelativeTimeFromNow(project.timeStamp!!.toDate().time))
+                            tvTimePostedDetailProject.text = getString(R.string.working_days, project.durationInDays)
                             tvCategoryDetailProject.text = project.category
                             tvDescriptionDetailProject.text = project.description
                             tvDescriptionDetailProject.text = tvDescriptionDetailProject.text.toString().replace("\\r\\n","\r\n")
@@ -111,12 +128,16 @@ class ProjectDetailActivity : BaseActivity() {
                             rvTaskPrice.adapter = listTaskPriceAdapter
                             listTaskPriceAdapter.submitList(project.tasks)
 
-
-                            if(project.isSaved!=null) {
-                                isSaved = project.isSaved!!
-                                checkSaveProject(isSaved)
+                            val listIdProjectSaved = getListIdProjectSaved(getCurrentUser()?.uid.toString())
+                            if(listIdProjectSaved!=null){
+                                if(listIdProjectSaved.contains(idProject.toString())){
+                                    checkSaveProject(true)
+                                }else{
+                                    checkSaveProject(false)
+                                }
+                            }else{
+                                checkSaveProject(false)
                             }
-                            else checkSaveProject(false)
                             setViewToVisible(btnAddToFavoriteProject)
                         }
                     }
@@ -130,6 +151,25 @@ class ProjectDetailActivity : BaseActivity() {
             binding.btnAddToFavoriteProject.setImageResource(R.drawable.ic_baseline_favorite_24)
         }else{
             binding.btnAddToFavoriteProject.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if(getUserTypeLogin(this) == getString(R.string.value_business_man)){
+            menuInflater.inflate(R.menu.freelancer_recommendation_menu_option, menu)
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.freelancer_recommendation_menu->{
+                val freelancerRecommendationIntent = Intent(this, FreelancerRecommendationActivity::class.java)
+                freelancerRecommendationIntent.putExtra(FreelancerRecommendationActivity.EXTRA_SKILL_PROJECT_NEEDED, detailProjectGlobal.skills?.toTypedArray())
+                startActivity(freelancerRecommendationIntent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

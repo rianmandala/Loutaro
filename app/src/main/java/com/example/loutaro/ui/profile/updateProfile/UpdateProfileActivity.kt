@@ -4,11 +4,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
+import com.amulyakhare.textdrawable.TextDrawable
 import com.bumptech.glide.Glide
 import com.example.loutaro.R
 import com.example.loutaro.adapter.ListSkillsAdapter
@@ -42,7 +47,7 @@ class UpdateProfileActivity : BaseActivity() {
     private var dataSkills= mutableListOf<String>()
 
     private var filePath: Uri? = null
-
+    private var firstLoading=true
     companion object{
         val PICK_IMAGE_REQUEST = 27
         val REQUEST_CODE_FOR_COUNTRY = 100
@@ -57,8 +62,30 @@ class UpdateProfileActivity : BaseActivity() {
 
         binding.run{
             btnSubmitProfileUpdate.setOnClickListener {
-                uploadData()
+                if(completeValidate()){
+                    uploadData()
+                }else{
+                    showWarningSnackbar(message = getString(R.string.still_have_data_not_fill))
+                }
             }
+
+            inputServiceUpdate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if(!firstLoading){
+                        dataSkills.clear()
+                        updateDataSkills()
+                    }
+                }
+
+            })
 
             inputCountryUpdate.setOnClickListener{
                 var value= ""
@@ -71,10 +98,12 @@ class UpdateProfileActivity : BaseActivity() {
             }
 
             inputNameUpdate.doAfterTextChanged {
-                validateRequire(it.toString(),txtInputNameUpdate, "Name")
+                validateRequire(it.toString(),txtInputNameUpdate, getString(R.string.name))
             }
-            inputCountryUpdate.doAfterTextChanged {
-                validateRequire(it.toString(), txtInputCountryUpdate, "Country")
+            inputAboutUpdate.doAfterTextChanged {
+                if(!firstLoading){
+                    validateRequire(it.toString(),txtInputAboutUpdate, getString(R.string.about))
+                }
             }
         }
 
@@ -148,25 +177,24 @@ class UpdateProfileActivity : BaseActivity() {
             setViewToGone(txtInputServiceUpdate, inputServiceUpdate, tagSelectSkillsUpdate, cgSkillsUpdate, rvSkillsUpdate, cpAddSkillUpdate)
         }
         updateProfileViewModel.responseGetMyProfileBusinessMan.observe(this){ businessMan->
-            CoroutineScope(Dispatchers.Main).launch {
-                binding.inputNameUpdate.setText(businessMan.name?:"")
-                binding.inputCountryUpdate.setText(businessMan.country?:"")
-                binding.inputAddressUpdate.setText(businessMan.address?:"")
-                binding.inputTelephoneUpdate.setText(businessMan.contact?.telephone?:"")
-                binding.inputTelegramUpdate.setText(businessMan.contact?.telegram?:"")
-                binding.inputPortofolioUpdate.setText(businessMan.portofolio?:"")
-                binding.inputAboutUpdate.setText(businessMan.bio?:"")
+            binding.inputNameUpdate.setText(businessMan.name?:"")
+            binding.inputCountryUpdate.setText(businessMan.country?:"")
+            binding.inputAddressUpdate.setText(businessMan.address?:"")
+            binding.inputTelephoneUpdate.setText(businessMan.contact?.telephone?:"")
+            binding.inputTelegramUpdate.setText(businessMan.contact?.telegram?:"")
+            binding.inputPortofolioUpdate.setText(businessMan.portofolio?:"")
+            binding.inputAboutUpdate.setText(businessMan.bio?:"")
 
-                if(businessMan.photo!=null){
-                    Glide.with(this@UpdateProfileActivity)
-                            .load(businessMan.photo)
-                            .into(binding.imgPhotoUserUpdate)
-                    binding.run{
-                        imgPhotoUserUpdate.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                        imgPhotoUserUpdate.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                    }
-                }
+            val drawable = TextDrawable.builder()
+                    .buildRect("${businessMan.name?.toUpperCase()?.get(0)}", ContextCompat.getColor(this@UpdateProfileActivity, R.color.secondary))
+            if(businessMan.photo == null) {
+                binding.imgPhotoUserUpdate.setImageDrawable(drawable)
+            }else{
+                Glide.with(this@UpdateProfileActivity)
+                        .load(businessMan.photo)
+                        .into(binding.imgPhotoUserUpdate)
             }
+            firstLoading=false
         }
 
         updateProfileViewModel.getMyProfileBusinessMan()
@@ -257,34 +285,33 @@ class UpdateProfileActivity : BaseActivity() {
         }
 
         updateProfileViewModel.responseGetMyProfileFreelancer.observe(this){ freelancer->
-            CoroutineScope(Dispatchers.Main).launch {
-                binding.inputNameUpdate.setText(freelancer.name?:"")
-                binding.inputCountryUpdate.setText(freelancer.country?:"")
-                binding.inputAddressUpdate.setText(freelancer.address?:"")
-                binding.inputTelephoneUpdate.setText(freelancer.contact?.telephone?:"")
-                binding.inputTelegramUpdate.setText(freelancer.contact?.telegram?:"")
-                binding.inputPortofolioUpdate.setText(freelancer.portofolio?:"")
-                binding.inputAboutUpdate.setText(freelancer.bio?:"")
+            binding.inputNameUpdate.setText(freelancer.name?:"")
+            binding.inputCountryUpdate.setText(freelancer.country?:"")
+            binding.inputAddressUpdate.setText(freelancer.address?:"")
+            binding.inputTelephoneUpdate.setText(freelancer.contact?.telephone?:"")
+            binding.inputTelegramUpdate.setText(freelancer.contact?.telegram?:"")
+            binding.inputPortofolioUpdate.setText(freelancer.portofolio?:"")
+            binding.inputAboutUpdate.setText(freelancer.bio?:"")
 
-                if(freelancer.service!=null){
-                    binding.inputServiceUpdate.setText(freelancer.service, false)
-                }
+            if(freelancer.service!=null){
+                binding.inputServiceUpdate.setText(freelancer.service, false)
+            }
 
-                if(freelancer.photo!=null){
-                    Glide.with(this@UpdateProfileActivity)
-                            .load(freelancer.photo)
-                            .into(binding.imgPhotoUserUpdate)
-                    binding.run{
-                        imgPhotoUserUpdate.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                        imgPhotoUserUpdate.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                    }
-                }
+            val drawable = TextDrawable.builder()
+                    .buildRect("${freelancer.name?.toUpperCase()?.get(0)}", ContextCompat.getColor(this@UpdateProfileActivity, R.color.secondary))
+            if(freelancer.photo == null) {
+                binding.imgPhotoUserUpdate.setImageDrawable(drawable)
+            }else{
+                Glide.with(this@UpdateProfileActivity)
+                        .load(freelancer.photo)
+                        .into(binding.imgPhotoUserUpdate)
             }
             if(freelancer.skills!=null){
                 dataSkills.addAll(freelancer.skills!!)
-                listSkillsAdapter?.submitList(freelancer.skills)
-                listSkillsAdapter?.notifyDataSetChanged()
+                updateDataSkills()
             }
+            firstLoading=false
+
         }
 
         updateProfileViewModel.getMyProfileFreelancer()
@@ -330,36 +357,83 @@ class UpdateProfileActivity : BaseActivity() {
     }
 
     private fun updateDataSkills(){
+        if(isUserFreelancer(this)){
+            binding.run {
+                if(dataSkills.isEmpty()){
+                    setViewToVisible(tvErrorSkillUpdateProfile)
+                    tvErrorSkillUpdateProfile.text = getString(R.string.required,getString(R.string.skill))
+                }else{
+                    setViewToGone(tvErrorSkillUpdateProfile)
+                }
+            }
+        }
         listSkillsAdapter?.submitList(dataSkills)
         listSkillsAdapter?.notifyDataSetChanged()
     }
 
     private fun uploadData() {
         if (filePath != null) {
+            Log.d("hasil_update","ini di upload data ${getCurrentUser()?.uid.toString()}")
             showProgressDialog(title = getString(R.string.uploading))
             updateProfileViewModel.putDataAndFile(filePath!!)
         }else{
-            updateProfileViewModel.updateFullDataFreelancer(getCurrentUser()?.uid.toString(), Freelancer(
-                photo = updateProfileViewModel.responseGetMyProfileFreelancer.value?.photo,
-                name = binding.inputNameUpdate.text.toString(),
-                country = binding.inputCountryUpdate.text.toString(),
-                address = binding.inputAddressUpdate.text.toString(),
-                contact = Contact(
-                    telephone = binding.inputTelephoneUpdate.text.toString(),
-                    telegram = binding.inputTelegramUpdate.text.toString()
-                ),
-                portofolio = binding.inputPortofolioUpdate.text.toString(),
-                service = binding.inputServiceUpdate.text.toString(),
-                skills = dataSkills,
-                bio = binding.inputAboutUpdate.text.toString()
-            ))
+            Log.d("hasil_update","ini diluar freelancer dan pelaku usaha ${getCurrentUser()?.uid.toString()}")
+            if(isUserFreelancer(this)){
+                Log.d("hasil_update","ini disini freelancer ${getCurrentUser()?.uid.toString()}")
+                updateProfileViewModel.updateFullDataFreelancer(getCurrentUser()?.uid.toString(), Freelancer(
+                    photo = updateProfileViewModel.responseGetMyProfileFreelancer.value?.photo,
+                    name = binding.inputNameUpdate.text.toString(),
+                    country = binding.inputCountryUpdate.text.toString(),
+                    address = binding.inputAddressUpdate.text.toString(),
+                    contact = Contact(
+                        telephone = binding.inputTelephoneUpdate.text.toString(),
+                        telegram = binding.inputTelegramUpdate.text.toString()
+                    ),
+                    portofolio = binding.inputPortofolioUpdate.text.toString(),
+                    service = binding.inputServiceUpdate.text.toString(),
+                    skills = dataSkills,
+                    bio = binding.inputAboutUpdate.text.toString()
+                ))
+            }else if(isUserBusinessMan(this)){
+                Log.d("hasil_update","ini disini pelaku usaha ${getCurrentUser()?.uid.toString()}")
+                updateProfileViewModel.updateFullDataBusinessMan(getCurrentUser()?.uid.toString(), BusinessMan(
+                    photo = updateProfileViewModel.responseGetMyProfileBusinessMan.value?.photo,
+                    name = binding.inputNameUpdate.text.toString(),
+                    country = binding.inputCountryUpdate.text.toString(),
+                    address = binding.inputAddressUpdate.text.toString(),
+                    contact = Contact(
+                        telephone = binding.inputTelephoneUpdate.text.toString(),
+                        telegram = binding.inputTelegramUpdate.text.toString()
+                    ),
+                    portofolio = binding.inputPortofolioUpdate.text.toString(),
+                    bio = binding.inputAboutUpdate.text.toString()
+                )
+                )
+            }
+
         }
     }
 
     private fun completeValidate(): Boolean{
+        statusCompleteValidate=true
+        var tempStatusComplete: Boolean
         binding.run {
-            statusCompleteValidate= validateRequire(inputNameUpdate.text.toString(), txtInputNameUpdate, getString(R.string.name))
+            tempStatusComplete= validateRequire(inputNameUpdate.text.toString(), txtInputNameUpdate, getString(R.string.name))
+            if(!tempStatusComplete) statusCompleteValidate=false
+            tempStatusComplete= validateRequire(inputAboutUpdate.text.toString(), txtInputAboutUpdate, getString(R.string.about))
+            if(!tempStatusComplete) statusCompleteValidate=false
+            if(isUserFreelancer(this@UpdateProfileActivity)){
+                if(dataSkills.isEmpty()){
+                    setViewToVisible(tvErrorSkillUpdateProfile)
+                    tvErrorSkillUpdateProfile.text = getString(R.string.required,getString(R.string.skill))
+                    statusCompleteValidate=false
+                }else{
+                    setViewToGone(tvErrorSkillUpdateProfile)
+                }
+            }
+
         }
+        Log.d("hasil_get_create","statusCompleteValidate: $statusCompleteValidate")
         return statusCompleteValidate
     }
 }

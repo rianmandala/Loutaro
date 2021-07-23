@@ -3,10 +3,12 @@ package com.example.loutaro.ui.createProject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.loutaro.data.entity.Boards
+import com.example.loutaro.data.entity.BoardsColumn
 import com.example.loutaro.data.entity.MessageResponse
 import com.example.loutaro.data.entity.Project
 import com.example.loutaro.data.source.LoutaroRepository
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
 
 class CreateProjectViewModel(private val loutaroRepository: LoutaroRepository): ViewModel() {
 
@@ -21,6 +23,14 @@ class CreateProjectViewModel(private val loutaroRepository: LoutaroRepository): 
         }.addOnFailureListener {
             responseAddDataProject.postValue(MessageResponse(status = false, response = it.message.toString()))
         }
+    }
+
+    fun getDetailBoards(idBoards: String): DocumentReference {
+        return loutaroRepository.getDetailDataBoards(idBoards)
+    }
+
+    fun updateDataBoards(idBoards: String, dataBoardsColumn: List<BoardsColumn>): Task<Void> {
+        return loutaroRepository.updateBoardsColumn(idBoards,dataBoardsColumn)
     }
 
     fun getDetailProject(idProject: String){

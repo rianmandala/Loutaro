@@ -4,8 +4,20 @@
         android:title="@string/board" />
     <item android:id="@+id/menu_detail_project"
         android:title="@string/detail_project" />
+    <item android:id="@+id/menu_applyers"
+        android:title="@string/applyers" />
+    <item
+        android:id="@+id/menu_start_project"
+        android:title="@string/start_project"/>
+    <item
+        android:id="@+id/menu_project_completed"
+        android:title="@string/project_completed"/>
     <item android:id="@+id/menu_update_project"
         android:title="@string/update_project" />
+    <item
+        android:id="@+id/menu_payment_project"
+        android:title="@string/payment"/>
     <item android:id="@+id/menu_delete_project"
         android:title="@string/delete_project" />
+
 </menu>

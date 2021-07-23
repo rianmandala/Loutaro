@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/margin_size_small"
+    android:paddingBottom="52dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.project.finishProject.FinishProjectFragment">
 

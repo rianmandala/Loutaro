@@ -94,6 +94,9 @@ class NotificationActivity : BaseActivity() {
                         showInfoNoNotification()
                     }
 
+                }else{
+                    Log.d("hasil_get_ongooing","di percabangan ke 0")
+                    showInfoNoNotification()
                 }
             }
         }

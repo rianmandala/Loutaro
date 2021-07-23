@@ -100,4 +100,6 @@ dependencies {
     // recycleview kanban
     compile 'com.github.woxthebox:draglistview:1.7.2'
 
+    // Image from first name
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.withdrawFreelancer.WithdrawFreelancerActivity">
+
+    <ImageView
+        android:id="@+id/img_paypal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/paypal"
+        android:layout_marginTop="@dimen/margin_size_ultra_big"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_tag_info_withdraw_with_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/withdraw_to_your_paypal_email"
+        android:textSize="@dimen/text_size_big"
+        android:textAlignment="center"
+        android:layout_marginTop="@dimen/margin_size_small"
+        android:layout_marginHorizontal="@dimen/margin_size_super_big"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_paypal"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_email_paypal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_marginHorizontal="@dimen/margin_size_small"
+        android:layout_marginTop="@dimen/margin_size_small"
+        app:startIconDrawable="@drawable/ic_baseline_mail_20_for_profile"
+        android:hint="@string/email"
+        app:startIconTint="@color/placeholder"
+        android:textColorHint="@color/placeholder"
+        app:hintTextColor="@color/placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tag_info_withdraw_with_email">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/text_color"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_withdraw_money"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_marginHorizontal="@dimen/margin_size_small"
+        android:layout_marginTop="@dimen/margin_size_small"
+        app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
+        android:hint="@string/amount"
+        app:startIconTint="@color/placeholder"
+        android:textColorHint="@color/placeholder"
+        app:hintTextColor="@color/placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_email_paypal">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/text_color"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_withdraw_monoy"
+        style="@style/ButtonWrap"
+        android:text="@string/yes_withdraw_my_money"
+        android:layout_marginTop="@dimen/margin_size_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_withdraw_money"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import com.example.loutaro.data.entity.*
 import com.example.loutaro.data.source.firebase.FireAuthService
 import com.example.loutaro.data.source.firebase.FireStorageService
 import com.example.loutaro.data.source.firebase.FirestoreService
+import com.google.firebase.Timestamp
 
 class LoutaroRepository {
     companion object{
@@ -49,11 +50,11 @@ class LoutaroRepository {
 
     fun applyAsFreelancerToProject(idProject: String, dataProject: Project)= FirestoreService.applyAsFreelancerToProject(idProject, dataProject)
 
-    fun addMember(idBoards: String, idMember: String)= FirestoreService.addMember(idBoards, idMember)
+    fun addMemberToBoards(idBoards: String, idMember: String)= FirestoreService.addMemberToBoards(idBoards, idMember)
 
     fun addMemberToProject(idProject: String, idMember: String)= FirestoreService.addMemberToProject(idProject, idMember)
 
-    fun removeMemberFromProject(idProject: String, idMember: String)= FirestoreService.removeMemberFromProject(idProject, idMember)
+    fun removeMemberFromProject(idProject: String, project: Project)= FirestoreService.removeMemberFromProject(idProject, project)
 
     fun deleteMemberFromBoards(idBoards: String, idMember: String)= FirestoreService.deleteMemberFromBoards(idBoards, idMember)
 
@@ -63,6 +64,8 @@ class LoutaroRepository {
 
     fun addBoardsColumn(idBoards: String, boardsColumn: BoardsColumn) = FirestoreService.addBoardsColumn(idBoards, boardsColumn)
 
+    fun updateBoards(idBoards: String, boards: Boards) = FirestoreService.updateBoards(idBoards, boards)
+
     fun updateBoardsColumn(idBoards: String, boardsColumn: List<BoardsColumn?>?) = FirestoreService.updateBoardsColumn(idBoards, boardsColumn)
 
     fun getDetailDataBoards(idBoards: String) = FirestoreService.getDetailDataBoards(idBoards)
@@ -71,25 +74,27 @@ class LoutaroRepository {
 
     fun updateDataProject(idProject: String, data: Project) = FirestoreService.updateDataProject(idProject, data)
 
+    fun confirmApplyers(idProject: String, project: Project) = FirestoreService.confirmApplyers(idProject, project)
+
     fun updateSavedProject(id: String, isSaved: Boolean) = FirestoreService.updateSavedProject(id, isSaved)
 
     fun updateIdBoardProject(idProject: String, idBoards: String)= FirestoreService.updateIdBoardProject(idProject, idBoards)
 
     fun getDataProjects() = FirestoreService.getDataProjects()
 
-    fun getDataSavedProject() = FirestoreService.getDataSavedProject()
-
-    fun getDataSavedFreelancer() = FirestoreService.getDataSavedFreelancer()
-
     fun getDetailProject(idProject:String) = FirestoreService.getDetailProject(idProject)
+
+    fun getRealtimeDetailProject(idProject: String) = FirestoreService.getRealtimeDetailProject(idProject)
 
     fun getActiveProjectForFreelancer(idFreelancer: String) = FirestoreService.getActiveProjectForFreelancer(idFreelancer)
 
     fun getActiveProjectForBusinessMan(idBusinessMan: String) = FirestoreService.getActiveProjectForBusinessMan(idBusinessMan)
 
+    fun getPendingProjectForBusinessMan(idBusinessMan: String) = FirestoreService.getPendingProjectForBusinessMan(idBusinessMan)
+
     fun getFinishProjectForFreelancer(idFreelancer: String) = FirestoreService.getFinishProjectForFreelancer(idFreelancer)
 
-    fun getFinishProjectForBusinessMan(idBusinessMan: String) = FirestoreService.getFinishProjectForFreelancer(idBusinessMan)
+    fun getFinishProjectForBusinessMan(idBusinessMan: String) = FirestoreService.getFinishProjectForBusinessMan(idBusinessMan)
 
     fun getSearchProject(titleProject: String) = FirestoreService.getSearchProject(titleProject)
 
@@ -101,5 +106,19 @@ class LoutaroRepository {
 
     fun getDataBusinessManRealtime(id: String) = FirestoreService.getDataBusinessManRealtime(id)
 
-    fun getApplyerFromFreelancer(listIdFreelancer: List<String>) = FirestoreService.getApplyerFromFreelancer(listIdFreelancer)
+    fun getListFreelancerWithListIdFreelancer(listIdFreelancer: List<String>) = FirestoreService.getListFreelancerWithListIdFreelancer(listIdFreelancer)
+
+    fun getListProjectWithListIdProject(listIdProject: List<String>) = FirestoreService.getListProjectWithListIdProject(listIdProject)
+
+    fun confirmPayment(idProject: String) = FirestoreService.confirmPayment(idProject)
+
+    fun projectHasCompleted(idProject: String) = FirestoreService.projectHasCompleted(idProject)
+
+    fun startProject(idProject: String, projectStartDate: Timestamp) = FirestoreService.startProject(idProject, projectStartDate)
+
+    fun updateBalanceFreelancer(idFreelancer: String, balance: Long) = FirestoreService.updateBalanceFreelancer(idFreelancer, balance)
+
+    fun withdrawalMoney(withdrawal: Withdrawal) = FirestoreService.withdrawalMoney(withdrawal)
+
+    fun decreaseBalanceFreelancer(idFreelancer: String, balance: Long) = FirestoreService.decreaseBalanceFreelancer(idFreelancer, balance)
 }

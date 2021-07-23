@@ -3,6 +3,7 @@ package com.example.loutaro.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -49,22 +50,34 @@ class ListTaskPriceAdapter(val idFreelancer: String): ListAdapter<Task, ListTask
 
             if(task.applyers!=null){
                 if(task.applyers!!.contains(idFreelancer)){
-                    btnApplyAsFreelancer.text="You "+ holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1).toLowerCase()
+                    btnApplyAsFreelancer.text=holder.itemView.context.getString(R.string.you_apply_as_freelancer, holder.adapterPosition+1).toLowerCase()
                 }else{
                     btnApplyAsFreelancer.text =holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1)
                 }
             }
 
-            btnApplyAsFreelancer.setOnClickListener {
-                onClickCallback?.invoke(holder.adapterPosition)
-                onApplyCallback={ status: Boolean, freelancer_number: Int ->
-                    if(status){
-                        btnApplyAsFreelancer.text="You "+ holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1).toLowerCase()
-                    }else{
-                        btnApplyAsFreelancer.text= holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1)
+            if(task.selectedApplyers!=null){
+                btnApplyAsFreelancer.text= holder.itemView.context.getString(R.string.applyer_have_been_selected)
+                btnApplyAsFreelancer.setBackgroundColor(ContextCompat.getColor(holder.itemView.context,R.color.secondary_dark))
+                if(task.selectedApplyers == idFreelancer){
+                    btnApplyAsFreelancer.text= holder.itemView.context.getString(R.string.you_have_been_selected)
+                    btnApplyAsFreelancer.setBackgroundColor(ContextCompat.getColor(holder.itemView.context,R.color.secondary))
+                }
+                btnApplyAsFreelancer.isClickable=false
+            }else{
+                btnApplyAsFreelancer.setOnClickListener {
+                    onClickCallback?.invoke(holder.adapterPosition)
+                    onApplyCallback={ status: Boolean, freelancer_number: Int ->
+                        if(status){
+                            btnApplyAsFreelancer.text=holder.itemView.context.getString(R.string.you_apply_as_freelancer, holder.adapterPosition+1).toLowerCase()
+                        }else{
+                            btnApplyAsFreelancer.text= holder.itemView.context.getString(R.string.apply_as_freelancer, holder.adapterPosition+1)
+                        }
                     }
                 }
             }
+
+
         }
     }
 }

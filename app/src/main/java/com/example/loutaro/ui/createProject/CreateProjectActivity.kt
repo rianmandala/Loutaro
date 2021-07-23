@@ -2,6 +2,8 @@ package com.example.loutaro.ui.createProject
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -13,10 +15,7 @@ import com.example.loutaro.R
 import com.example.loutaro.adapter.ListFreelancerNeededAdapter
 import com.example.loutaro.adapter.ListSkillsAdapter
 import com.example.loutaro.data.dummy.Categori
-import com.example.loutaro.data.entity.Boards
-import com.example.loutaro.data.entity.ItemId
-import com.example.loutaro.data.entity.Project
-import com.example.loutaro.data.entity.Task
+import com.example.loutaro.data.entity.*
 import com.example.loutaro.databinding.ActivityCreateProjectBinding
 import com.example.loutaro.databinding.ItemInputSkillBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
@@ -47,6 +46,7 @@ class CreateProjectActivity : BaseActivity() {
     private var statusCompleteValidate= false
 
     private var idProjectAfterUpload: String?=null
+    private var firstLoading=true
 
     private val createProjectViewModel: CreateProjectViewModel by viewModels {
         ViewModelFactory.getInstance()
@@ -83,6 +83,24 @@ class CreateProjectActivity : BaseActivity() {
             rvFreelancerNeeded.layoutManager= LinearLayoutManager(this@CreateProjectActivity)
             rvFreelancerNeeded.adapter= listFreelancerNeededAdapter
 
+            inputCategoryProject.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if(!firstLoading){
+                        dataSkills.clear()
+                        updateDataSkills()
+                    }
+                }
+
+            })
+
             inputNameProject.doAfterTextChanged {
                 validateRequire(it.toString(),txtInputNameProject, getString(R.string.name))
             }
@@ -99,8 +117,13 @@ class CreateProjectActivity : BaseActivity() {
                 validateRequire(it.toString(),txtInputFreelancerNeeded, getString(R.string.freelancer_needed))
             }
 
+            inputDurationInDaysProject.doAfterTextChanged {
+                validateRequire(it.toString(),txtInputDurationInDaysProject, getString(R.string.duration_in_days))
+            }
+
             listFreelancerNeededAdapter.onInputFeeChange={ position: Int, value: String ->
                 taskFreelancer[position].price=value.toInt()
+
             }
             listFreelancerNeededAdapter.onInputTodoChange={ position: Int, todo: MutableList<String> ->
                 taskFreelancer[position].todo=todo
@@ -124,7 +147,15 @@ class CreateProjectActivity : BaseActivity() {
                             listFreelancerNeededAdapter.submitList(listFreelancerNeed)
                             listFreelancerNeededAdapter.notifyDataSetChanged()
                             listFreelancerNeededAdapter.onInputFeeChange={ position: Int, value: String ->
+                                var budgetTotal=0
                                 taskFreelancer[position].price=value.toInt()
+                                taskFreelancer.forEach {task->
+                                    if(task.price!=null){
+                                        budgetTotal+= task.price!!
+                                    }
+                                }
+                                inputBudgetProject.setText(budgetTotal.toString())
+                                Log.d("fee_freelancer","fee 1: $value")
                             }
                             listFreelancerNeededAdapter.onInputTodoChange={ position: Int, todo: MutableList<String> ->
                                 taskFreelancer[position].todo=todo
@@ -140,7 +171,15 @@ class CreateProjectActivity : BaseActivity() {
                                 listFreelancerNeededAdapter.submitList(listFreelancerNeed)
                                 listFreelancerNeededAdapter.notifyItemRangeInserted(oldSize,newSize)
                                 listFreelancerNeededAdapter.onInputFeeChange={ position: Int, value: String ->
+                                    var budgetTotal=0
                                     taskFreelancer[position].price=value.toInt()
+                                    Log.d("fee_freelancer","fee 2: $value")
+                                    taskFreelancer.forEach {task->
+                                        if(task.price!=null){
+                                            budgetTotal+= task.price!!
+                                        }
+                                    }
+                                    inputBudgetProject.setText(budgetTotal.toString())
                                 }
                                 listFreelancerNeededAdapter.onInputTodoChange={ position: Int, todo: MutableList<String> ->
                                     taskFreelancer[position].todo=todo
@@ -155,7 +194,16 @@ class CreateProjectActivity : BaseActivity() {
                                 listFreelancerNeededAdapter.submitList(listFreelancerNeed)
                                 listFreelancerNeededAdapter.notifyItemRangeRemoved(numberFreelancer.toInt(), deleteSize)
                                 listFreelancerNeededAdapter.onInputFeeChange={ position: Int, value: String ->
+                                    var budgetTotal=0
                                     taskFreelancer[position].price=value.toInt()
+                                    taskFreelancer.forEach {task->
+                                        if(task.price!=null){
+                                            budgetTotal+= task.price!!
+                                        }
+                                    }
+                                    inputBudgetProject.setText(budgetTotal.toString())
+                                    Log.d("fee_freelancer","fee3 : $value")
+
                                 }
                                 listFreelancerNeededAdapter.onInputTodoChange={ position: Int, todo: MutableList<String> ->
                                     taskFreelancer[position].todo=todo
@@ -176,6 +224,7 @@ class CreateProjectActivity : BaseActivity() {
 
             inputCategoryProject.setText(resources.getStringArray(R.array.list_service)[0],false)
 
+            firstLoading=false
             binding.cpAddSkillCreateProject.setOnClickListener {
                 var originalSkill= when(binding.inputCategoryProject.text.toString()){
                     resources.getStringArray(R.array.list_service)[0]->{
@@ -252,7 +301,40 @@ class CreateProjectActivity : BaseActivity() {
             createProjectViewModel.responseAddDataProject.observe(this@CreateProjectActivity){
                 if(it.status) {
                     idProjectAfterUpload=it.response
-                    createProjectViewModel.addDataBoards(Boards(name = inputNameProject.text.toString(), createdBy = getCurrentUser()?.uid))
+                    val listBoardsCard= mutableListOf<BoardsCard?>()
+                    if(dataProject.tasks!=null){
+                        for(project in dataProject.tasks!!){
+                            if(project.todo!=null){
+                                for(todo in project.todo!!){
+                                    listBoardsCard.add(
+                                            BoardsCard(name = todo)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    createProjectViewModel.addDataBoards(
+                            Boards(
+                                    name = inputNameProject.text.toString(),
+                                    columns = mutableListOf(
+                                            BoardsColumn(
+                                                    name = "Todo",
+                                                    cards = listBoardsCard
+                                            ),
+                                            BoardsColumn(
+                                                    name = "Doing"
+                                            ),
+                                            BoardsColumn(
+                                                    name = "Review"
+                                            ),
+                                            BoardsColumn(
+                                                    name = "Done"
+                                            )
+                                    ),
+                                    createdBy = getCurrentUser()?.uid
+                            )
+                    )
                 }
                 else showErrorSnackbar(it.response.toString())
             }
@@ -260,41 +342,70 @@ class CreateProjectActivity : BaseActivity() {
 
 
             btnSubmitCreateProject.setOnClickListener {
-//                listFreelancerNeededAdapter.onSubmitClick?.invoke(true)
+                listFreelancerNeededAdapter.onSubmitClick?.invoke(true)
                 if(completeValidate()){
-                    binding.run {
-                        dataProject.idBusinessMan= getCurrentUser()?.uid
-                        dataProject.title= inputNameProject.text.toString()
-                        dataProject.description= inputDescriptionProject.text.toString()
-                        dataProject.category= inputCategoryProject.text.toString()
-                        dataProject.skills = dataSkills
-                        if(inputBudgetProject.text.toString().isNotEmpty()){
-                            dataProject.budget= inputBudgetProject.text.toString().toInt()
+                    var statusFee=true
+                    var statusTask=true
+                    Log.d("taskFreelancer","ini dia $taskFreelancer")
+                    taskFreelancer.forEach {
+                        if(it.price==null){
+                            statusFee=false
                         }
-                        if(inputNumberFreelancer.text.toString().isNotEmpty()){
-                            dataProject.num_freelancer= inputNumberFreelancer.text.toString().toInt()
+                        if(it.todo==null){
+                            statusTask=false
                         }
-                        dataProject.tasks=taskFreelancer
-                        dataProject.isSaved=false
-                        dataProject.statusCompleted=false
-                    }
-                    Log.d("hasil_get_create", "$dataProject")
-                    showProgressDialog(message = getString(R.string.please_wait))
-                    if(idProject!=null){
-                        CoroutineScope(Dispatchers.IO).launch {
-                            try {
-                                createProjectViewModel.updateProject(idProject, dataProject).await()
-                                withContext(Dispatchers.Main){
-                                    closeProgressDialog()
-                                    finish()
-                                }
-                            }catch (e: Exception){
-                                Log.e("error","Error when try to update project")
+                        it.todo?.forEach { item->
+                            if(item==null || item==""){
+                                statusTask=false
                             }
                         }
-                    }else{
-                        createProjectViewModel.addDataProject(dataProject)
                     }
+                    if(!statusFee && !statusTask){
+                        showWarningSnackbar(message = getString(R.string.required,getString(R.string.fee_and_todo)))
+                    }
+                    else if(!statusFee){
+                        showWarningSnackbar(message = getString(R.string.fee_is_required_and_must_greather_than_zero,getString(R.string.fee)))
+                    }else if(!statusTask){
+                        showWarningSnackbar(message = getString(R.string.required,getString(R.string.task)))
+                    }else{
+                        binding.run {
+                            dataProject.idBusinessMan= getCurrentUser()?.uid
+                            dataProject.title= inputNameProject.text.toString()
+                            dataProject.description= inputDescriptionProject.text.toString()
+                            dataProject.category= inputCategoryProject.text.toString()
+                            dataProject.durationInDays = inputDurationInDaysProject.text.toString().toInt()
+                            dataProject.skills = dataSkills
+                            if(inputBudgetProject.text.toString().isNotEmpty()){
+                                dataProject.budget= inputBudgetProject.text.toString().toInt()
+                            }
+                            if(inputNumberFreelancer.text.toString().isNotEmpty()){
+                                dataProject.num_freelancer= inputNumberFreelancer.text.toString().toInt()
+                            }
+                            dataProject.tasks=taskFreelancer
+                            dataProject.statusCompleted=false
+                        }
+                        Log.d("hasil_get_create", "$dataProject")
+                        showProgressDialog(message = getString(R.string.please_wait))
+                        if(idProject!=null){
+                            CoroutineScope(Dispatchers.IO).launch {
+                                try {
+                                    createProjectViewModel.updateProject(idProject, dataProject).await()
+                                    Log.d("hasil_get_create", "berhasil masih ke update $idProject")
+                                    withContext(Dispatchers.Main){
+                                        closeProgressDialog()
+                                        finish()
+                                    }
+                                }catch (e: Exception){
+                                    Log.e("error_update","Error when try to update project")
+                                }
+                            }
+                        }else{
+                            createProjectViewModel.addDataProject(dataProject)
+                        }
+                    }
+
+                }else{
+                    showWarningSnackbar(message = getString(R.string.still_have_data_not_fill))
                 }
             }
         }
@@ -306,6 +417,7 @@ class CreateProjectActivity : BaseActivity() {
                         binding.run {
                             inputNameProject.setText(project.title.toString())
                             inputDescriptionProject.setText(project.description.toString())
+                            inputDurationInDaysProject.setText(project.durationInDays.toString())
                             inputCategoryProject.setText(project.category.toString(), false)
                             dataSkills= project.skills as MutableList<String>
                             updateDataSkills()
@@ -348,7 +460,16 @@ class CreateProjectActivity : BaseActivity() {
     }
 
     private fun updateDataSkills(){
+        binding.run {
+            if(dataSkills.isEmpty()){
+                setViewToVisible(tvErrorSkill)
+                tvErrorSkill.text = getString(R.string.required,"Skill")
+            }else{
+                setViewToGone(tvErrorSkill)
+            }
+        }
         listSkillsAdapter?.submitList(dataSkills)
+        listSkillsAdapter?.notifyDataSetChanged()
     }
 
     fun hideSoftKeyboard(activity: Activity) {
@@ -374,6 +495,15 @@ class CreateProjectActivity : BaseActivity() {
             if(!tempStatusComplete) statusCompleteValidate=false
             tempStatusComplete= validateRequire(inputCategoryProject.text.toString(), txtInputCategoryProject, getString(R.string.category))
             if(!tempStatusComplete) statusCompleteValidate=false
+            tempStatusComplete= validateRequire(inputDurationInDaysProject.text.toString(), txtInputDurationInDaysProject, getString(R.string.duration_in_days))
+            if(!tempStatusComplete) statusCompleteValidate=false
+            if(dataSkills.isEmpty()){
+                setViewToVisible(tvErrorSkill)
+                tvErrorSkill.text = getString(R.string.required,"Skill")
+                statusCompleteValidate=false
+            }else{
+                setViewToGone(tvErrorSkill)
+            }
         }
         Log.d("hasil_get_create","statusCompleteValidate: $statusCompleteValidate")
         return statusCompleteValidate

@@ -6,7 +6,6 @@ import com.example.loutaro.data.entity.Boards
 import com.example.loutaro.data.source.LoutaroRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 
 class AddMemberViewModel(private val loutaroRepository: LoutaroRepository): ViewModel() {
 
@@ -17,7 +16,7 @@ class AddMemberViewModel(private val loutaroRepository: LoutaroRepository): View
     }
 
     fun addMemberToBoards(idboards: String, idMember: String): Task<Void> {
-        return loutaroRepository.addMember(idboards, idMember)
+        return loutaroRepository.addMemberToBoards(idboards, idMember)
     }
 
     fun addMemberToProject(idProject: String, idMember: String): Task<Void> {

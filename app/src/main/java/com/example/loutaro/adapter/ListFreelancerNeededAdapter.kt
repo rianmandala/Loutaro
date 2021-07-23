@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,10 +62,6 @@ class ListFreelancerNeededAdapter(private var taskFreelancer: MutableList<Task>)
 
             inputFreelancerFee.setText(item.price.toString())
 
-            inputFreelancerFee.doAfterTextChanged {
-                validateRequire(it.toString(),txtInputFreelancerFee, holder.itemView.context.getString(R.string.fee), holder.itemView.context)
-            }
-
             rvFreelancerNeededTask.layoutManager = LinearLayoutManager(holder.itemView.context)
             rvFreelancerNeededTask.adapter = adapter
             adapter.submitList(listTodo)
@@ -79,14 +76,14 @@ class ListFreelancerNeededAdapter(private var taskFreelancer: MutableList<Task>)
                 if(it){
                     validateRequire(inputFreelancerFee.text.toString(),txtInputFreelancerFee, holder.itemView.context.getString(R.string.fee), holder.itemView.context)
                 }
-
                 adapter.onSubmitNeedClick?.invoke(true)
             }
 
             inputFreelancerFee.doAfterTextChanged {
-                if(it?.trim()?.isNotEmpty() == true){
+                if(it.toString() != ""){
                     onInputFeeChange?.invoke(holder.adapterPosition, it.toString())
                 }
+                validateRequire(it.toString(),txtInputFreelancerFee, holder.itemView.context.getString(R.string.fee), holder.itemView.context)
             }
 
             adapter.onTodoChange={ position: Int, value: String ->
