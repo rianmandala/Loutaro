@@ -166,6 +166,7 @@
     <string name="wait_admin_confirmation_withdrawal">Withdrawal is successful, please wait for admin confirmation</string>
     <string name="sorry_your_withdrawa_bigger_than_balance">Sorry, your withdrawal amount is bigger than your balance</string>
     <string name="sorry_you_do_not_have_the_authority_to_move_this_task">Sorry, you do not have the authority to move this task</string>
+    <string name="sorry_you_do_not_have_the_authority_to_move_this_task_to_column_done">Sorry, you do not have the authority to move this task to column done</string>
     <string name="due_date">Due date</string>
     <string name="duration_in_days">Duration in days</string>
     <string name="project_deadline">Project deadline</string>
@@ -191,6 +192,7 @@
     <string name="are_you_sure_want_to_delete_this_comment">Are you sure want to delete this comment ?</string>
     <string name="comment">Comment</string>
     <string name="edit_comment">Edit comment</string>
+    <string name="sorry_you_do_not_have_authority_to_see_detail_this_task">Sorry, you do not have the authority to see the details of this task</string>
     <string-array name="list_service" translatable="false">
         <item>design</item>
         <item>data science</item>

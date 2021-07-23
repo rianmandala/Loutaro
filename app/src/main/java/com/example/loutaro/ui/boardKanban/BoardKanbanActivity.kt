@@ -54,6 +54,9 @@ class BoardKanbanActivity : BaseActivity() {
     private val mGridLayout = false
     private var oldColumnPositionGlobal=0
     private var newColumnPositionGlobal=0
+
+    private var columnPositionFromCanDropEvent:Int?=null
+
     var idBoardsGlobal=""
     var idProjectGlobal=""
     lateinit var detailProject: Project
@@ -135,9 +138,6 @@ class BoardKanbanActivity : BaseActivity() {
                         }
                         job.join()
                     }
-                    if(getUserTypeLogin() == getString(R.string.value_business_man)){
-                        addColumn()
-                    }
                 }else{
                     addColumn()
                 }
@@ -182,6 +182,7 @@ class BoardKanbanActivity : BaseActivity() {
                 } else if (fromRow != toRow) {
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
+
                             val itemList = mBoardView.getAdapter(fromColumn).itemList as ArrayList<Pair<Long?, String?>?>?
                             val newCard = itemList?.map {
                                 it?.second
@@ -299,9 +300,16 @@ class BoardKanbanActivity : BaseActivity() {
 
             override fun canDropItemAtPosition(oldColumn: Int, oldRow: Int, newColumn: Int, newRow: Int): Boolean {
                 // Add logic here to prevent an item to be dropped
-                val isInit = mBoardView.getHeaderView(newColumn).findViewById<TextView>(R.id.tv_tag_list_card_name)
-                if (isInit.visibility == View.GONE) return true
-                return false
+//                val isInit = mBoardView.getHeaderView(newColumn).findViewById<TextView>(R.id.tv_tag_list_card_name)
+//                if (isInit.visibility == View.GONE) return true
+                columnPositionFromCanDropEvent=null
+                if(isUserFreelancer()){
+                    if(newColumn == mBoardView.columnCount-1){
+                        columnPositionFromCanDropEvent=newColumn
+                        return false
+                    }
+                }
+                return true
             }
 
         })
@@ -322,20 +330,20 @@ class BoardKanbanActivity : BaseActivity() {
         val footer = ColumnFooterBinding.inflate(layoutInflater)
         footer.itemLayout.visibility= View.GONE
 
-        if(getUserTypeLogin() == getString(R.string.value_business_man)){
-            header.itemLayout.setOnClickListener { v ->
-                header.edtListCardName.visibility = View.VISIBLE
-                header.edtListCardName.editText?.setText(header.tvListCardName.text)
-                header.tvListCardName.visibility= View.GONE
-                header.edtListCardName.editText?.setText(header.tvListCardName.text)
-                header.imgBtnDeleteBoardColumn.visibility= View.GONE
-                header.edtListCardName.requestFocus()
-                //mBoardView.moveItem(4, 0, 0, true);
-                //mBoardView.removeItem(column, 0);
-                //mBoardView.moveItem(0, 0, 1, 3, false);
-                //mBoardView.replaceItem(0, 0, item1, true);
-            }
-        }
+//        if(getUserTypeLogin() == getString(R.string.value_business_man)){
+//            header.itemLayout.setOnClickListener { v ->
+//                header.edtListCardName.visibility = View.VISIBLE
+//                header.edtListCardName.editText?.setText(header.tvListCardName.text)
+//                header.tvListCardName.visibility= View.GONE
+//                header.edtListCardName.editText?.setText(header.tvListCardName.text)
+////                header.imgBtnDeleteBoardColumn.visibility= View.GONE
+//                header.edtListCardName.requestFocus()
+//                //mBoardView.moveItem(4, 0, 0, true);
+//                //mBoardView.removeItem(column, 0);
+//                //mBoardView.moveItem(0, 0, 1, 3, false);
+//                //mBoardView.replaceItem(0, 0, item1, true);
+//            }
+//        }
 
         header.imgBtnDeleteBoardColumn.setOnClickListener {
             try {
@@ -398,7 +406,7 @@ class BoardKanbanActivity : BaseActivity() {
 //                    footer.itemLayout.visibility = View.VISIBLE
                     header.edtListCardName.visibility = View.INVISIBLE
                     header.tvListCardName.visibility= View.VISIBLE
-                    header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
+//                    header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
 //                    hideSoftKeyboard(this@BoardKanbanActivity)
                 }else{
                     header.edtListCardName.visibility = View.INVISIBLE
@@ -414,7 +422,7 @@ class BoardKanbanActivity : BaseActivity() {
             header.edtListCardName.visibility = View.INVISIBLE
             header.tvListCardName.visibility= View.VISIBLE
             if(header.tvListCardName.text.isNotEmpty()){
-                header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
+//                header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
             }
             header.edtListCardName.editText?.setText("Add list")
 //            hideSoftKeyboard(this@BoardKanbanActivity)
@@ -452,7 +460,7 @@ class BoardKanbanActivity : BaseActivity() {
 //                footer.itemLayout.visibility = View.VISIBLE
                 header.edtListCardName.visibility = View.INVISIBLE
                 header.tvListCardName.visibility= View.VISIBLE
-                header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
+//                header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
 
             }else{
                 header.edtListCardName.visibility = View.INVISIBLE
@@ -541,7 +549,7 @@ class BoardKanbanActivity : BaseActivity() {
 
         if(nameColumn!=""){
             header.tvListCardName.visibility=View.VISIBLE
-            header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
+//            header.imgBtnDeleteBoardColumn.visibility= View.VISIBLE
             header.tvListCardName.text=nameColumn
             header.tvTagListCardName.visibility = View.GONE
 //            footer.itemLayout.visibility = View.VISIBLE
@@ -549,11 +557,11 @@ class BoardKanbanActivity : BaseActivity() {
 
         if(getUserTypeLogin() == getString(R.string.value_business_man)){
             if(nameColumn!=""){
-                setViewToVisible(header.imgBtnDeleteBoardColumn)
+//                setViewToVisible(header.imgBtnDeleteBoardColumn)
             }
             header.itemLayout.isClickable=true
         }else if(getUserTypeLogin() == getString(R.string.value_freelancer)){
-            setViewToInvisible(header.imgBtnDeleteBoardColumn)
+//            setViewToInvisible(header.imgBtnDeleteBoardColumn)
             header.itemLayout.isClickable=false
         }
 
@@ -586,12 +594,30 @@ class BoardKanbanActivity : BaseActivity() {
                         val listAdapter = ItemAdapter(mItemArray, R.layout.column_item, R.id.item_layout, true)
                         listAdapter.onCardClickCallback={ row->
                             Log.d("card_click", "column ke: ${mBoardView.focusedColumn} dan row : $row")
-                            val detailCardIntent = Intent(this@BoardKanbanActivity, DetailCardActivity::class.java)
-                            detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_BOARD, idBoardsGlobal)
-                            detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_PROJECT, idProjectGlobal)
-                            detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_COLUMN, mBoardView.focusedColumn)
-                            detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_ROW, row)
-                            startActivityForResult(detailCardIntent, EXTRA_REQUEST)
+                            if(isUserBusinessMan()){
+                                val detailCardIntent = Intent(this@BoardKanbanActivity, DetailCardActivity::class.java)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_BOARD, idBoardsGlobal)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_PROJECT, idProjectGlobal)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_COLUMN, mBoardView.focusedColumn)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_ROW, row)
+                                startActivityForResult(detailCardIntent, EXTRA_REQUEST)
+                            }else{
+                                if(listBoardsColumnGlobal?.get(mBoardView.focusedColumn)?.cards?.get(row)?.member!=null){
+                                    if(listBoardsColumnGlobal?.get(mBoardView.focusedColumn)?.cards?.get(row)?.member==getCurrentUser()?.uid.toString()){
+                                        val detailCardIntent = Intent(this@BoardKanbanActivity, DetailCardActivity::class.java)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_BOARD, idBoardsGlobal)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_PROJECT, idProjectGlobal)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_COLUMN, mBoardView.focusedColumn)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_ROW, row)
+                                        startActivityForResult(detailCardIntent, EXTRA_REQUEST)
+                                    }else{
+                                        showWarningSnackbar(message = getString(R.string.sorry_you_do_not_have_authority_to_see_detail_this_task))
+                                    }
+                                }else{
+                                    showWarningSnackbar(message = getString(R.string.sorry_you_do_not_have_authority_to_see_detail_this_task))
+                                }
+                            }
+
                         }
                         val layoutManager = if (mGridLayout) GridLayoutManager(this@BoardKanbanActivity, 4) else LinearLayoutManager(this@BoardKanbanActivity)
                         val columnProperties = ColumnProperties.Builder.newBuilder(listAdapter)
@@ -612,6 +638,33 @@ class BoardKanbanActivity : BaseActivity() {
 
                     withContext(Dispatchers.Main){
                         val listAdapter = ItemAdapter(mItemArray, R.layout.column_item, R.id.item_layout, true)
+                        listAdapter.onCardClickCallback={ row->
+                            Log.d("card_click", "column ke: ${mBoardView.focusedColumn} dan row : $row")
+                            if(isUserBusinessMan()){
+                                val detailCardIntent = Intent(this@BoardKanbanActivity, DetailCardActivity::class.java)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_BOARD, idBoardsGlobal)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_PROJECT, idProjectGlobal)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_COLUMN, mBoardView.focusedColumn)
+                                detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_ROW, row)
+                                startActivityForResult(detailCardIntent, EXTRA_REQUEST)
+                            }else{
+                                if(listBoardsColumnGlobal?.get(mBoardView.focusedColumn)?.cards?.get(row)?.member!=null){
+                                    if(listBoardsColumnGlobal?.get(mBoardView.focusedColumn)?.cards?.get(row)?.member==getCurrentUser()?.uid.toString()){
+                                        val detailCardIntent = Intent(this@BoardKanbanActivity, DetailCardActivity::class.java)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_BOARD, idBoardsGlobal)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_ID_PROJECT, idProjectGlobal)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_COLUMN, mBoardView.focusedColumn)
+                                        detailCardIntent.putExtra(DetailCardActivity.EXTRA_POSITION_ROW, row)
+                                        startActivityForResult(detailCardIntent, EXTRA_REQUEST)
+                                    }else{
+                                        showWarningSnackbar(message = getString(R.string.sorry_you_do_not_have_authority_to_see_detail_this_task))
+                                    }
+                                }else{
+                                    showWarningSnackbar(message = getString(R.string.sorry_you_do_not_have_authority_to_see_detail_this_task))
+                                }
+                            }
+
+                        }
                         val layoutManager = if (mGridLayout) GridLayoutManager(this@BoardKanbanActivity, 4) else LinearLayoutManager(this@BoardKanbanActivity)
                         val columnProperties = ColumnProperties.Builder.newBuilder(listAdapter)
                                 .setLayoutManager(layoutManager)
@@ -760,6 +813,36 @@ class BoardKanbanActivity : BaseActivity() {
                         val item: Pair<*, *> = Pair(id, cardName)
                         mBoardView.replaceItem(boardColumnPosition, boardCardPosition, item, false)
                     }
+                }
+            }else if(resultCode==DetailCardActivity.EXTRA_RESULT_CODE_MOVE_TO_DOING){
+                val boardCardPosition = data?.getIntExtra(DetailCardActivity.EXTRA_POSITION_ROW, -1)
+                if(boardCardPosition!=null && boardCardPosition!=-1 ){
+                    mBoardView.moveItem(0,boardCardPosition,1,0,false)
+                }
+            }else if(resultCode==DetailCardActivity.EXTRA_RESULT_CODE_BACK_TO_TODO){
+                val boardCardPosition = data?.getIntExtra(DetailCardActivity.EXTRA_POSITION_ROW, -1)
+                if(boardCardPosition!=null && boardCardPosition!=-1 ){
+                    mBoardView.moveItem(1,boardCardPosition,0,0,false)
+                }
+            }else if(resultCode==DetailCardActivity.EXTRA_RESULT_CODE_REQUEST_TO_REVIEW){
+                val boardCardPosition = data?.getIntExtra(DetailCardActivity.EXTRA_POSITION_ROW, -1)
+                if(boardCardPosition!=null && boardCardPosition!=-1 ){
+                    mBoardView.moveItem(1,boardCardPosition,2,0,false)
+                }
+            }else if(resultCode==DetailCardActivity.EXTRA_RESULT_CODE_CANCEL_TO_REVIEW){
+                val boardCardPosition = data?.getIntExtra(DetailCardActivity.EXTRA_POSITION_ROW, -1)
+                if(boardCardPosition!=null && boardCardPosition!=-1 ){
+                    mBoardView.moveItem(2,boardCardPosition,1,0,false)
+                }
+            }else if(resultCode==DetailCardActivity.EXTRA_RESULT_CODE_APPROVE_TASK){
+                val boardCardPosition = data?.getIntExtra(DetailCardActivity.EXTRA_POSITION_ROW, -1)
+                if(boardCardPosition!=null && boardCardPosition!=-1 ){
+                    mBoardView.moveItem(2,boardCardPosition,3,0,false)
+                }
+            }else if(resultCode==DetailCardActivity.EXTRA_RESULT_CODE_REJECT_TASK){
+                val boardCardPosition = data?.getIntExtra(DetailCardActivity.EXTRA_POSITION_ROW, -1)
+                if(boardCardPosition!=null && boardCardPosition!=-1 ){
+                    mBoardView.moveItem(2,boardCardPosition,1,0,false)
                 }
             }
         }

@@ -181,6 +181,8 @@
     <string name="are_you_sure_want_to_delete_this_comment">Apakah Anda yakin ingin menghapus komentar ini ini?</string>
     <string name="comment">Komentar</string>
     <string name="edit_comment">Edit komentar</string>
+    <string name="sorry_you_do_not_have_authority_to_see_detail_this_task">Maaf, Anda tidak memiliki wewenang untuk melihat detail tugas ini</string>
+    <string name="sorry_you_do_not_have_the_authority_to_move_this_task_to_column_done">Maaf, Anda tidak memiliki wewenang untuk memindahkan tugas ini ke kolom selesai</string>
 
     <string-array name="external_error">
         <item name="email_address_is_badly_formatted">Maaf alamat email Anda diformat dengan buruk</item>

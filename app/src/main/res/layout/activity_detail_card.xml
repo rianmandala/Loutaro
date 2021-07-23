@@ -152,6 +152,8 @@
                     android:id="@+id/cv_img_avatar_member"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/rounded_corner"
                     android:layout_marginStart="@dimen/margin_size_small">
                     <ImageView

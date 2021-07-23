@@ -25,6 +25,7 @@ import com.example.loutaro.databinding.ActivityDetailCardBinding
 import com.example.loutaro.databinding.AttachALinkBinding
 import com.example.loutaro.databinding.EditCommentBinding
 import com.example.loutaro.ui.baseActivity.BaseActivity
+import com.example.loutaro.ui.freelancerDetail.FreelancerDetailActivity
 import com.example.loutaro.viewmodel.ViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
@@ -64,6 +65,12 @@ class DetailCardActivity : BaseActivity() {
         const val EXTRA_CARD_ROW="EXTRA_CARD_ROW"
         const val EXTRA_CARD_NAME="EXTRA_CARD_NAME"
         const val EXTRA_STATUS_DELETE="EXTRA_STATUS_DELETE"
+        const val EXTRA_RESULT_CODE_MOVE_TO_DOING=1235
+        const val EXTRA_RESULT_CODE_BACK_TO_TODO=1236
+        const val EXTRA_RESULT_CODE_REQUEST_TO_REVIEW=1237
+        const val EXTRA_RESULT_CODE_CANCEL_TO_REVIEW=1238
+        const val EXTRA_RESULT_CODE_APPROVE_TASK=1239
+        const val EXTRA_RESULT_CODE_REJECT_TASK=1230
     }
 
     @ExperimentalTime
@@ -72,19 +79,23 @@ class DetailCardActivity : BaseActivity() {
         binding = ActivityDetailCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        listAttachments =  ListAttachments(getCurrentUser()?.uid.toString())
-        listActivityChatGroupInCard = ListActivityChatGroupInCard(getCurrentUser()?.uid.toString())
+
         setToolbarTitle(getString(R.string.card_details))
         activatedToolbarBackButton()
         initTinyDB(this)
         supportActionBar?.elevation = 0F
+        listAttachments =  ListAttachments(getCurrentUser()?.uid.toString())
 
+        if(isUserBusinessMan()){
+            listActivityChatGroupInCard = ListActivityChatGroupInCard(getCurrentUser()?.uid.toString())
+            binding.rvActivityChatGroup.layoutManager = LinearLayoutManager(this@DetailCardActivity)
+            binding.rvActivityChatGroup.adapter = listActivityChatGroupInCard
+        }
          idBoards = intent.getStringExtra(EXTRA_ID_BOARD).toString()
          idProject = intent.getStringExtra(EXTRA_ID_PROJECT).toString()
          positionColumn= intent.getIntExtra(EXTRA_POSITION_COLUMN, 0)
          positionRow= intent.getIntExtra(EXTRA_POSITION_ROW, 0)
 
-        setViewToGone(binding.edtChatMessage)
 
         CoroutineScope(Dispatchers.IO).launch {
             val response = detailCardViewModel.getDetailProject(idProject).await()
@@ -106,8 +117,6 @@ class DetailCardActivity : BaseActivity() {
                 detailCardViewModel.responseGetDetailBoards.observe(this@DetailCardActivity){ boards->
                     detailBoard = boards
                     binding.run {
-
-
                         val attachLink = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.attachLink
                         if(attachLink != null){
                             listAttachments.submitList(detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.attachLink)
@@ -119,14 +128,6 @@ class DetailCardActivity : BaseActivity() {
                             }
                         }else{
                             setViewToGone(parentLayoutTagAttactALink, dividerAttactTagALink, rvAttachments, dividerAttachments)
-                        }
-
-                        if(detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity!=null){
-                            setViewToVisible(rvActivityChatGroup)
-                            listActivityChatGroupInCard.submitList(detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity)
-                            listActivityChatGroupInCard.notifyDataSetChanged()
-                        }else{
-                            setViewToGone(rvActivityChatGroup)
                         }
 
 
@@ -158,10 +159,85 @@ class DetailCardActivity : BaseActivity() {
 
                         val member = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.member
                         if(member != null){
+                            if(isUserFreelancer()){
+                                listActivityChatGroupInCard = ListActivityChatGroupInCard(member)
+                                rvActivityChatGroup.layoutManager = LinearLayoutManager(this@DetailCardActivity)
+                                rvActivityChatGroup.adapter = listActivityChatGroupInCard
+
+                                listActivityChatGroupInCard.onEditClickCallback={ activity->
+                                    val editCommentView = EditCommentBinding.inflate(layoutInflater)
+                                    editCommentView.inputNameEditMessage.setText(activity.message)
+
+                                    val attachLinkDialogBuilder = MaterialAlertDialogBuilder(this@DetailCardActivity)
+                                    attachLinkDialogBuilder.setTitle(getString(R.string.edit_comment))
+                                    attachLinkDialogBuilder.setView(editCommentView.root)
+                                    attachLinkDialogBuilder.setPositiveButton(getString(R.string.ok)){ dialogInterface: DialogInterface, i: Int ->
+
+                                    }
+                                    attachLinkDialogBuilder.setNegativeButton(getString(R.string.cancel)){ dialogInterface: DialogInterface, i: Int ->
+
+                                    }
+
+                                    val dialogBuilder = attachLinkDialogBuilder.create()
+                                    dialogBuilder.show()
+
+                                    dialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                                        val isValidateName = validateRequire(field = editCommentView.inputNameEditMessage.text.toString().trim(), editCommentView.txtInputEditMessage, getString(R.string.comment))
+                                        if(isValidateName){
+                                            val indexFound = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.indexOf(activity)
+                                            if(indexFound!=null && indexFound!=-1){
+                                                detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.set(indexFound, Activity(
+                                                        name = activity.name,
+                                                        photo = activity.photo,
+                                                        idUser = activity.idUser,
+                                                        message = editCommentView.inputNameEditMessage.text.toString(),
+                                                ))
+                                            }
+
+                                            Log.d("hasil_link","ini ${detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity}")
+                                            detailCardViewModel.updateDataBoardsColumns(idBoards,detailBoard.columns as List<BoardsColumn>)
+                                            dialogBuilder.dismiss()
+                                        }
+
+                                    }
+                                }
+
+
+
+                                listActivityChatGroupInCard.onDeleteClickCallback={
+                                    MaterialAlertDialogBuilder(this@DetailCardActivity)
+                                            .setMessage(getString(R.string.are_you_sure_want_to_delete_this_comment))
+                                            .setPositiveButton(getString(R.string.ok)){ dialogInterface: DialogInterface, i: Int ->
+                                                CoroutineScope(Dispatchers.IO).launch {
+                                                    try{
+                                                        detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.remove(it)
+                                                        Log.d("data_board","ini dia ${detailBoard.columns}")
+                                                        detailCardViewModel.updateDataBoardsColumns(idBoards,detailBoard.columns as List<BoardsColumn>).await()
+                                                    }catch(e: Exception){
+                                                        showWarningSnackbar(message = "error ${e.message}")
+                                                    }
+                                                }
+                                            }
+                                            .setNegativeButton(getString(R.string.cancel)){ dialogInterface: DialogInterface, i: Int ->
+
+                                            }
+                                            .show()
+                                }
+                            }
+
+                            if(detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity!=null){
+                                setViewToVisible(rvActivityChatGroup)
+                                listActivityChatGroupInCard.submitList(detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity)
+                                listActivityChatGroupInCard.notifyDataSetChanged()
+                            }else{
+                                setViewToGone(rvActivityChatGroup)
+                            }
+
                             CoroutineScope(Dispatchers.IO).launch {
                                 try {
                                     val responseMemberFreelancer = detailCardViewModel.getDetailFreelancer(member).await()
                                     freelancerMember = responseMemberFreelancer.toObject(Freelancer::class.java)
+                                    freelancerMember?.idFreelancer=member
                                     withContext(Dispatchers.Main){
                                         val drawable = TextDrawable.builder()
                                                 .buildRect("${freelancerMember?.name?.get(0)}", ContextCompat.getColor(this@DetailCardActivity, R.color.secondary))
@@ -172,8 +248,12 @@ class DetailCardActivity : BaseActivity() {
                                         }else{
                                             imgAvatarMember.setImageDrawable(drawable)
                                         }
+                                        imgAvatarMember.setOnClickListener {
+                                            val detailFreelancerIntent = Intent(this@DetailCardActivity, FreelancerDetailActivity::class.java)
+                                            detailFreelancerIntent.putExtra(FreelancerDetailActivity.EXTRA_ID_FREELANCER, member)
+                                            startActivity(detailFreelancerIntent)
+                                        }
                                         setViewToVisible(cvImgAvatarMember)
-                                        setViewToVisible(edtChatMessage)
 
                                     }
 
@@ -193,9 +273,6 @@ class DetailCardActivity : BaseActivity() {
 
                     rvAttachments.layoutManager = LinearLayoutManager(this@DetailCardActivity)
                     rvAttachments.adapter = listAttachments
-
-                    rvActivityChatGroup.layoutManager = LinearLayoutManager(this@DetailCardActivity)
-                    rvActivityChatGroup.adapter = listActivityChatGroupInCard
 
                     edtChatMessage.setEndIconOnClickListener {
                         if(edtChatMessage.editText?.text?.trim()?.isNotEmpty() == true){
@@ -451,44 +528,6 @@ class DetailCardActivity : BaseActivity() {
             }
         }
 
-        listActivityChatGroupInCard.onEditClickCallback={ activity->
-            val editCommentView = EditCommentBinding.inflate(layoutInflater)
-            editCommentView.inputNameEditMessage.setText(activity.message)
-
-            val attachLinkDialogBuilder = MaterialAlertDialogBuilder(this@DetailCardActivity)
-            attachLinkDialogBuilder.setTitle(getString(R.string.edit_comment))
-            attachLinkDialogBuilder.setView(editCommentView.root)
-            attachLinkDialogBuilder.setPositiveButton(getString(R.string.ok)){ dialogInterface: DialogInterface, i: Int ->
-
-            }
-            attachLinkDialogBuilder.setNegativeButton(getString(R.string.cancel)){ dialogInterface: DialogInterface, i: Int ->
-
-            }
-
-            val dialogBuilder = attachLinkDialogBuilder.create()
-            dialogBuilder.show()
-
-            dialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                val isValidateName = validateRequire(field = editCommentView.inputNameEditMessage.text.toString().trim(), editCommentView.txtInputEditMessage, getString(R.string.comment))
-                if(isValidateName){
-                    val indexFound = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.indexOf(activity)
-                    if(indexFound!=null && indexFound!=-1){
-                        detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.set(indexFound, Activity(
-                                name = activity.name,
-                                photo = activity.photo,
-                                idUser = activity.idUser,
-                                message = editCommentView.inputNameEditMessage.text.toString(),
-                        ))
-                    }
-
-                    Log.d("hasil_link","ini ${detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity}")
-                    detailCardViewModel.updateDataBoardsColumns(idBoards,detailBoard.columns as List<BoardsColumn>)
-                    dialogBuilder.dismiss()
-                }
-
-            }
-        }
-
         listAttachments.onDeleteClickCallback={
             MaterialAlertDialogBuilder(this@DetailCardActivity)
                     .setMessage(getString(R.string.are_you_sure_want_to_delete_this_attachment))
@@ -502,32 +541,98 @@ class DetailCardActivity : BaseActivity() {
                     .show()
         }
 
-        listActivityChatGroupInCard.onDeleteClickCallback={
-            MaterialAlertDialogBuilder(this@DetailCardActivity)
-                    .setMessage(getString(R.string.are_you_sure_want_to_delete_this_comment))
-                    .setPositiveButton(getString(R.string.ok)){ dialogInterface: DialogInterface, i: Int ->
-                        CoroutineScope(Dispatchers.IO).launch {
-                            try{
-                                detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.remove(it)
-                                Log.d("data_board","ini dia ${detailBoard.columns}")
-                                detailCardViewModel.updateDataBoardsColumns(idBoards,detailBoard.columns as List<BoardsColumn>).await()
-                            }catch(e: Exception){
-                                showWarningSnackbar(message = "error ${e.message}")
+        if(isUserBusinessMan()){
+            listActivityChatGroupInCard.onEditClickCallback={ activity->
+                val editCommentView = EditCommentBinding.inflate(layoutInflater)
+                editCommentView.inputNameEditMessage.setText(activity.message)
+
+                val attachLinkDialogBuilder = MaterialAlertDialogBuilder(this@DetailCardActivity)
+                attachLinkDialogBuilder.setTitle(getString(R.string.edit_comment))
+                attachLinkDialogBuilder.setView(editCommentView.root)
+                attachLinkDialogBuilder.setPositiveButton(getString(R.string.ok)){ dialogInterface: DialogInterface, i: Int ->
+
+                }
+                attachLinkDialogBuilder.setNegativeButton(getString(R.string.cancel)){ dialogInterface: DialogInterface, i: Int ->
+
+                }
+
+                val dialogBuilder = attachLinkDialogBuilder.create()
+                dialogBuilder.show()
+
+                dialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                    val isValidateName = validateRequire(field = editCommentView.inputNameEditMessage.text.toString().trim(), editCommentView.txtInputEditMessage, getString(R.string.comment))
+                    if(isValidateName){
+                        val indexFound = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.indexOf(activity)
+                        if(indexFound!=null && indexFound!=-1){
+                            detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.set(indexFound, Activity(
+                                    name = activity.name,
+                                    photo = activity.photo,
+                                    idUser = activity.idUser,
+                                    message = editCommentView.inputNameEditMessage.text.toString(),
+                            ))
+                        }
+
+                        Log.d("hasil_link","ini ${detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity}")
+                        detailCardViewModel.updateDataBoardsColumns(idBoards,detailBoard.columns as List<BoardsColumn>)
+                        dialogBuilder.dismiss()
+                    }
+
+                }
+            }
+
+
+
+            listActivityChatGroupInCard.onDeleteClickCallback={
+                MaterialAlertDialogBuilder(this@DetailCardActivity)
+                        .setMessage(getString(R.string.are_you_sure_want_to_delete_this_comment))
+                        .setPositiveButton(getString(R.string.ok)){ dialogInterface: DialogInterface, i: Int ->
+                            CoroutineScope(Dispatchers.IO).launch {
+                                try{
+                                    detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)?.activity?.remove(it)
+                                    Log.d("data_board","ini dia ${detailBoard.columns}")
+                                    detailCardViewModel.updateDataBoardsColumns(idBoards,detailBoard.columns as List<BoardsColumn>).await()
+                                }catch(e: Exception){
+                                    showWarningSnackbar(message = "error ${e.message}")
+                                }
                             }
                         }
-                    }
-                    .setNegativeButton(getString(R.string.cancel)){ dialogInterface: DialogInterface, i: Int ->
+                        .setNegativeButton(getString(R.string.cancel)){ dialogInterface: DialogInterface, i: Int ->
 
-                    }
-                    .show()
+                        }
+                        .show()
+            }
         }
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        if(getUserTypeLogin() == getString(R.string.value_business_man)){
-//            menuInflater.inflate(R.menu.card_detail_menu_options, menu)
-//        }
+        if(isUserBusinessMan()){
+            if(positionColumn==2){
+                menuInflater.inflate(R.menu.card_detail_menu_options, menu)
+                menu?.findItem(R.id.move_to_column_doing)?.isVisible=false
+                menu?.findItem(R.id.back_to_column_todo)?.isVisible=false
+                menu?.findItem(R.id.request_to_review)?.isVisible=false
+                menu?.findItem(R.id.cancel_to_review)?.isVisible=false
+                menu?.findItem(R.id.approve_task)?.isVisible=true
+                menu?.findItem(R.id.reject_task)?.isVisible=true
+            }
+        }else{
+            menuInflater.inflate(R.menu.card_detail_menu_options, menu)
+            menu?.findItem(R.id.move_to_column_doing)?.isVisible=false
+            menu?.findItem(R.id.back_to_column_todo)?.isVisible=false
+            menu?.findItem(R.id.request_to_review)?.isVisible=false
+            menu?.findItem(R.id.cancel_to_review)?.isVisible=false
+            menu?.findItem(R.id.approve_task)?.isVisible=false
+            menu?.findItem(R.id.reject_task)?.isVisible=false
+            if(positionColumn==0){
+                menu?.findItem(R.id.move_to_column_doing)?.isVisible=true
+            }else if(positionColumn==1){
+                menu?.findItem(R.id.request_to_review)?.isVisible=true
+                menu?.findItem(R.id.back_to_column_todo)?.isVisible=true
+            }else if(positionColumn==2){
+                menu?.findItem(R.id.cancel_to_review)?.isVisible=true
+            }
+        }
         return true
     }
 
@@ -538,39 +643,146 @@ class DetailCardActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.delete_card_menu -> {
-                MaterialAlertDialogBuilder(this)
-                        .setMessage(getString(R.string.are_you_sure_want_to_delete_this_card))
-                        .setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                            CoroutineScope(Dispatchers.IO).launch {
-                                try {
-                                    detailBoard.columns?.get(positionColumn)?.cards?.removeAt(positionRow)
-                                    detailCardViewModel.updateDataBoardsColumns(idBoards, detailBoard.columns as List<BoardsColumn>).await()
-                                    withContext(Dispatchers.Main) {
-                                        val resultIntent = Intent()
-                                        resultIntent.putExtra(EXTRA_POSITION_COLUMN, positionColumn)
-                                        resultIntent.putExtra(EXTRA_POSITION_ROW, positionRow)
-                                        resultIntent.putExtra(EXTRA_CARD_NAME, binding.tvDetailCardName.text)
-                                        resultIntent.putExtra(EXTRA_STATUS_DELETE, true)
-                                        setResult(EXTRA_RESULT_CODE, resultIntent)
-                                        finish()
-                                    }
-                                } catch (e: Exception) {
-                                    Log.e("error", "Error when try to delete card")
-                                }
-                            }
-
+            R.id.move_to_column_doing -> {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val cardMovement = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)
+                        detailBoard.columns?.get(positionColumn)?.cards?.removeAt(positionRow)
+                        if (detailBoard.columns?.get(positionColumn)?.cards == null) {
+                            detailBoard.columns?.get(positionColumn)?.cards = mutableListOf()
                         }
-                        .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                        detailBoard.columns?.get(1)?.cards?.add(0, cardMovement)
+                        detailCardViewModel.registration?.remove()
+                        detailCardViewModel.updateDataBoardsColumns(idBoards, detailBoard.columns as List<BoardsColumn>).await()
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(EXTRA_POSITION_ROW, positionRow)
+                        setResult(EXTRA_RESULT_CODE_MOVE_TO_DOING, resultIntent)
 
-                        }
-                        .show()
+                        finish()
+                    } catch (e: Exception) {
+                        Log.e("error", "error when try to save movement position card to another column ${e.message}")
+                    }
+                }
+
                 true
             }
-//            R.id.withdraw_payment_menu->{
-//                navigateForward(WithdrawFreelancerActivity::class.java,this)
-//                true
-//            }
+            R.id.back_to_column_todo->{
+                CoroutineScope(Dispatchers.IO).launch {
+                    try{
+                        val cardMovement = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)
+                        detailBoard.columns?.get(positionColumn)?.cards?.removeAt(positionRow)
+                        if (detailBoard.columns?.get(positionColumn)?.cards == null) {
+                            detailBoard.columns?.get(positionColumn)?.cards = mutableListOf()
+                        }
+                        detailBoard.columns?.get(0)?.cards?.add(0, cardMovement)
+
+                        detailCardViewModel.registration?.remove()
+                        detailCardViewModel.updateDataBoardsColumns(idBoards, detailBoard.columns as List<BoardsColumn>).await()
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(EXTRA_POSITION_ROW, positionRow)
+                        setResult(EXTRA_RESULT_CODE_BACK_TO_TODO, resultIntent)
+
+                        finish()
+                    }catch (e: Exception) {
+                        Log.e("error", "error when try to save movement position card to another column ${e.message}")
+                    }
+                }
+
+
+                true
+            }
+            R.id.request_to_review->{
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val cardMovement = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)
+                        detailBoard.columns?.get(positionColumn)?.cards?.removeAt(positionRow)
+                        if (detailBoard.columns?.get(positionColumn)?.cards == null) {
+                            detailBoard.columns?.get(positionColumn)?.cards = mutableListOf()
+                        }
+                        detailBoard.columns?.get(2)?.cards?.add(0, cardMovement)
+
+                        detailCardViewModel.registration?.remove()
+                        detailCardViewModel.updateDataBoardsColumns(idBoards, detailBoard.columns as List<BoardsColumn>).await()
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(EXTRA_POSITION_ROW, positionRow)
+                        setResult(EXTRA_RESULT_CODE_REQUEST_TO_REVIEW, resultIntent)
+
+                        finish()
+                    } catch (e: Exception) {
+                        Log.e("error", "error when try to save movement position card to another column ${e.message}")
+                    }
+                }
+                true
+            }
+            R.id.cancel_to_review->{
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val cardMovement = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)
+                        detailBoard.columns?.get(positionColumn)?.cards?.removeAt(positionRow)
+                        if (detailBoard.columns?.get(positionColumn)?.cards == null) {
+                            detailBoard.columns?.get(positionColumn)?.cards = mutableListOf()
+                        }
+                        detailBoard.columns?.get(1)?.cards?.add(0, cardMovement)
+
+                        detailCardViewModel.registration?.remove()
+                        detailCardViewModel.updateDataBoardsColumns(idBoards, detailBoard.columns as List<BoardsColumn>).await()
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(EXTRA_POSITION_ROW, positionRow)
+                        setResult(EXTRA_RESULT_CODE_CANCEL_TO_REVIEW, resultIntent)
+
+                        finish()
+                    } catch (e: Exception) {
+                        Log.e("error", "error when try to save movement position card to another column ${e.message}")
+                    }
+                }
+                true
+            }
+            R.id.approve_task->{
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val cardMovement = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)
+                        detailBoard.columns?.get(positionColumn)?.cards?.removeAt(positionRow)
+                        if (detailBoard.columns?.get(positionColumn)?.cards == null) {
+                            detailBoard.columns?.get(positionColumn)?.cards = mutableListOf()
+                        }
+                        detailBoard.columns?.get(3)?.cards?.add(0, cardMovement)
+
+                        detailCardViewModel.registration?.remove()
+                        detailCardViewModel.updateDataBoardsColumns(idBoards, detailBoard.columns as List<BoardsColumn>).await()
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(EXTRA_POSITION_ROW, positionRow)
+                        setResult(EXTRA_RESULT_CODE_APPROVE_TASK, resultIntent)
+
+                        finish()
+                    } catch (e: Exception) {
+                        Log.e("error", "error when try to save movement position card to another column ${e.message}")
+                    }
+                }
+                true
+            }
+            R.id.reject_task -> {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val cardMovement = detailBoard.columns?.get(positionColumn)?.cards?.get(positionRow)
+                        detailBoard.columns?.get(positionColumn)?.cards?.removeAt(positionRow)
+                        if (detailBoard.columns?.get(positionColumn)?.cards == null) {
+                            detailBoard.columns?.get(positionColumn)?.cards = mutableListOf()
+                        }
+                        detailBoard.columns?.get(1)?.cards?.add(0, cardMovement)
+
+                        detailCardViewModel.registration?.remove()
+                        detailCardViewModel.updateDataBoardsColumns(idBoards, detailBoard.columns as List<BoardsColumn>).await()
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(EXTRA_POSITION_ROW, positionRow)
+                        setResult(EXTRA_RESULT_CODE_REJECT_TASK, resultIntent)
+
+                        finish()
+                    } catch (e: Exception) {
+                        Log.e("error", "error when try to save movement position card to another column ${e.message}")
+                    }
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

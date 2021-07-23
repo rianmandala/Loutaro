@@ -1,5 +1,6 @@
 package com.example.loutaro.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.loutaro.R
 import com.example.loutaro.data.entity.Freelancer
 import com.example.loutaro.databinding.ItemRowMemberBinding
+import com.example.loutaro.ui.freelancerDetail.FreelancerDetailActivity
 
 class ListMemberAdapter(private val isFreelancer: Boolean=false): ListAdapter<Freelancer, ListMemberAdapter.ListViewHolder>(DiffCallback()) {
 
@@ -65,5 +67,11 @@ class ListMemberAdapter(private val isFreelancer: Boolean=false): ListAdapter<Fr
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val freelancer = getItem(holder.adapterPosition)
         holder.bind(freelancer)
+
+        holder.binding.parentLayoutMember.setOnClickListener {
+            val detailFreelancerIntent = Intent(holder.itemView.context, FreelancerDetailActivity::class.java)
+            detailFreelancerIntent.putExtra(FreelancerDetailActivity.EXTRA_ID_FREELANCER, freelancer.idFreelancer)
+            holder.itemView.context.startActivity(detailFreelancerIntent)
+        }
     }
 }
